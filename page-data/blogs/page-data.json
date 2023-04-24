@@ -1,0 +1,5 @@
+{
+    "componentChunkName": "component---src-pages-blogs-index-js",
+    "path": "/blogs/",
+    "result": {"data":{"allMarkdownRemark":{"edges":[{"node":{"frontmatter":{"title":"Basic Probablity and Stats For ML - I","description":"In depth analysis of Basic Probablity and Stats terminalogy that are frequently used in ML.","slug":"/blogs/basic-math-for-ml-I","date":"2023-04-21T00:00:00.000Z","tags":["Probability","Machine Learning"],"draft":false},"html":"<p>Updating soon</p>"}},{"node":{"frontmatter":{"title":"Scribbled Thoughts from Pattern Classification","description":"Notes from the book Pattern Classification by Duda, Hart","slug":"/blogs/scibbled-thoughts","date":"2023-04-21T00:00:00.000Z","tags":["Machine Learning","Algorithms"],"draft":false},"html":"<p>Updating Soon</p>"}}]}},"pageContext":{}},
+    "staticQueryHashes": ["1882543217","1994492073","2280315636"]}

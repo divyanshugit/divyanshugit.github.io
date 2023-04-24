@@ -1,0 +1,5 @@
+{
+    "componentChunkName": "component---src-templates-post-js",
+    "path": "/blogs/scibbled-thoughts",
+    "result": {"data":{"markdownRemark":{"html":"<p>Updating Soon</p>","frontmatter":{"title":"Scribbled Thoughts from Pattern Classification","description":"Notes from the book Pattern Classification by Duda, Hart","date":"2023-04-21T00:00:00.000Z","slug":"/blogs/scibbled-thoughts","tags":["Machine Learning","Algorithms"]}}},"pageContext":{}},
+    "staticQueryHashes": ["1882543217","1994492073","2280315636"]}

@@ -1,0 +1,5 @@
+{
+    "componentChunkName": "component---src-templates-post-js",
+    "path": "/blogs/basic-math-for-ml-I",
+    "result": {"data":{"markdownRemark":{"html":"<p>Updating soon</p>","frontmatter":{"title":"Basic Probablity and Stats For ML - I","description":"In depth analysis of Basic Probablity and Stats terminalogy that are frequently used in ML.","date":"2023-04-21T00:00:00.000Z","slug":"/blogs/basic-math-for-ml-I","tags":["Probability","Machine Learning"]}}},"pageContext":{}},
+    "staticQueryHashes": ["1882543217","1994492073","2280315636"]}

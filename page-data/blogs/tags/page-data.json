@@ -1,0 +1,5 @@
+{
+    "componentChunkName": "component---src-pages-blogs-tags-js",
+    "path": "/blogs/tags/",
+    "result": {"data":{"allMarkdownRemark":{"group":[{"fieldValue":"Algorithms","totalCount":1},{"fieldValue":"Machine Learning","totalCount":2},{"fieldValue":"Probability","totalCount":1}]}},"pageContext":{}},
+    "staticQueryHashes": ["1882543217","1994492073","2280315636"]}

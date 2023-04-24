@@ -1,0 +1,4 @@
+User-agent: *
+Allow: /
+Sitemap: https://divyanshugit.github.io/sitemap-index.xml
+Host: https://divyanshugit.github.io
