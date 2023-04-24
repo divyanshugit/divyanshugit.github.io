@@ -1,8 +1,8 @@
 {
   "name": "v4",
-  "description": "Personal Website V4",
+  "description": "Personal Website",
   "version": "1.0.0",
-  "author": "Brittany Chiang <brittany.chiang@gmail.com>",
+  "author": "Divyanshu Kumar <kumardivy1999@gmail.com> && Brittany Chiang <brittany.chiang@gmail.com>",
   "repository": {
     "type": "git",
     "url": "https://github.com/bchiang7/v4"
@@ -16,7 +16,7 @@
     "build": "gatsby build",
     "develop": "gatsby develop",
     "predeploy": "yarn build",
-    "deploy": "gh-pages -b gh-pages -d public",
+    "deploy": "gh-pages -b gh-pages -d build",
     "format": "prettier --write \"**/*.{js,jsx,json,md}\"",
     "start": "npm run develop",
     "serve": "gatsby serve",
