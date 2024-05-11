@@ -2,96 +2,106 @@
   type: map
   contents:
     - name: Full Name
-      value: Albert Einstein
-    - name: Date of Birth
-      value: 14th March 1879
+      value: Divyanshu Kumar
+    # - name: Date of Birth
+    #   value: 14th March 1879
     - name: Languages
-      value: English, German
-
-- title: Education
-  type: time_table
-  contents:
-    - title: PhD
-      institution: University of Zurich, Zurich, Switzerland
-      year: 1905
-      description:
-        - Description 1.
-        - Description 2.
-        - title: Description 3.
-          contents:
-            - Sub-description 1.
-            - Sub-description 2.
-    - title: Federal teaching diploma
-      institution: Eidgenössische Technische Hochschule, Zurich, Switzerland
-      year: 1900
-      description:
-        - Description 1.
-        - Description 2.
+      value: English, Hindi, Bhojpuri, Marathi (limited proficiency)
 
 - title: Experience
   type: time_table
   contents:
-    - title: Professor of Theoretical Physics
-      institution: Institute for Advanced Study, Princeton University
-      year: 1933 - 1955
+    - title: ML Research Engineer
+      institution: Enkrypt AI
+      year: 2023 - Present
       description:
-        - Description 1.
-        - Description 2.
-        - title: Description 3.
-          contents:
-            - Sub-description 1.
-            - Sub-description 2.
-    - title: Visiting Professor
-      institution: California Institute of Technology, Pasadena, California, US
-      year: 1933
+        - Building a LLMOps platform that provides access control, monitoring, evaluation and guardrails for LLMs.
+        - Developed a comprehensive risk identification framework utilizing Red Teaming methodologies and implemented mitigation strategies through the establishment of guardrails within LLMs.
+        - Built a framework for Differentially Privacy enabled finetuning of LLMs utilizing Opacus and HuggingFace libraries. The framework enables training method like- Parameter Efficient Trainings(PEFT) as well as SFT with DP Gaurantees.
+        - Developed a propierty framework named SecureLLM that leverages Homomorphic Encryption to encrypt pretrained LLMs.
+    - title: Research Associate
+      institution: Indian Institute of Sciences, Bangalore, India
+      year: 2022 - 2023
       description:
-        - Description 1.
-        - Description 2.
-
-    - title: Director
-      institution: Kaiser Wilhelm Institute for Physics, Berlin, Germany.
-      year: 1917-1933
-
-    - title: Professor of Theoretical Physics
-      institution: Karl-Ferdinand University, Prague, Czechoslovakia
-      year: 1911 - 1917
+        - Discovered a unique approach to unlearning targeted features/classes of GAN models via perturbations in the latent space.
+        - Interpreted a novel method to improve generative model robustness with differential privacy. Conducted experiments with MNIST, CIFAR10, and CelebA datasets, evaluating accuracy (FID) and privacy preservation.
+        - Developed a knowledge-distilled version of mBART for Hindi to Kannada using Hindi to Sanskrit and Sanskrit to Kannada.
+        - Added an embedding layer to IndicBART's encoder to accommodate parts of speech (POS) and implemented a POS model to generate embeddings for compatibility with the input embedding.
+    - title: Intern
+      institution: AIcrowd
+      year: 2021-2022
       description:
+        - Developed baselines for NLP and Computer Vision puzzles using deep learning models such as LSTM, BERT, and ALBERT. Utilized libraries like OpenCV (CV2), YOLO, and Detectron for Computer Vision.
+        - Constructed challenging puzzles focusing on ML tasks, such as image classification and segmentation, and sentiment analysis, using GANs and transformers to help students and professionals.
 
-    - title: Associate Professor of Theoretical Physics
-      institution: University of Zurich, Zurich, Switzerland
-      year: 1909 - 1911
+    # - title: Professor of Theoretical Physics
+    #   institution: Karl-Ferdinand University, Prague, Czechoslovakia
+    #   year: 1911 - 1917
+    #   description:
 
-- title: Open Source Projects
+    # - title: Associate Professor of Theoretical Physics
+    #   institution: University of Zurich, Zurich, Switzerland
+    #   year: 1909 - 1911
+
+- title: Education
   type: time_table
   contents:
-    - title: <a href="https://github.com/alshedivat/al-folio">al-folio</a>
-      year: 2015-now
-      description: A beautiful, simple, clean, and responsive Jekyll theme for academics.
+    - title: B.Tech(ECE)
+      institution: Narula Institute of Technology, Kolkata, India
+      year: 2022
+      description:
+        - <u>CGPA:</u> 8.53/10
 
-- title: Honors and Awards
+- title: Skills
+  type: list
+  contents:
+    - <u>Programming Languages:</u> Python, Golang, Rust, JavaScript, C++, Java
+    - <u>Libraries:</u> PyTorch, FastAPI, Llama-index, Langchain, TensorFlow
+    - <u>Tools:</u> Git, Docker, GitHub Actions, Vim, Latex
+
+- title: Open Source Contributions
   type: time_table
   contents:
-    - year: 1921
-      items:
-        - Nobel Prize in Physics
-        - Matteucci Medal
-    - year: 2029
-      items:
-        - Max Planck Medal
+    - title: NimbleEdge - Google Summer of Docs(Mentor)
+      year: 2022
+      description:
+        - Worked with the NimbelEdge's Technical, Content team and GSOD mentee to audit, prepare and develop technical documentation, tutorials, and case studies for <a href="https://github.com/NimbleEdge/EnvisEdge">EnvisEdge</a>. Google Season of Docs provides an opportunity for technical writers worldwide to contribute to open-source software.
+        - Organised weekly community meetups for community members to engage new community members in the development of EnvisEdge by code, documentation, or design.
+
+    - title: OpenMined - Mentor
+      year: 2020 - 2021
+      description:
+        - Upbring Mentees towards learning about OpenMined through a well-directed Udacity Course on Secure and Private AI using <b>PySyft</b>.
+        - Resolving Technical Doubts and guiding them to the right resources to make them even with the Community and bring meaningful contributions.
+        - Maintaining a centralized record on the progress of the Mentees and participate in Weekly Syncs to discuss the progress.
+
+# - title: Honors and Awards
+#   type: time_table
+#   contents:
+#     - year: 1921
+#       items:
+#         - Nobel Prize in Physics
+#         - Matteucci Medal
+#     - year: 2029
+#       items:
+#         - Max Planck Medal
 
 - title: Academic Interests
   type: nested_list
   contents:
-    - title: Topic 1.
-      items:
-        - Description 1.
-        - Description 2.
-    - title: Topic 2.
-      items:
-        - Description 1.
-        - Description 2.
+    - title: Causality
+      # items:
+      #   - Description 1.
+      #   - Description 2.
+    - title: Generative Models
+      # items:
+      #   - Description 1.
+      #   - Description 2.
+    - title: NLP
+    - title: Privacy Preserving AI
+    - title: Recommender Systems
 
-- title: Other Interests
-  type: list
-  contents:
-    - <u>Hobbies:</u> Hobby 1, Hobby 2, etc.
+# - title: Other Interests
+#   type: list
+#   contents:
+#     - <u>Hobbies:</u> Hobby 1, Hobby 2, etc.
