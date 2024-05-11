@@ -20,8 +20,8 @@ social: true # includes social icons at the bottom of the page
 
 Hi, I'm a ML Research Engineer at [Enkrypt AI](https://enkryptai.com). 
 
-Previously, I was working as a Research Associate
-<a href="https://iisc.ac.in/">IISc</a>, concentrating on Neural Machine Translation for Indic Languages and Machine Unlearning in the context of Generative Models.  
+Previously, I was working as a Research Associate at
+<a href="https://iisc.ac.in/">IISc</a>, under the Guidance of <a href="https://sites.google.com/view/prathosh/home">Prof. Prathosh A P</a>, concentrating on Neural Machine Translation for Indic Languages and Machine Unlearning in the context of Generative Models.  
 
 <p>
 I enjoy doing research and contributing to open-source projects in the context of machine learning.
