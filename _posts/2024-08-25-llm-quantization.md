@@ -95,7 +95,7 @@ for model_id in model_ids:
 
 ### Converting and Quantizing Models
 
-After downloading the models, the next step is to convert them to the GGUF format, which is necessary for further quantization. We’ll start by converting the models to `fp16`, which stands for 16-bit floating point precision. To do this we can directly use the `conver_hf_to_gguf.py`. Though I've modified it play around things that how much we can do with the python wrapper of it. If you're interested then you can find it over [here](https://github.com/divyanshugit/quantization-exp/convert_hf.py)
+After downloading the models, the next step is to convert them to the GGUF format, which is necessary for further quantization. We’ll start by converting the models to `fp16`, which stands for 16-bit floating point precision. To do this we can directly use the `conver_hf_to_gguf.py`. Though I've modified it play around things that how much we can do with the python wrapper of it. If you're interested then you can find it over [here](https://github.com/divyanshugit/quantization/convert_hf.py)
 
 ```python
 python convert_hf.py meta_llama-3.1_8b_instruct --outfile llama_3.1_qf_16.gguf --outtype "f16"
