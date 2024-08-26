@@ -6,7 +6,7 @@
     # - name: Date of Birth
     #   value: 14th March 1879
     - name: Languages
-      value: English, Hindi, Bhojpuri, Marathi (limited proficiency)
+      value: English, Hindi, Bhojpuri, Bengali (limited proficiency), Marathi (very limited proficiency)
 
 - title: Experience
   type: time_table
