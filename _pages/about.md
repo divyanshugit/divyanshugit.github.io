@@ -25,7 +25,7 @@ Previously, I was working as a Research Associate at
 
 <p>
 I enjoy doing research and contributing to open-source projects in the context of machine learning.
-My research interest started back in March 2020 when I started my first in-office internship at <a href="https://helppr.ai/">Helppr</a>,
+My research interest started back in March 2020 when I started my first in-office internship at Helppr AI,
 where I worked on summarization.
 
 </p>
