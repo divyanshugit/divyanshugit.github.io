@@ -97,7 +97,7 @@ In the upcoming blogs[^2], we'll explore different privacy-preserving mechanisms
 <div style="text-align: center;">
     <p><strong>Found this article helpful or have questions? 💡</strong></p>
     <p>I'm always happy to discuss Differential Privacy, answer your questions, or hear your feedback.</p>
-    <p><strong><a href="mailto:divyanshu.singh.2019@gmail.com?subject=Discussion:%20Differential%20Privacy%20Blog%20Series">📧 Click here to send me an email</a></strong></p>
+    <p><strong><a href="mailto:kumardivy1999@gmail.com?subject=Discussion:%20Differential%20Privacy%20Blog%20Series">📧 Click here to send me an email</a></strong></p>
 </div>
 
 ---
