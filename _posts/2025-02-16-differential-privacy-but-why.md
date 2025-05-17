@@ -1,7 +1,7 @@
 ---
 layout: post
 title: "Differential Privacy!! But Why?"
-description: Quantizing models for fun.
+description: Blog#1 in the series of Inception of Differential Privacy
 date: 2025-02-16
 tags:
   - Differnital Privacy
