@@ -94,7 +94,7 @@ So, next time you ponder the complexities of data analysis, remember: Differenti
 
 ---
 
-### References:
+## References:
 
 [^1]: Dwork, C. (2006). [Differential Privacy](https://www.comp.nus.edu.sg/~tankl/cs5322/readings/dwork.pdf). International Colloquium on Automata, Languages, and Programming.
 

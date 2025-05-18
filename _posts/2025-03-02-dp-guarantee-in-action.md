@@ -102,10 +102,8 @@ In the upcoming blogs[^2], we'll explore different privacy-preserving mechanisms
 
 ---
 
-### References
+## References
 
 [^1]: Kumar, D. (2025). [Differential Privacy!! But Why?](https://dvynsh.org/blog/2025/differential-privacy-but-why/)
 
-[^2]: Kumar, D. (2025). [Upcoming topics in this series](https://github.com/divyanshugit/Inception-of-DP)
-
----
+[^2]: Kumar, D. (2025). [Upcoming topics in this series / Inception of DP](https://github.com/divyanshugit/Inception-of-DP)
