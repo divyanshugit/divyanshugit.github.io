@@ -1,0 +1,166 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Divyanshu Kumar</title>
+    <link rel="stylesheet" href="style.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+</head>
+
+<body>
+    <div class="container">
+        <!-- Navigation -->
+        <nav class="page-nav index-nav">
+            <div class="nav-links">
+                <a href="index.html" class="active">Home</a>
+                <a href="publications.html">Publications</a>
+                <a href="projects.html">Projects</a>
+                <a href="timeline.html">Timeline</a>
+                <a href="blog.html">Blog</a>
+            </div>
+        </nav>
+
+        <div class="main-layout">
+            <div class="profile-column">
+                <div class="profile-content">
+                    <img src="assets/pic.png" alt="Divyanshu Kumar" class="profile-image">
+                    <h1 class="name">Divyanshu Kumar</h1>
+                    <p class="title">Founding ML Research Engineer<br>Enkrypt AI</p>
+
+
+                    <div class="contact-info">
+                        <p>kumardivy1999 [at] gmail.com</p>
+                        <div class="links">
+                            <a href="assets/cv.pdf">CV</a> /
+                            <a href="https://scholar.google.com/citations?user=KdLbMkYAAAAJ&hl=en">Scholar</a> /
+                            <a href="https://github.com/divyanshugit">GitHub</a> /
+                            <a href="https://www.linkedin.com/in/divyanshuusingh/">LinkedIn</a> /
+                            <a href="https://x.com/divyanshutwt">Twitter</a>
+                        </div>
+                    </div>
+
+                    <div class="phd-note">
+                        <strong>🎓 Open to PhD opportunities for Fall 2026</strong> in AI Security, Efficiency, and LLM
+                        Reasoning.<br>
+                        If you have leads or would like to discuss potential collaborations, please get in touch!
+                    </div>
+                </div>
+            </div>
+
+            <!-- Right Column - Content -->
+            <div class="content-column">
+                <!-- Header Name -->
+                <div class="content-header">
+                    <h1 class="content-name">Divyanshu Kumar</h1>
+                    <p class="content-title">Founding ML Research Engineer, Enkrypt AI</p>
+                </div>
+
+                <!-- About Section -->
+                <div class="section">
+                    <p>Currently, I am a Founding ML Research Engineer at <strong><a
+                                href="https://enkryptai.com">Enkrypt AI</a></strong>, where I design and evaluate
+                        adversarial testing pipelines, build guardrail systems, and study failure modes of AI models in
+                        real-world applications. This role gives me a unique perspective on applied AI security
+                        bridging cutting-edge research with deployment challenges faced by companies building AI systems
+                        today.</p>
+
+                    <p>Previously, I was a Research Associate at <strong><a href="https://iisc.ac.in/">IISc
+                                Bangalore</a></strong>, working under <strong><a
+                                href="https://sites.google.com/view/prathosh/home">Prof. Prathosh A. P.</a></strong>. My
+                        work there spanned Neural Machine Translation for Indic languages, machine unlearning in
+                        generative models, and privacy-preserving ML. These projects deepened my interest in
+                        differential privacy and federated learning as practical approaches for building privacy-aware
+                        systems.</p>
+
+                    <p>
+                        I am also collaborating with <a href="https://noired.github.io/"><strong>Fabrizio
+                                Frasca</strong></a>
+                        (Postdoctoral Researcher, Technion) on a project titled <em><strong>Beyond Text: Exploring
+                                Adaptations of LLMs for Graph-Based Tasks</strong></em>. In this work, we aim to
+                        investigate how pretrained LLMs can be adapted through parameter-efficient fine-tuning to
+                        effectively process relational and graph-structured data, and to study the resulting impacts on
+                        invariance, robustness, and generalization to new graph tasks.
+                    </p>
+                </div>
+
+                <!-- News Section -->
+                <div class="section">
+                    <h2>News</h2>
+                    <div class="news-list" id="recent-news">
+                        <!-- News will be dynamically loaded here -->
+                    </div>
+                </div>
+
+                <!-- Publications Section -->
+                <div class="section">
+                    <h2>Selected Publications</h2>
+                    <div id="featured-publications">
+                        <!-- Publications will be dynamically loaded here -->
+                    </div>
+                    <div class="view-all">
+                        <a href="publications.html">See all publications</a>
+                    </div>
+                </div>
+
+                <!-- Research Projects -->
+                <div class="section">
+                    <h2>Research Projects</h2>
+                    <div id="featured-projects">
+                        <!-- Projects will be dynamically loaded here -->
+                    </div>
+                    <div class="view-all">
+                        <a href="projects.html">See all projects</a>
+                    </div>
+                </div>
+
+                <!-- Teaching & Service -->
+                <div class="section">
+                    <h2>Teaching & Service</h2>
+
+                    <div class="service-item">
+                        <strong>Open Source Contributions:</strong> HuggingFace, ONNX, OpenMined
+                    </div>
+                    <div class="service-item">
+                        <strong>Reviewing:</strong> Available for conference and workshop reviews in AI security and
+                        efficiency
+                    </div>
+                </div>
+
+                <!-- Featured Blog Posts -->
+                <div class="section">
+                    <h2>Recent Blog Posts</h2>
+                    <div id="featured-blog-posts">
+                        <!-- Blog posts will be dynamically loaded here -->
+                    </div>
+                    <div class="view-all">
+                        <a href="blog.html">See all blog posts</a>
+                    </div>
+                </div>
+
+                <!-- Miscellaneous -->
+                <div class="section">
+                    <h2>Miscellaneous</h2>
+                    <p>
+                        I started my research journey in 2020 with text summarization at Helppr AI.
+                        Since then, I've worked across language models, unlearning, and generative AI.
+                        Today I'm building systems that are robust and scalable in practice.
+                        In my free time, I contribute to open source projects and explore the latest developments in AI
+                        safety.
+                    </p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="data/publications.js"></script>
+    <script src="data/projects.js"></script>
+    <script src="data/news.js"></script>
+    <script src="data/blog.js"></script>
+    <script src="js/homepage.js"></script>
+    <script src="js/scroll-header.js"></script>
+    <script src="script.js"></script>
+</body>
+
+</html>

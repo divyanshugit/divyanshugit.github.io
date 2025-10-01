@@ -1,0 +1,285 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>From SGD to DP-SGD: Reproducing the Foundations of Private Deep Learning - Divyanshu Kumar</title>
+    <link rel="stylesheet" href="../style.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+
+    <!-- Prism.js for syntax highlighting -->
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism-tomorrow.min.css" rel="stylesheet" />
+
+    <!-- MathJax for mathematical formulas -->
+    <script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
+    <script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+    <script>
+        window.MathJax = {
+            tex: {
+                inlineMath: [['$', '$'], ['\\(', '\\)']],
+                displayMath: [['$$', '$$'], ['\\[', '\\]']],
+                processEscapes: true,
+                processEnvironments: true
+            },
+            options: {
+                skipHtmlTags: ['script', 'noscript', 'style', 'textarea', 'pre'],
+                ignoreHtmlClass: 'tex2jax_ignore',
+                processHtmlClass: 'tex2jax_process'
+            }
+        };
+    </script>
+</head>
+
+<body>
+    <div class="container">
+        <!-- Navigation -->
+        <nav class="page-nav">
+            <a href="../blog.html">← Back to Blog</a>
+            <div class="nav-links">
+                <a href="../index.html">Home</a>
+                <a href="../publications.html">Publications</a>
+                <a href="../projects.html">Projects</a>
+                <a href="../blog.html" class="active">Blog</a>
+            </div>
+        </nav>
+
+        <!-- Blog Post Content -->
+        <div class="blog-post-content">
+            <div class="blog-post-header">
+                <div class="blog-header-row">
+                    <div class="blog-header-main">
+                        <h1 class="blog-post-title">From SGD to DP-SGD: Reproducing the Foundations of Private Deep
+                            Learning</h1>
+                        <p class="blog-post-description">Blog #4 in the series of Inception of Differential Privacy</p>
+                    </div>
+                    <div class="blog-header-meta">
+                        <div class="blog-post-meta">
+                            <div class="blog-post-meta-item">
+                                <span class="blog-post-meta-label">Date:</span>
+                                <span class="blog-post-meta-value">May 25, 2025</span>
+                            </div>
+                            <div class="blog-post-meta-item">
+                                <span class="blog-post-meta-label">Category:</span>
+                                <span class="blog-post-meta-value">PETs</span>
+                            </div>
+                            <div class="blog-post-meta-item">
+                                <span class="blog-post-meta-label">Read Time:</span>
+                                <span class="blog-post-meta-value">12 min read</span>
+                            </div>
+                            <div class="blog-post-meta-item">
+                                <span class="blog-post-meta-label">Series:</span>
+                                <span class="blog-post-meta-value">Part #4</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="blog-post-tags">
+                    <span class="tag">Differential Privacy</span>
+                    <span class="tag">Deep Learning</span>
+                    <span class="tag">Privacy</span>
+                    <span class="tag">SGD</span>
+                </div>
+            </div>
+
+            <div class="series-info">
+                <strong>📚 Part of Series:</strong> Inception of Differential Privacy - Part #4<br>
+                This post builds on the foundations established in the previous parts of this series.
+            </div>
+
+            <div class="blog-content">
+                <h2>1. Introduction: Why Privacy Matters Now</h2>
+                <p>Every day, deep learning models touch data that can be deeply personal—medical records, financial
+                    statements, or private messages on social platforms. Despite safeguards, overparameterized networks
+                    often memorize unexpected details. In high-profile demonstrations, adversaries have successfully
+                    reconstructed training images from facial recognition models and inferred whether specific
+                    individuals' data contributed to a model's training set (membership inference attacks).</p>
+
+                <p>To guard against such leaks, <strong>Differential Privacy (DP)</strong> provides a mathematically
+                    rigorous framework: it ensures that an algorithm's outputs are statistically indistinguishable
+                    whether any single example is included or not. Concretely, an algorithm A satisfies (ε, δ)-DP if for
+                    all neighboring datasets D and D' differing by one record, and for all outputs S:</p>
+
+                <div class="math-formula">
+                    $$\Pr[A(D) \in S] \leq e^{\varepsilon} \cdot \Pr[A(D') \in S] + \delta$$
+                </div>
+
+                <p>Here, ε (epsilon) measures the privacy loss—smaller values mean stronger privacy—and δ accounts for a
+                    small failure probability.</p>
+
+                <p>In 2016, Abadi et al. introduced <strong>DP-SGD</strong>, integrating DP into the training loop with
+                    minimal architectural changes. This post will:</p>
+
+                <ol>
+                    <li><strong>Revisit</strong> vanilla SGD to surface its privacy blind spots</li>
+                    <li><strong>Unpack</strong> the three pillars of DP-SGD: per-example gradients & clipping, Gaussian
+                        noise injection, and the Moments Accountant</li>
+                    <li><strong>Implement</strong> both standard SGD and DP-SGD side-by-side on MNIST to observe
+                        concrete differences</li>
+                </ol>
+
+                <h2>2. The Privacy Vulnerabilities of Standard SGD</h2>
+                <p>Standard Stochastic Gradient Descent operates by:</p>
+                <ol>
+                    <li>Sampling a mini-batch of examples</li>
+                    <li>Computing gradients with respect to the loss</li>
+                    <li>Updating model parameters in the direction that reduces loss</li>
+                </ol>
+
+                <p>The privacy concern arises because gradients can leak information about the training data. Consider a
+                    simple example: if a model memorizes a specific training example, the gradient computed on that
+                    example will be significantly different from gradients computed on other examples.</p>
+
+                <h3>Gradient-Based Privacy Attacks</h3>
+                <p>Several types of attacks exploit gradient information:</p>
+                <ul>
+                    <li><strong>Membership Inference:</strong> Determining whether a specific example was in the
+                        training set</li>
+                    <li><strong>Property Inference:</strong> Learning global properties of the training data</li>
+                    <li><strong>Model Inversion:</strong> Reconstructing training examples from model parameters</li>
+                </ul>
+
+                <h2>3. The Three Pillars of DP-SGD</h2>
+
+                <h3>Pillar 1: Per-Example Gradient Computation and Clipping</h3>
+                <p>Instead of computing gradients over entire mini-batches, DP-SGD computes gradients for each example
+                    individually. This allows for fine-grained control over the contribution of each example to the
+                    parameter update.</p>
+
+                <p>The gradient clipping step ensures that no single example can have an outsized influence on the model
+                    update:</p>
+
+                <div class="math-formula">
+                    $$\tilde{g}_i = g_i / \max(1, \|g_i\|_2 / C)$$
+                </div>
+
+                <p>where C is the clipping threshold and gᵢ is the gradient for example i.</p>
+
+                <h3>Pillar 2: Gaussian Noise Injection</h3>
+                <p>After clipping, Gaussian noise is added to the aggregated gradients:</p>
+
+                <div class="math-formula">
+                    $$\tilde{g} = \frac{1}{|B|} \sum_{i} \tilde{g}_i + \mathcal{N}(0, \sigma^2 C^2 I)$$
+                </div>
+
+                <p>The noise scale σ is calibrated to the sensitivity of the gradient computation and the desired
+                    privacy level.</p>
+
+                <h3>Pillar 3: Privacy Accounting with the Moments Accountant</h3>
+                <p>The Moments Accountant provides a tight analysis of the privacy cost accumulated over multiple
+                    iterations of DP-SGD. This is crucial because privacy "budget" is consumed with each parameter
+                    update.</p>
+
+                <h2>4. Implementation: SGD vs DP-SGD</h2>
+                <p>Let's implement both algorithms to see the differences in practice:</p>
+
+                <pre><code class="language-python">
+import torch
+import torch.nn as nn
+import torch.optim as optim
+from opacus import PrivacyEngine
+
+# Standard SGD training loop
+def train_standard_sgd(model, dataloader, epochs=10):
+    optimizer = optim.SGD(model.parameters(), lr=0.01)
+    criterion = nn.CrossEntropyLoss()
+    
+    for epoch in range(epochs):
+        for batch_idx, (data, target) in enumerate(dataloader):
+            optimizer.zero_grad()
+            output = model(data)
+            loss = criterion(output, target)
+            loss.backward()
+            optimizer.step()
+
+# DP-SGD training loop
+def train_dp_sgd(model, dataloader, epochs=10, epsilon=1.0, delta=1e-5):
+    optimizer = optim.SGD(model.parameters(), lr=0.01)
+    privacy_engine = PrivacyEngine()
+    
+    model, optimizer, dataloader = privacy_engine.make_private(
+        module=model,
+        optimizer=optimizer,
+        data_loader=dataloader,
+        noise_multiplier=1.1,
+        max_grad_norm=1.0,
+    )
+    
+    criterion = nn.CrossEntropyLoss()
+    
+    for epoch in range(epochs):
+        for batch_idx, (data, target) in enumerate(dataloader):
+            optimizer.zero_grad()
+            output = model(data)
+            loss = criterion(output, target)
+            loss.backward()
+            optimizer.step()
+            
+        # Check privacy budget
+        epsilon_spent = privacy_engine.get_epsilon(delta)
+        print(f"Epoch {epoch}: ε = {epsilon_spent:.2f}")
+</code></pre>
+
+                <h2>5. Key Differences and Trade-offs</h2>
+
+                <h3>Performance Impact</h3>
+                <p>DP-SGD typically results in:</p>
+                <ul>
+                    <li><strong>Slower convergence:</strong> Noise injection slows down learning</li>
+                    <li><strong>Lower final accuracy:</strong> Privacy comes at the cost of utility</li>
+                    <li><strong>Increased computational overhead:</strong> Per-example gradient computation is expensive
+                    </li>
+                </ul>
+
+                <h3>Privacy Guarantees</h3>
+                <p>The privacy guarantee depends on three key parameters:</p>
+                <ul>
+                    <li><strong>ε (epsilon):</strong> Privacy budget - smaller values mean stronger privacy</li>
+                    <li><strong>δ (delta):</strong> Failure probability - typically set to 1/n where n is dataset size
+                    </li>
+                    <li><strong>Noise multiplier:</strong> Controls the amount of noise added to gradients</li>
+                </ul>
+
+                <h2>6. Practical Considerations</h2>
+
+                <h3>Hyperparameter Tuning</h3>
+                <p>DP-SGD introduces several new hyperparameters that require careful tuning:</p>
+                <ul>
+                    <li><strong>Clipping threshold (C):</strong> Too small hurts utility, too large hurts privacy</li>
+                    <li><strong>Noise multiplier (σ):</strong> Must be calibrated to desired ε and δ</li>
+                    <li><strong>Batch size:</strong> Larger batches can improve the privacy-utility trade-off</li>
+                </ul>
+
+                <h3>When to Use DP-SGD</h3>
+                <p>DP-SGD is most appropriate when:</p>
+                <ul>
+                    <li>Training data contains sensitive personal information</li>
+                    <li>Regulatory requirements mandate privacy protection</li>
+                    <li>The utility cost is acceptable for the privacy benefit</li>
+                    <li>You have sufficient computational resources for per-example gradients</li>
+                </ul>
+
+                <h2>7. Conclusion</h2>
+                <p>DP-SGD represents a fundamental shift from "privacy through obscurity" to mathematically rigorous
+                    privacy guarantees in deep learning. While it comes with computational and utility costs, it
+                    provides the strongest known privacy protection for training neural networks on sensitive data.</p>
+
+                <p>The key insight is that privacy is not binary—it's a spectrum that can be quantified and controlled
+                    through the choice of ε and δ. As privacy regulations become more stringent and public awareness of
+                    data protection grows, techniques like DP-SGD will become increasingly important for responsible AI
+                    development.</p>
+
+                <p>In the next post in this series, we'll explore advanced techniques for improving the privacy-utility
+                    trade-off in DP-SGD, including adaptive clipping and private aggregation methods.</p>
+            </div>
+        </div>
+    </div>
+
+    <!-- Prism.js JavaScript -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-core.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-python.min.js"></script>
+    <script
+        src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/plugins/copy-to-clipboard/prism-copy-to-clipboard.min.js"></script>
+</body>
+
+</html>

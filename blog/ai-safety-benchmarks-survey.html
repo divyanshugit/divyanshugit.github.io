@@ -1,0 +1,171 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>A Survey of Safety Benchmarks for AI and AI-Agent Systems - Divyanshu Kumar</title>
+    <link rel="stylesheet" href="../style.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+
+    <!-- Prism.js for syntax highlighting -->
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism.min.css" rel="stylesheet" />
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism-tomorrow.min.css" rel="stylesheet" />
+
+    <!-- MathJax for mathematical formulas -->
+    <script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
+    <script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+    <script>
+        window.MathJax = {
+            tex: {
+                inlineMath: [['$', '$'], ['\\(', '\\)']],
+                displayMath: [['$$', '$$'], ['\\[', '\\]']],
+                processEscapes: true,
+                processEnvironments: true
+            },
+            options: {
+                skipHtmlTags: ['script', 'noscript', 'style', 'textarea', 'pre'],
+                ignoreHtmlClass: 'tex2jax_ignore',
+                processHtmlClass: 'tex2jax_process'
+            }
+        };
+    </script>
+</head>
+
+<body>
+    <div class="container">
+        <!-- Navigation -->
+        <nav class="page-nav">
+            <a href="../blog.html">← Back to Blog</a>
+            <div class="nav-links">
+                <a href="../index.html">Home</a>
+                <a href="../publications.html">Publications</a>
+                <a href="../projects.html">Projects</a>
+                <a href="../blog.html" class="active">Blog</a>
+            </div>
+        </nav>
+
+        <!-- Blog Post Content -->
+        <div class="blog-post-content">
+            <div class="blog-post-header">
+                <div class="blog-post-date">July 26, 2025</div>
+                <div class="blog-post-main">
+                    <h1 class="blog-post-title">A Survey of Safety Benchmarks for AI and AI-Agent Systems</h1>
+                    <p class="blog-post-description">A comprehensive survey of over two dozen safety benchmarks for
+                        large language models and AI-agent systems, covering robustness, alignment, and
+                        misuse-resilience.</p>
+                </div>
+                <div class="blog-post-tags">
+                    <span class="tag">AI Safety</span>
+                    <span class="tag">Benchmarking</span>
+                    <span class="tag">Responsible AI</span>
+                    <span class="tag">LLMs</span>
+                    <span class="tag">AI Agents</span>
+                </div>
+            </div>
+
+            <div class="blog-content">
+                <p>Over the past three years researchers have released more than two dozen dedicated benchmarks that
+                    probe the <strong>robustness, alignment and misuse-resilience</strong> of large language models
+                    (LLMs) and agentic systems. The table-style synopsis below collates the most widely-cited efforts.
+                    Each entry appears in alphabetical order for ease of reference.</p>
+
+                <h2>SALAD-Bench</h2>
+                <ul>
+                    <li><strong>Description:</strong> A 21k-sample, three-level taxonomy (6 domains → 16 tasks → 66
+                        categories) that evaluates both harmful content generation and the effectiveness of attack /
+                        defense methods.</li>
+                    <li><strong>Key things:</strong> Includes 5k attack-enhanced and 200 defense-enhanced queries;
+                        supports QA, multiple-choice and free-text; ships with MD-Judge & MC-Judge evaluators.</li>
+                    <li><strong>Shortcoming:</strong> English-only, synthetic prompts dominate, and MD-Judge is itself
+                        an LLM whose reliability can drift across model updates.</li>
+                </ul>
+
+                <h2>h4rm3l</h2>
+                <ul>
+                    <li><strong>Description:</strong> A <strong>dynamic</strong> red-teaming suite that expresses
+                        jailbreaks as programs in a domain-specific language and automatically synthesizes new attacks.
+                    </li>
+                    <li><strong>Key things:</strong> Generates 2,656 successful attacks across six open-source and
+                        proprietary LLMs; >90% success against GPT-4o and Claude-3-Haiku.</li>
+                    <li><strong>Shortcoming:</strong> Focuses solely on prompt-level defenses—does not measure
+                        downstream tool misuse or multi-step agent behavior.</li>
+                </ul>
+
+                <h2>SafeBench</h2>
+                <ul>
+                    <li><strong>Description:</strong> CARLA-based platform for safety-critical autonomous-driving
+                        scenarios (2,352 cases spanning lane changes, red-light runs, etc.).</li>
+                    <li><strong>Key things:</strong> Supports training <strong>or</strong> adversarial generation of
+                        scenarios; supplies DRL baselines (DDPG, SAC, TD3, PPO) for head-to-head evaluation.</li>
+                    <li><strong>Shortcoming:</strong> Limited to driving domain; metrics (collision/route completion)
+                        differ radically from text-agent benchmarks, hindering cross-domain comparison.</li>
+                </ul>
+
+                <h2>Agent-SafetyBench</h2>
+                <ul>
+                    <li><strong>Description:</strong> 2,000 test cases across 349 interactive environments to probe
+                        eight risk categories (data leak, misinformation, physical harm, etc.) in LLM agents.</li>
+                    <li><strong>Key things:</strong> Measures ten failure modes and reports that no agent exceeds 60%
+                        safety score, even with defense prompts.</li>
+                    <li><strong>Shortcoming:</strong> Heavy dependence on few proprietary simulators (e.g., MiniWoB+);
+                        currently single-turn scoring omits long-horizon impacts.</li>
+                </ul>
+
+                <h2>Key Insights and Trends</h2>
+                <p>Several important patterns emerge from this survey of AI safety benchmarks:</p>
+
+                <h3>1. Evaluation Methodology Diversity</h3>
+                <p>The benchmarks employ vastly different evaluation approaches, from automated scoring systems to human
+                    evaluation protocols. This diversity reflects the multifaceted nature of AI safety but also creates
+                    challenges for comparing results across different benchmarks.</p>
+
+                <h3>2. Domain-Specific vs. General Safety</h3>
+                <p>While some benchmarks like ChemSafetyBench focus on specific domains, others attempt to capture
+                    general safety principles. Both approaches have merit, but the field would benefit from better
+                    integration between domain-specific insights and general safety frameworks.</p>
+
+                <h3>3. The Agent Safety Gap</h3>
+                <p>A concerning trend across multiple benchmarks is the significant gap between model-level safety and
+                    agent-level safety. Models that appear safe in isolation often exhibit risky behaviors when given
+                    tool access or deployed as agents.</p>
+
+                <h2>Future Directions</h2>
+                <p>Based on this survey, several key areas need attention:</p>
+
+                <ul>
+                    <li><strong>Standardization:</strong> The field needs more standardized evaluation protocols to
+                        enable meaningful comparisons across different safety interventions.</li>
+                    <li><strong>Long-horizon evaluation:</strong> Most current benchmarks focus on single-turn
+                        interactions, missing the cumulative risks of multi-step agent behaviors.</li>
+                    <li><strong>Real-world validation:</strong> Many benchmarks rely on simulated environments; more
+                        work is needed to validate findings in real-world deployments.</li>
+                    <li><strong>Multilingual coverage:</strong> Safety evaluation remains heavily English-centric,
+                        despite the global deployment of AI systems.</li>
+                </ul>
+
+                <h2>Conclusion</h2>
+                <p>The rapid development of AI safety benchmarks reflects the growing recognition of safety as a
+                    critical concern in AI deployment. However, the diversity of approaches and metrics also highlights
+                    the need for more coordination and standardization in the field. As AI systems become more capable
+                    and widely deployed, robust safety evaluation will become increasingly crucial for maintaining
+                    public trust and ensuring beneficial outcomes.</p>
+
+                <p>The benchmarks surveyed here represent important first steps, but much work remains to develop
+                    comprehensive, standardized, and practically relevant safety evaluation frameworks for the next
+                    generation of AI systems.</p>
+            </div>
+        </div>
+    </div>
+
+    <!-- Prism.js JavaScript -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-core.min.js"></script>
+    <script
+        src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/plugins/autoloader/prism-autoloader.min.js"></script>
+    <script
+        src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/plugins/line-numbers/prism-line-numbers.min.js"></script>
+    <script
+        src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/plugins/copy-to-clipboard/prism-copy-to-clipboard.min.js"></script>
+</body>
+
+</html>
