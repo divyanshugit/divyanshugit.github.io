@@ -9,6 +9,7 @@ module.exports = function (eleventyConfig) {
     eleventyConfig.addPassthroughCopy("src/assets");
     eleventyConfig.addPassthroughCopy("src/data");
     eleventyConfig.addPassthroughCopy("src/CNAME");
+    eleventyConfig.addPassthroughCopy("src/.nojekyll");
 
     // ===== MARKDOWN CONFIGURATION =====
     // Configure markdown-it to preserve HTML and not escape special characters
