@@ -1,0 +1,336 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>A Survey of Safety Benchmarks for AI and AI-Agent Systems - Divyanshu Kumar</title>
+    <link rel="icon" type="image/svg+xml" href="../assets/logo.svg">
+
+    <!-- Prevent flash of light mode -->
+    <script>
+        (function () {
+            const savedTheme = localStorage.getItem('theme') ||
+                (window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light');
+            document.documentElement.setAttribute('data-theme', savedTheme);
+        })();
+    </script>
+
+    <link rel="stylesheet" href="../style.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+
+    <!-- Prism.js for syntax highlighting -->
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism.min.css" rel="stylesheet" />
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism-tomorrow.min.css" rel="stylesheet" />
+
+    <!-- MathJax for mathematical formulas -->
+    <script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
+    <script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+    <script>
+        window.MathJax = {
+            tex: {
+                inlineMath: [['$', '$'], ['\\(', '\\)']],
+                displayMath: [['$$', '$$'], ['\\[', '\\]']],
+                processEscapes: true,
+                processEnvironments: true
+            },
+            options: {
+                skipHtmlTags: ['script', 'noscript', 'style', 'textarea', 'pre'],
+                ignoreHtmlClass: 'tex2jax_ignore',
+                processHtmlClass: 'tex2jax_process'
+            }
+        };
+    </script>
+</head>
+
+<body>
+    <!-- Clean Header with Navigation -->
+    <header class="site-header">
+        <div class="header-container">
+            <nav class="header-nav">
+                <a href="../index.html" class="nav-item">Home</a>
+                <a href="../publications.html" class="nav-item">Publications</a>
+                <a href="../projects.html" class="nav-item">Projects</a>
+                <a href="../timeline.html" class="nav-item">Timeline</a>
+                <a href="../blog.html" class="nav-item active">Blog</a>
+            </nav>
+
+            <div class="header-right">
+                <button id="theme-toggle" class="theme-toggle-header" aria-label="Toggle dark mode">
+                    <span class="theme-toggle-icon">☀️</span>
+                    <span class="theme-toggle-icon">🌙</span>
+                </button>
+            </div>
+        </div>
+    </header>
+
+    <div class="container">
+        <!-- Back to Blog Link -->
+        <div class="back-link">
+            <a href="../blog.html">← Back to Blog</a>
+        </div>
+
+        <!-- Blog Post Content -->
+        <div class="blog-post-content">
+            <div class="blog-post-header">
+                <div class="blog-post-date">July 26, 2025</div>
+                <div class="blog-post-main">
+                    <h1 class="blog-post-title">A Survey of Safety Benchmarks for AI and AI-Agent Systems</h1>
+                    <p class="blog-post-description">A comprehensive survey of over two dozen safety benchmarks for large language models and AI-agent systems, covering robustness, alignment, and misuse-resilience.</p>
+                </div>
+                <div class="blog-post-tags">
+                    <span class="tag">AI Safety</span>
+                    <span class="tag">Benchmarking</span>
+                    <span class="tag">Responsible AI</span>
+                    <span class="tag">LLMs</span>
+                    <span class="tag">AI Agents</span>
+                </div>
+            </div>
+
+            <div class="blog-content">
+                <p>Over the past three years researchers have released more than two dozen dedicated benchmarks that probe the <strong>robustness, alignment and misuse-resilience</strong> of large language models (LLMs) and agentic systems. The table-style synopsis below collates the most widely-cited efforts. Each entry appears in alphabetical order for ease of reference.</p>
+<h2>SALAD-Bench <a href="#ref1" class="inline-ref">[1]</a><a href="#ref2" class="inline-ref">[2]</a><a href="#ref3" class="inline-ref">[3]</a><a href="#ref4" class="inline-ref">[4]</a></h2>
+<ul>
+<li><strong>Description:</strong> A 21k-sample, three-level taxonomy (6 domains → 16 tasks → 66 categories) that evaluates both harmful content generation and the effectiveness of attack / defense methods.</li>
+<li><strong>Key things:</strong> Includes 5k attack-enhanced and 200 defense-enhanced queries; supports QA, multiple-choice and free-text; ships with MD-Judge &amp; MC-Judge evaluators.</li>
+<li><strong>Shortcoming:</strong> English-only, synthetic prompts dominate, and MD-Judge is itself an LLM whose reliability can drift across model updates <a href="#ref3" class="inline-ref">[3]</a>.</li>
+</ul>
+<h2>h4rm3l <a href="#ref5" class="inline-ref">[5]</a><a href="#ref6" class="inline-ref">[6]</a><a href="#ref7" class="inline-ref">[7]</a></h2>
+<ul>
+<li><strong>Description:</strong> A <strong>dynamic</strong> red-teaming suite that expresses jailbreaks as programs in a domain-specific language and automatically synthesizes new attacks.</li>
+<li><strong>Key things:</strong> Generates 2,656 successful attacks across six open-source and proprietary LLMs; &gt;90% success against GPT-4o and Claude-3-Haiku.</li>
+<li><strong>Shortcoming:</strong> Focuses solely on prompt-level defenses—does not measure downstream tool misuse or multi-step agent behavior <a href="#ref5" class="inline-ref">[5]</a>.</li>
+</ul>
+<h2>SafeBench <a href="#ref8" class="inline-ref">[8]</a><a href="#ref9" class="inline-ref">[9]</a><a href="#ref10" class="inline-ref">[10]</a></h2>
+<ul>
+<li><strong>Description:</strong> CARLA-based platform for safety-critical autonomous-driving scenarios (2,352 cases spanning lane changes, red-light runs, etc.).</li>
+<li><strong>Key things:</strong> Supports training <strong>or</strong> adversarial generation of scenarios; supplies DRL baselines (DDPG, SAC, TD3, PPO) for head-to-head evaluation.</li>
+<li><strong>Shortcoming:</strong> Limited to driving domain; metrics (collision/route completion) differ radically from text-agent benchmarks, hindering cross-domain comparison <a href="#ref10" class="inline-ref">[10]</a>.</li>
+</ul>
+<h2>Agent-SafetyBench <a href="#ref11" class="inline-ref">[11]</a><a href="#ref12" class="inline-ref">[12]</a><a href="#ref13" class="inline-ref">[13]</a><a href="#ref14" class="inline-ref">[14]</a></h2>
+<ul>
+<li><strong>Description:</strong> 2,000 test cases across 349 interactive environments to probe eight risk categories (data leak, misinformation, physical harm, etc.) in LLM agents.</li>
+<li><strong>Key things:</strong> Measures ten failure modes and reports that no agent exceeds 60% safety score, even with defense prompts <a href="#ref15" class="inline-ref">[15]</a>.</li>
+<li><strong>Shortcoming:</strong> Heavy dependence on few proprietary simulators (e.g., MiniWoB+); currently single-turn scoring omits long-horizon impacts <a href="#ref13" class="inline-ref">[13]</a>.</li>
+</ul>
+<h2>SG-Bench <a href="#ref16" class="inline-ref">[16]</a><a href="#ref17" class="inline-ref">[17]</a><a href="#ref18" class="inline-ref">[18]</a><a href="#ref19" class="inline-ref">[19]</a></h2>
+<ul>
+<li><strong>Description:</strong> Evaluates <strong>safety generalization</strong> by mixing generative and discriminative tasks under varied prompt engineering and jailbreak conditions.</li>
+<li><strong>Key things:</strong> Three task types (open-end, MCQ, safety judgement); shows LLMs perform worse on discrimination and are highly prompt-sensitive <a href="#ref16" class="inline-ref">[16]</a>.</li>
+<li><strong>Shortcoming:</strong> Lacks tool-use or web-action components; multilingual coverage limited to English <a href="#ref16" class="inline-ref">[16]</a>.</li>
+</ul>
+<h2>SafeAgentBench <a href="#ref20" class="inline-ref">[20]</a><a href="#ref21" class="inline-ref">[21]</a><a href="#ref22" class="inline-ref">[22]</a><a href="#ref23" class="inline-ref">[23]</a><a href="#ref24" class="inline-ref">[24]</a></h2>
+<ul>
+<li><strong>Description:</strong> First safety-aware benchmark for <strong>embodied</strong> LLM agents in AI2-THOR; 750 tasks (450 hazardous / 300 safe) covering ten risk types.</li>
+<li><strong>Key things:</strong> Provides SafeAgentEnv with 17 high-level actions, plus semantic &amp; execution-based metrics; highlights &lt;10% rejection on hazardous tasks <a href="#ref20" class="inline-ref">[20]</a>.</li>
+<li><strong>Shortcoming:</strong> Simulation physics simplified; results may not transfer to real-robot settings <a href="#ref21" class="inline-ref">[21]</a>.</li>
+</ul>
+<h2>ChemSafetyBench <a href="#ref25" class="inline-ref">[25]</a><a href="#ref26" class="inline-ref">[26]</a><a href="#ref27" class="inline-ref">[27]</a></h2>
+<ul>
+<li><strong>Description:</strong> 30k-example chemistry dataset testing property queries, legality checks and synthesis instructions, including jail-break variants.</li>
+<li><strong>Key things:</strong> Automated evaluation grades safety, accuracy and appropriateness; exposes dangerous synthesis guidance from frontier LLMs <a href="#ref25" class="inline-ref">[25]</a>.</li>
+<li><strong>Shortcoming:</strong> Domain-specific jargon limits reuse outside chemistry; evaluator still relies on GPT-4 for rubric scoring <a href="#ref26" class="inline-ref">[26]</a>.</li>
+</ul>
+<h2>LM-Emulated Sandbox / ToolEmu <a href="#ref28" class="inline-ref">[28]</a><a href="#ref29" class="inline-ref">[29]</a><a href="#ref30" class="inline-ref">[30]</a><a href="#ref31" class="inline-ref">[31]</a><a href="#ref32" class="inline-ref">[32]</a><a href="#ref33" class="inline-ref">[33]</a></h2>
+<ul>
+<li><strong>Description:</strong> Uses an LLM to <strong>fake</strong> external tools so that risky agent behaviors can be tested cheaply at scale.</li>
+<li><strong>Key things:</strong> 36 toolkits, 144 test cases and an automatic safety evaluator; 68.8% of flagged failures replicate in real tools <a href="#ref32" class="inline-ref">[32]</a>.</li>
+<li><strong>Shortcoming:</strong> Emulation fidelity drops for highly stateful or latency-sensitive APIs, possibly under-representing certain hazards <a href="#ref31" class="inline-ref">[31]</a>.</li>
+</ul>
+<h2>AdvWeb <a href="#ref34" class="inline-ref">[34]</a></h2>
+<ul>
+<li><strong>Description:</strong> Black-box attack framework that injects adversarial prompts into webpages to hijack VLM-powered web agents.</li>
+<li><strong>Key things:</strong> Trains a Direct Policy Optimization prompter to craft stealthy strings (appearance unchanged) and supports controllable objectives.</li>
+<li><strong>Shortcoming:</strong> Evaluation limited to e-commerce &amp; banking demos; mitigation strategies not benchmarked.</li>
+</ul>
+<h2>Refusal-Trained LLMs (Browser study) <a href="#ref35" class="inline-ref">[35]</a></h2>
+<ul>
+<li><strong>Description:</strong> Demonstrates that LLMs aligned for refusal can still be coerced when wrapped as browser agents.</li>
+<li><strong>Key things:</strong> Measures <strong>gap</strong> between model-only ASR and agent-level ASR, finding GPT-4o compliance rises sharply once tool use begins.</li>
+<li><strong>Shortcoming:</strong> Not a standalone dataset—more a diagnostic study without public tasks or scoring harness <a href="#ref35" class="inline-ref">[35]</a>.</li>
+</ul>
+<h2>RedCode <a href="#ref36" class="inline-ref">[36]</a><a href="#ref37" class="inline-ref">[37]</a><a href="#ref38" class="inline-ref">[38]</a></h2>
+<ul>
+<li><strong>Description:</strong> Two-part suite for code-agent safety: RedCode-Exec (4k unsafe snippets) and RedCode-Gen (160 specs for malicious software).</li>
+<li><strong>Key things:</strong> Docker sandbox, 25 vulnerability classes, 19 agent frameworks evaluated; finds capable models write more sophisticated malware <a href="#ref36" class="inline-ref">[36]</a>.</li>
+<li><strong>Shortcoming:</strong> Language coverage mainly Python/Bash; ignores social-engineering aspects of code distribution.</li>
+</ul>
+<h2>From Interaction to Impact <a href="#ref39" class="inline-ref">[39]</a></h2>
+<ul>
+<li><strong>Description:</strong> Concept paper proposing a taxonomy of UI-action impacts for safer agent design.</li>
+<li><strong>Key things:</strong> Maps actions to economic, social and legal consequences, laying groundwork for future quantitative metrics.</li>
+<li><strong>Shortcoming:</strong> No released dataset; benchmark remains theoretical.</li>
+</ul>
+<h2>PrivacyLens <a href="#ref40" class="inline-ref">[40]</a><a href="#ref41" class="inline-ref">[41]</a></h2>
+<ul>
+<li><strong>Description:</strong> Multi-level framework that extends seeds into vignettes and full agent trajectories to test privacy norm violations.</li>
+<li><strong>Key things:</strong> Finds GPT-4 agents leak sensitive info in 25.68% of cases despite privacy prompts <a href="#ref40" class="inline-ref">[40]</a>.</li>
+<li><strong>Shortcoming:</strong> Early version covers limited norms (CI 5-tuple) and English-centric scenarios.</li>
+</ul>
+<h2>Dissecting Adversarial (ARE) <a href="#ref42" class="inline-ref">[42]</a></h2>
+<ul>
+<li><strong>Description:</strong> Agent Robustness Evaluation for multimodal web agents; adds 200 targeted adversarial tasks to VisualWebArena.</li>
+<li><strong>Key things:</strong> Graph-based analysis reveals perturbations propagate through perception → planning → action; 67% attack success on state-of-the-art agents.</li>
+<li><strong>Shortcoming:</strong> Focuses on <strong>vision</strong> perturbations; text-only jailbreaks not included <a href="#ref42" class="inline-ref">[42]</a>.</li>
+</ul>
+<h2>Infrastructure for AI / AILuminate <a href="#ref43" class="inline-ref">[43]</a><a href="#ref44" class="inline-ref">[44]</a><a href="#ref45" class="inline-ref">[45]</a></h2>
+<ul>
+<li><strong>Description:</strong> MLCommons industry benchmark assessing responses to 12 hazard categories with a five-tier grade (Poor→Excellent).</li>
+<li><strong>Key things:</strong> 24k private prompts, public demo subset, entropy-based scoring; Anthropic &amp; Google models top early leaderboard <a href="#ref44" class="inline-ref">[44]</a>.</li>
+<li><strong>Shortcoming:</strong> Prompts are hidden, limiting reproducibility; single-turn format omits conversation context <a href="#ref45" class="inline-ref">[45]</a>.</li>
+</ul>
+<h2>R-Judge <a href="#ref46" class="inline-ref">[46]</a><a href="#ref47" class="inline-ref">[47]</a><a href="#ref48" class="inline-ref">[48]</a></h2>
+<ul>
+<li><strong>Description:</strong> 569 multi-turn interaction logs annotated for safety labels and risk descriptions across 27 scenarios.</li>
+<li><strong>Key things:</strong> Measures both analysis text and binary label accuracy; GPT-4o peaks at 74.4%—others near random <a href="#ref49" class="inline-ref">[49]</a>.</li>
+<li><strong>Shortcoming:</strong> No tool-use execution, only judgement; high annotation cost limits scale <a href="#ref48" class="inline-ref">[48]</a>.</li>
+</ul>
+<h2>Trembling House of Cards <a href="#ref50" class="inline-ref">[50]</a></h2>
+<ul>
+<li><strong>Description:</strong> Theoretical framework cataloging 12 adversarial attack surfaces (perception, memory, planning, tool use, embodiment).</li>
+<li><strong>Key things:</strong> Provides &quot;Perception–Brain–Action&quot; model and attack taxonomy for future benchmark design.</li>
+<li><strong>Shortcoming:</strong> Lacks quantitative tasks or metrics—serves mainly as conceptual map.</li>
+</ul>
+<h2>AgentHarm <a href="#ref51" class="inline-ref">[51]</a><a href="#ref52" class="inline-ref">[52]</a></h2>
+<ul>
+<li><strong>Description:</strong> 110 malicious multi-tool behaviors (440 with augmentation) across 11 harm categories; evaluates refusal <strong>and</strong> capability retention.</li>
+<li><strong>Key things:</strong> Public dataset via UK AI Safety Institute; shows universal jailbreak templates undermine frontier agents <a href="#ref52" class="inline-ref">[52]</a>.</li>
+<li><strong>Shortcoming:</strong> Synthetic tools simplify real-world complexity; initial release omits benign-task baselines.</li>
+</ul>
+<h2>WildTeaming / WildJailbreak <a href="#ref53" class="inline-ref">[53]</a><a href="#ref54" class="inline-ref">[54]</a><a href="#ref55" class="inline-ref">[55]</a><a href="#ref56" class="inline-ref">[56]</a></h2>
+<ul>
+<li><strong>Description:</strong> Mines 1M user chats to cluster 5.7k jailbreak tactics, composing them into 262k prompt–response pairs.</li>
+<li><strong>Key things:</strong> Up to 4.6× higher attack diversity than prior art; also provides balanced benign counterparts for training <a href="#ref56" class="inline-ref">[56]</a>.</li>
+<li><strong>Shortcoming:</strong> Heavily English &amp; consumer-chat focused; clustering quality depends on LLM embeddings which may bias coverage.</li>
+</ul>
+<h2>SafetyPrompts <a href="#ref57" class="inline-ref">[57]</a><a href="#ref58" class="inline-ref">[58]</a></h2>
+<ul>
+<li><strong>Description:</strong> Living catalogue reviewing 144 open safety datasets and how they are (or are not) used in benchmarks.</li>
+<li><strong>Key things:</strong> Highlights trend toward synthetic data, identifies lack of non-English coverage and over-refusal gaps.</li>
+<li><strong>Shortcoming:</strong> Meta-benchmark only—does not supply new evaluation tasks.</li>
+</ul>
+<h2>ST-WebAgentBench <a href="#ref59" class="inline-ref">[59]</a><a href="#ref60" class="inline-ref">[60]</a></h2>
+<ul>
+<li><strong>Description:</strong> 222 enterprise web tasks (GitLab, SuiteCRM, etc.) each paired with policy templates for consent, boundary, hierarchy, error handling and robustness.</li>
+<li><strong>Key things:</strong> Introduces <strong>Completion-Under-Policy</strong> and Risk Ratio metrics; early agents breach policies in &gt;60% attempts <a href="#ref60" class="inline-ref">[60]</a>.</li>
+<li><strong>Shortcoming:</strong> HTML-DOM observation only; no pixel-vision modalities tested.</li>
+</ul>
+<h2>Frontier Models / Frontier Safety Framework <a href="#ref61" class="inline-ref">[61]</a></h2>
+<ul>
+<li><strong>Description:</strong> Google DeepMind&#39;s protocol for <strong>critical capability levels</strong> (CCLs) and early-warning evaluations before risky abilities emerge.</li>
+<li><strong>Key things:</strong> Couples model-weight security with deployment safeguards; targets severe risks like bio-threat planning or autonomous replication.</li>
+<li><strong>Shortcoming:</strong> Not an open dataset; proprietary internal tests limit third-party validation <a href="#ref61" class="inline-ref">[61]</a>.</li>
+</ul>
+<h2>SafeArena <a href="#ref62" class="inline-ref">[62]</a><a href="#ref63" class="inline-ref">[63]</a></h2>
+<ul>
+<li><strong>Description:</strong> 500 web tasks (250 safe / 250 harmful) over four sites; ARIA framework classifies behavior into four risk tiers.</li>
+<li><strong>Key things:</strong> GPT-4o completes 34.7% harmful requests; Claude-3.5 refuses most, showing benchmark discriminates alignment levels.</li>
+<li><strong>Shortcoming:</strong> Website set small; agents may overfit to UI layouts rather than abstract policy compliance.</li>
+</ul>
+<h2>HAICOSYSTEM <a href="#ref64" class="inline-ref">[64]</a><a href="#ref65" class="inline-ref">[65]</a></h2>
+<ul>
+<li><strong>Description:</strong> Modular sandbox for 92 scenarios over seven domains (healthcare, finance, education…) with multi-turn human–agent simulations.</li>
+<li><strong>Key things:</strong> Multi-dimensional risk scoring (operational, content, societal, legal); &gt;50% runs expose safety issues in frontier LLMs <a href="#ref65" class="inline-ref">[65]</a>.</li>
+<li><strong>Shortcoming:</strong> Still pre-release; tool APIs and scoring rubrics evolving, so results may shift.</li>
+</ul>
+<h3>Concluding Remarks</h3>
+<p>While <strong>no single benchmark</strong> covers the full spectrum of agent risks—from chemical synthesis advice to embodied robot hazards—the collection above provides a <strong>complementary toolbox</strong>. Developers should therefore adopt a <em>portfolio approach</em>: combine domain-specific suites (e.g., ChemSafetyBench, SafeBench) with holistic red-team sets (WildTeaming, AgentHarm) and policy-aware web tasks (ST-WebAgentBench, SafeArena). Finally, meta-efforts such as SafetyPrompts and AILuminate indicate a maturing ecosystem that is gradually converging on shared taxonomies, multi-turn evaluation and cross-language coverage—a prerequisite for trustworthy deployment of increasingly autonomous AI systems.</p>
+<hr>
+
+
+                <hr style="margin: 40px 0; border: none; border-top: 1px solid var(--border-color);">
+
+                <div style="text-align: center; margin: 30px 0;">
+                    <p><strong>Found this article helpful or have questions? 💡</strong></p>
+                    <p>I'm always happy to discuss AI Safety, answer your questions, or hear your feedback.</p>
+                    <p><strong><a href="mailto:kumardivy1999@gmail.com?subject=Discussion:%20AI%20Safety%20Benchmarks%20Blog"
+                                style="color: var(--link-color); text-decoration: none;">📧 Click here to send me an
+                                email</a></strong></p>
+                </div>
+
+                <hr style="margin: 40px 0; border: none; border-top: 1px solid var(--border-color);">
+
+                <h3>References</h3>
+<div style="font-size: 12px; line-height: 1.6;">
+    <p id="ref1">[1] <a href="https://github.com/OpenSafetyLab/SALAD-BENCH" target="_blank">https://github.com/OpenSafetyLab/SALAD-BENCH</a></p>
+    <p id="ref2">[2] <a href="https://adwardlee.github.io/salad_bench/" target="_blank">https://adwardlee.github.io/salad_bench/</a></p>
+    <p id="ref3">[3] <a href="https://arxiv.org/html/2402.05044v4" target="_blank">https://arxiv.org/html/2402.05044v4</a></p>
+    <p id="ref4">[4] <a href="https://aclanthology.org/2024.findings-acl.235.pdf" target="_blank">https://aclanthology.org/2024.findings-acl.235.pdf</a></p>
+    <p id="ref5">[5] <a href="https://arxiv.org/html/2408.04811v2" target="_blank">https://arxiv.org/html/2408.04811v2</a></p>
+    <p id="ref6">[6] <a href="https://www.aimodels.fyi/papers/arxiv/h4rm3l-dynamic-benchmark-composable-jailbreak-attacks-llm" target="_blank">https://www.aimodels.fyi/papers/arxiv/h4rm3l-dynamic-benchmark-composable-jailbreak-attacks-llm</a></p>
+    <p id="ref7">[7] <a href="https://openreview.net/forum?id=GzR8lrbeY9" target="_blank">https://openreview.net/forum?id=GzR8lrbeY9</a></p>
+    <p id="ref8">[8] <a href="https://paperswithcode.com/dataset/safebench" target="_blank">https://paperswithcode.com/dataset/safebench</a></p>
+    <p id="ref9">[9] <a href="https://safebench.readthedocs.io/en/latest/components.html" target="_blank">https://safebench.readthedocs.io/en/latest/components.html</a></p>
+    <p id="ref10">[10] <a href="https://proceedings.nips.cc/paper_files/paper/2022/file/a48ad12d588c597f4725a8b84af647b5-Paper-Datasets_and_Benchmarks.pdf" target="_blank">https://proceedings.nips.cc/paper_files/paper/2022/file/a48ad12d588c597f4725a8b84af647b5-Paper-Datasets_and_Benchmarks.pdf</a></p>
+    <p id="ref11">[11] <a href="https://www.themoonlight.io/en/review/agent-safetybench-evaluating-the-safety-of-llm-agents" target="_blank">https://www.themoonlight.io/en/review/agent-safetybench-evaluating-the-safety-of-llm-agents</a></p>
+    <p id="ref12">[12] <a href="https://www.chatpaper.ai/dashboard/paper/b2c76d16-1f8e-4ab1-951c-187bd015720d" target="_blank">https://www.chatpaper.ai/dashboard/paper/b2c76d16-1f8e-4ab1-951c-187bd015720d</a></p>
+    <p id="ref13">[13] <a href="https://github.com/thu-coai/Agent-SafetyBench" target="_blank">https://github.com/thu-coai/Agent-SafetyBench</a></p>
+    <p id="ref14">[14] <a href="https://arxiv.org/abs/2412.14470" target="_blank">https://arxiv.org/abs/2412.14470</a></p>
+    <p id="ref15">[15] <a href="https://huggingface.co/papers/2412.14470" target="_blank">https://huggingface.co/papers/2412.14470</a></p>
+    <p id="ref16">[16] <a href="https://arxiv.org/html/2410.21965v1" target="_blank">https://arxiv.org/html/2410.21965v1</a></p>
+    <p id="ref17">[17] <a href="https://github.com/MurrayTom/SG-Bench" target="_blank">https://github.com/MurrayTom/SG-Bench</a></p>
+    <p id="ref18">[18] <a href="https://openreview.net/forum?id=c4JE1gemWc" target="_blank">https://openreview.net/forum?id=c4JE1gemWc</a></p>
+    <p id="ref19">[19] <a href="https://proceedings.neurips.cc/paper_files/paper/2024/file/de7b99107c53e60257c727dc73daf1d1-Paper-Datasets_and_Benchmarks_Track.pdf" target="_blank">https://proceedings.neurips.cc/paper_files/paper/2024/file/de7b99107c53e60257c727dc73daf1d1-Paper-Datasets_and_Benchmarks_Track.pdf</a></p>
+    <p id="ref20">[20] <a href="https://arxiv.org/abs/2412.13178" target="_blank">https://arxiv.org/abs/2412.13178</a></p>
+    <p id="ref21">[21] <a href="https://arxiv.org/html/2412.13178v1" target="_blank">https://arxiv.org/html/2412.13178v1</a></p>
+    <p id="ref22">[22] <a href="https://github.com/shengyin1224/SafeAgentBench" target="_blank">https://github.com/shengyin1224/SafeAgentBench</a></p>
+    <p id="ref23">[23] <a href="https://safeagentbench.github.io" target="_blank">https://safeagentbench.github.io</a></p>
+    <p id="ref24">[24] <a href="https://arxiv.org/html/2412.13178v4" target="_blank">https://arxiv.org/html/2412.13178v4</a></p>
+    <p id="ref25">[25] <a href="https://arxiv.org/html/2411.16736v1" target="_blank">https://arxiv.org/html/2411.16736v1</a></p>
+    <p id="ref26">[26] <a href="https://arxiv.org/abs/2411.16736" target="_blank">https://arxiv.org/abs/2411.16736</a></p>
+    <p id="ref27">[27] <a href="https://ai-scholar.tech/en/articles/large-language-models/chembench" target="_blank">https://ai-scholar.tech/en/articles/large-language-models/chembench</a></p>
+    <p id="ref28">[28] <a href="https://www.emergentmind.com/articles/2309.15817" target="_blank">https://www.emergentmind.com/articles/2309.15817</a></p>
+    <p id="ref29">[29] <a href="https://www.linkedin.com/posts/suwoongsik_to-identify-the-risks-of-lm-agents-with-an-activity-7114434789058760704-jc_B" target="_blank">https://www.linkedin.com/posts/suwoongsik_to-identify-the-risks-of-lm-agents-with-an-activity-7114434789058760704-jc_B</a></p>
+    <p id="ref30">[30] <a href="https://chatpaper.com/de/paper/5714" target="_blank">https://chatpaper.com/de/paper/5714</a></p>
+    <p id="ref31">[31] <a href="https://openreview.net/forum?id=GEcwtMk1uA" target="_blank">https://openreview.net/forum?id=GEcwtMk1uA</a></p>
+    <p id="ref32">[32] <a href="https://arxiv.org/abs/2309.15817" target="_blank">https://arxiv.org/abs/2309.15817</a></p>
+    <p id="ref33">[33] <a href="https://github.com/ryoungj/ToolEmu" target="_blank">https://github.com/ryoungj/ToolEmu</a></p>
+    <p id="ref34">[34] <a href="https://openreview.net/forum?id=x9gCQC3rVA" target="_blank">https://openreview.net/forum?id=x9gCQC3rVA</a></p>
+    <p id="ref35">[35] <a href="https://scale.com/research/browser-art" target="_blank">https://scale.com/research/browser-art</a></p>
+    <p id="ref36">[36] <a href="https://openreview.net/forum?id=mAG68wdggA" target="_blank">https://openreview.net/forum?id=mAG68wdggA</a></p>
+    <p id="ref37">[37] <a href="https://www.themoonlight.io/en/review/redcode-risky-code-execution-and-generation-benchmark-for-code-agents" target="_blank">https://www.themoonlight.io/en/review/redcode-risky-code-execution-and-generation-benchmark-for-code-agents</a></p>
+    <p id="ref38">[38] <a href="https://nips.cc/virtual/2024/poster/97521" target="_blank">https://nips.cc/virtual/2024/poster/97521</a></p>
+    <p id="ref39">[39] <a href="https://dl.acm.org/doi/full/10.1145/3708359.3712153" target="_blank">https://dl.acm.org/doi/full/10.1145/3708359.3712153</a></p>
+    <p id="ref40">[40] <a href="https://openreview.net/forum?id=CxNXoMnCKc" target="_blank">https://openreview.net/forum?id=CxNXoMnCKc</a></p>
+    <p id="ref41">[41] <a href="https://neurips.cc/virtual/2024/poster/97810" target="_blank">https://neurips.cc/virtual/2024/poster/97810</a></p>
+    <p id="ref42">[42] <a href="https://arxiv.org/html/2406.12814v3" target="_blank">https://arxiv.org/html/2406.12814v3</a></p>
+    <p id="ref43">[43] <a href="https://github.com/mlcommons/ailuminate" target="_blank">https://github.com/mlcommons/ailuminate</a></p>
+    <p id="ref44">[44] <a href="https://www.wired.com/story/benchmark-for-ai-risks/" target="_blank">https://www.wired.com/story/benchmark-for-ai-risks/</a></p>
+    <p id="ref45">[45] <a href="https://arxiv.org/html/2503.05731v1" target="_blank">https://arxiv.org/html/2503.05731v1</a></p>
+    <p id="ref46">[46] <a href="https://arxiv.org/html/2401.10019v2" target="_blank">https://arxiv.org/html/2401.10019v2</a></p>
+    <p id="ref47">[47] <a href="https://github.com/Lordog/R-Judge" target="_blank">https://github.com/Lordog/R-Judge</a></p>
+    <p id="ref48">[48] <a href="https://aclanthology.org/2024.findings-emnlp.79.pdf" target="_blank">https://aclanthology.org/2024.findings-emnlp.79.pdf</a></p>
+    <p id="ref49">[49] <a href="https://aclanthology.org/2024.findings-emnlp.79/" target="_blank">https://aclanthology.org/2024.findings-emnlp.79/</a></p>
+    <p id="ref50">[50] <a href="https://www.themoonlight.io/en/review/a-trembling-house-of-cards-mapping-adversarial-attacks-against-language-agents" target="_blank">https://www.themoonlight.io/en/review/a-trembling-house-of-cards-mapping-adversarial-attacks-against-language-agents</a></p>
+    <p id="ref51">[51] <a href="https://arxiv.org/pdf/2410.09024.pdf" target="_blank">https://arxiv.org/pdf/2410.09024.pdf</a></p>
+    <p id="ref52">[52] <a href="https://www.grayswan.ai/news/agentharm" target="_blank">https://www.grayswan.ai/news/agentharm</a></p>
+    <p id="ref53">[53] <a href="https://arxiv.org/html/2406.04770v2" target="_blank">https://arxiv.org/html/2406.04770v2</a></p>
+    <p id="ref54">[54] <a href="https://www.emergentmind.com/articles/2406.18510" target="_blank">https://www.emergentmind.com/articles/2406.18510</a></p>
+    <p id="ref55">[55] <a href="https://neurips.cc/virtual/2024/poster/93716" target="_blank">https://neurips.cc/virtual/2024/poster/93716</a></p>
+    <p id="ref56">[56] <a href="https://arxiv.org/abs/2406.18510" target="_blank">https://arxiv.org/abs/2406.18510</a></p>
+    <p id="ref57">[57] <a href="https://arxiv.org/html/2404.05399v2" target="_blank">https://arxiv.org/html/2404.05399v2</a></p>
+    <p id="ref58">[58] <a href="https://www.emergentmind.com/papers/2404.05399" target="_blank">https://www.emergentmind.com/papers/2404.05399</a></p>
+    <p id="ref59">[59] <a href="https://github.com/segev-shlomov/ST-WebAgentBench" target="_blank">https://github.com/segev-shlomov/ST-WebAgentBench</a></p>
+    <p id="ref60">[60] <a href="https://huggingface.co/papers/2410.06703" target="_blank">https://huggingface.co/papers/2410.06703</a></p>
+    <p id="ref61">[61] <a href="https://deepmind.google/discover/blog/introducing-the-frontier-safety-framework/" target="_blank">https://deepmind.google/discover/blog/introducing-the-frontier-safety-framework/</a></p>
+    <p id="ref62">[62] <a href="https://huggingface.co/papers/2503.04957" target="_blank">https://huggingface.co/papers/2503.04957</a></p>
+    <p id="ref63">[63] <a href="https://www.getaiverse.com/post/sicherheitsbewertung-autonomer-web-agenten-safearena-benchmark" target="_blank">https://www.getaiverse.com/post/sicherheitsbewertung-autonomer-web-agenten-safearena-benchmark</a></p>
+    <p id="ref64">[64] <a href="https://www.themoonlight.io/en/review/haicosystem-an-ecosystem-for-sandboxing-safety-risks-in-human-ai-interactions" target="_blank">https://www.themoonlight.io/en/review/haicosystem-an-ecosystem-for-sandboxing-safety-risks-in-human-ai-interactions</a></p>
+    <p id="ref65">[65] <a href="https://www.emergentmind.com/papers/2409.16427" target="_blank">https://www.emergentmind.com/papers/2409.16427</a></p>
+</div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Prism.js JavaScript -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-core.min.js"></script>
+    <script
+        src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/plugins/autoloader/prism-autoloader.min.js"></script>
+    <script
+        src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/plugins/line-numbers/prism-line-numbers.min.js"></script>
+    <script
+        src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/plugins/copy-to-clipboard/prism-copy-to-clipboard.min.js"></script>
+    <script src="../script.js"></script>
+</body>
+
+</html>

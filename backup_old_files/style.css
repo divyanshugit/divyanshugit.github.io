@@ -2416,3 +2416,42 @@ mjx-container[jax="CHTML"][display="true"] {
         flex-direction: column;
     }
 }
+
+/* ===== INLINE REFERENCE STYLING ===== */
+/* Compact inline reference links for blog posts */
+a.inline-ref {
+    display: inline;
+    color: var(--link-color);
+    text-decoration: none;
+    font-size: 0.85em;
+    font-weight: 500;
+    margin: 0 1px;
+    padding: 0;
+    transition: color 0.2s ease, background-color 0.2s ease;
+}
+
+a.inline-ref:hover {
+    color: var(--link-hover);
+    text-decoration: underline;
+}
+
+/* Ensure references don't break across lines awkwardly */
+a.inline-ref::before {
+    content: '';
+    display: inline-block;
+    width: 0;
+}
+
+/* Style for the reference section at the bottom */
+.blog-content h3+div[style*="font-size: 12px"] p {
+    margin: 8px 0;
+}
+
+.blog-content h3+div[style*="font-size: 12px"] a {
+    word-break: break-all;
+    color: var(--link-color);
+}
+
+.blog-content h3+div[style*="font-size: 12px"] a:hover {
+    color: var(--link-hover);
+}

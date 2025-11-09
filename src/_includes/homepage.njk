@@ -1,0 +1,101 @@
+---
+layout: base.njk
+---
+
+<div class="container">
+    <div class="main-layout">
+        <div class="profile-column">
+            <div class="profile-content">
+                <img src="{{ profileImage }}" alt="{{ name }}" class="profile-image">
+                <h1 class="name"><i>{{ name }}</i></h1>
+                <p class="title">{{ jobTitle }}<br>{{ organization }}</p>
+
+                <div class="contact-info">
+                    <p>{{ email }}</p>
+                    <div class="links">
+                        {% for link in socialLinks %}
+                            <a href="{{ link.url }}">{{ link.text }}</a>{% if not loop.last %} / {% endif %}
+                        {% endfor %}
+                    </div>
+                </div>
+
+                {% if phdNote %}
+                <div class="phd-note">
+                    {{ phdNote | safe }}
+                </div>
+                {% endif %}
+            </div>
+        </div>
+
+        <!-- Right Column - Content -->
+        <div class="content-column">
+            <!-- Header Name -->
+            <div class="content-header">
+                <h1 class="content-name"><i>{{ name }}</i></h1>
+                <p class="content-title">{{ jobTitle }}, {{ organization }}</p>
+            </div>
+
+            <!-- About Section -->
+            <div class="section">
+                {{ content | safe }}
+            </div>
+
+            <!-- News Section -->
+            <div class="section">
+                <h2>News</h2>
+                <div class="news-list" id="recent-news">
+                    <!-- News will be dynamically loaded here -->
+                </div>
+            </div>
+
+            <!-- Publications Section -->
+            <div class="section">
+                <h2>Selected Publications</h2>
+                <div id="featured-publications">
+                    <!-- Publications will be dynamically loaded here -->
+                </div>
+                <div class="view-all">
+                    <a href="/publications.html">See all publications</a>
+                </div>
+            </div>
+
+            <!-- Research Projects -->
+            <div class="section">
+                <h2>Research Projects</h2>
+                <div id="featured-projects">
+                    <!-- Projects will be dynamically loaded here -->
+                </div>
+                <div class="view-all">
+                    <a href="/projects.html">See all projects</a>
+                </div>
+            </div>
+
+            <!-- Featured Blog Posts -->
+            <div class="section">
+                <h2>Recent Blog Posts</h2>
+                <div id="featured-blog-posts">
+                    <!-- Blog posts will be dynamically loaded here -->
+                </div>
+                <div class="view-all">
+                    <a href="/blog.html">See all blog posts</a>
+                </div>
+            </div>
+
+            <!-- Miscellaneous -->
+            {% if miscellaneous %}
+            <div class="section">
+                <h2>Miscellaneous</h2>
+                {{ miscellaneous | safe }}
+            </div>
+            {% endif %}
+        </div>
+    </div>
+</div>
+
+<script src="/data/publications.js"></script>
+<script src="/data/projects.js"></script>
+<script src="/data/news.js"></script>
+<script src="/data/blog.js"></script>
+<script src="/js/homepage.js"></script>
+<script src="/js/scroll-header.js"></script>
+

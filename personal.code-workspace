@@ -1,0 +1,170 @@
+{
+    "folders": [
+        {
+            "name": "divyanshugit.github.io",
+            "path": "."
+        },
+        {
+            "name": "resume",
+            "path": "../resume"
+        },
+        {
+            "name": "Eng-Bho",
+            "path": "../Eng-Bho"
+        },
+        {
+            "name": "al-folio",
+            "path": "../al-folio"
+        },
+        {
+            "name": "old",
+            "path": "../old"
+        },
+        {
+            "name": "llama.cpp",
+            "path": "../llama.cpp"
+        },
+        {
+            "name": "quantization",
+            "path": "../quantization"
+        },
+        {
+            "name": "diarization",
+            "path": "../diarization"
+        },
+        {
+            "name": "fl-prompt",
+            "path": "../fl-prompt"
+        },
+        {
+            "name": "sanskrit-translator-dspy",
+            "path": "../sanskrit-translator-dspy"
+        },
+        {
+            "name": "dspy",
+            "path": "../dspy"
+        },
+        {
+            "name": "openai-python",
+            "path": "../openai-python"
+        },
+        {
+            "name": "moonshot-experiments",
+            "path": "../moonshot-experiments"
+        },
+        {
+            "name": "mili-server",
+            "path": "../mili-server"
+        },
+        {
+            "name": "mili-assistant-extension",
+            "path": "../mili-assistant-extension"
+        },
+        {
+            "name": "mili-server-old",
+            "path": "../mili-server-old"
+        },
+        {
+            "name": "mili",
+            "path": "../mili"
+        },
+        {
+            "name": "icml-2025",
+            "path": "../icml-2025"
+        },
+        {
+            "name": "pytorch",
+            "path": "../pytorch"
+        },
+        {
+            "name": "Inception-of-DP",
+            "path": "../Inception-of-DP"
+        },
+        {
+            "name": "DP-ICL",
+            "path": "../DP-ICL"
+        },
+        {
+            "name": "sentry",
+            "path": "../sentry"
+        },
+        {
+            "name": "IndianBias",
+            "path": "../IndianBias"
+        },
+        {
+            "name": "colm_sage",
+            "path": "../colm_sage"
+        },
+        {
+            "name": "G1",
+            "path": "../G1"
+        },
+        {
+            "name": "sparse_transformers",
+            "path": "../sparse_transformers"
+        },
+        {
+            "name": "history",
+            "path": "../history"
+        },
+        {
+            "name": "G1-ex",
+            "path": "../G1-ex"
+        },
+        {
+            "name": "bioxhall",
+            "path": "../bioxhall"
+        },
+        {
+            "name": "neuripsWorkshop'25",
+            "path": "../neuripsWorkshop'25"
+        },
+        {
+            "name": "nfl",
+            "path": "../nfl"
+        },
+        {
+            "name": "no-free-lunch",
+            "path": "../no-free-lunch"
+        },
+        {
+            "name": "new_page",
+            "path": "../new_page"
+        },
+        {
+            "name": "pageX1",
+            "path": "../pageX1"
+        },
+        {
+            "path": "../think-graph"
+        },
+        {
+            "path": "../clean-page"
+        },
+        {
+            "path": "../eacl"
+        },
+        {
+            "path": "../sop"
+        },
+        {
+            "path": "../aaai-workshop"
+        },
+        {
+            "path": "../blogs"
+        },
+        {
+            "path": "../redteam-demo"
+        },
+        {
+            "path": "../build-understanding"
+        },
+        {
+            "path": "../reports"
+        },
+        {
+            "path": "../genocide-study"
+        }
+    ]
+}

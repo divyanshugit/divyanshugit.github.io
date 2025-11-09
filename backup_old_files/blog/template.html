@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{{title}} - Divyanshu Kumar</title>
+    <link rel="icon" type="image/svg+xml" href="../assets/logo.svg">
+
+    <!-- Prevent flash of light mode -->
+    <script>
+        (function () {
+            const savedTheme = localStorage.getItem('theme') ||
+                (window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light');
+            document.documentElement.setAttribute('data-theme', savedTheme);
+        })();
+    </script>
+
+    <link rel="stylesheet" href="../style.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+
+    <!-- Prism.js for syntax highlighting -->
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism.min.css" rel="stylesheet" />
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism-tomorrow.min.css" rel="stylesheet" />
+
+    <!-- MathJax for mathematical formulas -->
+    <script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
+    <script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+    <script>
+        window.MathJax = {
+            tex: {
+                inlineMath: [['$', '$'], ['\\(', '\\)']],
+                displayMath: [['$$', '$$'], ['\\[', '\\]']],
+                processEscapes: true,
+                processEnvironments: true
+            },
+            options: {
+                skipHtmlTags: ['script', 'noscript', 'style', 'textarea', 'pre'],
+                ignoreHtmlClass: 'tex2jax_ignore',
+                processHtmlClass: 'tex2jax_process'
+            }
+        };
+    </script>
+</head>
+
+<body>
+    <!-- Clean Header with Navigation -->
+    <header class="site-header">
+        <div class="header-container">
+            <nav class="header-nav">
+                <a href="../index.html" class="nav-item">Home</a>
+                <a href="../publications.html" class="nav-item">Publications</a>
+                <a href="../projects.html" class="nav-item">Projects</a>
+                <a href="../timeline.html" class="nav-item">Timeline</a>
+                <a href="../blog.html" class="nav-item active">Blog</a>
+            </nav>
+
+            <div class="header-right">
+                <button id="theme-toggle" class="theme-toggle-header" aria-label="Toggle dark mode">
+                    <span class="theme-toggle-icon">☀️</span>
+                    <span class="theme-toggle-icon">🌙</span>
+                </button>
+            </div>
+        </div>
+    </header>
+
+    <div class="container">
+        <!-- Back to Blog Link -->
+        <div class="back-link">
+            <a href="../blog.html">← Back to Blog</a>
+        </div>
+
+        <!-- Blog Post Content -->
+        <div class="blog-post-content">
+            <div class="blog-post-header">
+                <div class="blog-post-date">{{date}}</div>
+                <div class="blog-post-main">
+                    <h1 class="blog-post-title">{{title}}</h1>
+                    <p class="blog-post-description">{{description}}</p>
+                </div>
+                <div class="blog-post-tags">
+                    {{tags}}
+                </div>
+            </div>
+
+            <div class="blog-content">
+                {{content}}
+
+                <hr style="margin: 40px 0; border: none; border-top: 1px solid var(--border-color);">
+
+                <div style="text-align: center; margin: 30px 0;">
+                    <p><strong>Found this article helpful or have questions? 💡</strong></p>
+                    <p>I'm always happy to discuss AI Safety, answer your questions, or hear your feedback.</p>
+                    <p><strong><a href="mailto:kumardivy1999@gmail.com?subject=Discussion:%20{{emailSubject}}"
+                                style="color: var(--link-color); text-decoration: none;">📧 Click here to send me an
+                                email</a></strong></p>
+                </div>
+
+                <hr style="margin: 40px 0; border: none; border-top: 1px solid var(--border-color);">
+
+                {{references}}
+            </div>
+        </div>
+    </div>
+
+    <!-- Prism.js JavaScript -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-core.min.js"></script>
+    <script
+        src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/plugins/autoloader/prism-autoloader.min.js"></script>
+    <script
+        src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/plugins/line-numbers/prism-line-numbers.min.js"></script>
+    <script
+        src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/plugins/copy-to-clipboard/prism-copy-to-clipboard.min.js"></script>
+    <script src="../script.js"></script>
+</body>
+
+</html>

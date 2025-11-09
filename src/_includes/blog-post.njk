@@ -1,0 +1,48 @@
+---
+layout: base.njk
+---
+
+<div class="container">
+    <!-- Back to Blog Link -->
+    <div class="back-link">
+        <a href="/blog.html">← Back to Blog</a>
+    </div>
+
+    <!-- Blog Post Content -->
+    <div class="blog-post-content">
+        <div class="blog-post-header">
+            <div class="blog-post-date">{{ date | readableDate }}</div>
+            <div class="blog-post-main">
+                <h1 class="blog-post-title">{{ title }}</h1>
+                <p class="blog-post-description">{{ description }}</p>
+            </div>
+            <div class="blog-post-tags">
+                {% for tag in tags %}
+                <span class="tag">{{ tag }}</span>
+                {% endfor %}
+            </div>
+        </div>
+
+        <div class="blog-content">
+            {{ content | safe }}
+
+            <hr style="margin: 40px 0; border: none; border-top: 1px solid var(--border-color);">
+
+            <div style="text-align: center; margin: 30px 0;">
+                <p><strong>Found this article helpful or have questions? 💡</strong></p>
+                <p>I'm always happy to discuss AI Safety, answer your questions, or hear your feedback.</p>
+                <p><strong><a
+                            href="mailto:kumardivy1999@gmail.com?subject=Discussion:%20{{ emailSubject or title | urlencode }}"
+                            style="color: var(--link-color); text-decoration: none;">📧 Click here to send me an
+                            email</a></strong></p>
+            </div>
+
+            <hr style="margin: 40px 0; border: none; border-top: 1px solid var(--border-color);">
+
+            {% if references %}
+            {{ references | generateReferences | safe }}
+            {% endif %}
+        </div>
+    </div>
+</div>
+

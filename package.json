@@ -1,0 +1,24 @@
+{
+    "name": "divyanshugit-blog",
+    "version": "1.0.0",
+    "description": "Personal blog with markdown to HTML conversion",
+    "scripts": {
+        "build": "eleventy",
+        "serve": "eleventy --serve",
+        "start": "eleventy --serve",
+        "build:old": "node build-blog.js",
+        "build:post": "node build-blog.js",
+        "build:ai-safety": "node build-blog.js blog/sources/ai-safety-benchmarks-survey.md"
+    },
+    "dependencies": {
+        "gray-matter": "^4.0.3",
+        "markdown-it-mathjax3": "^5.2.0",
+        "markdown-it-texmath": "^1.0.0",
+        "marked": "^11.1.1"
+    },
+    "devDependencies": {
+        "@11ty/eleventy": "^3.1.2"
+    },
+    "author": "Divyanshu Kumar",
+    "license": "MIT"
+}
