@@ -1,7 +1,7 @@
 {
-    "name": "divyanshugit-blog",
+    "name": "divyanshu-website",
     "version": "1.0.0",
-    "description": "Personal blog with markdown to HTML conversion",
+    "description": "Personal Website for Divyanshu Kumar",
     "scripts": {
         "build": "eleventy",
         "serve": "eleventy --serve",
