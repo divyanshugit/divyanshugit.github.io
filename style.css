@@ -1607,6 +1607,27 @@ button:focus {
     text-decoration: underline;
 }
 
+/* Back to Blog Link */
+.back-link {
+    max-width: 720px;
+    margin: 0 auto 20px auto;
+    padding: 0 20px;
+}
+
+.back-link a {
+    color: var(--text-muted);
+    text-decoration: none;
+    font-size: 14px;
+    font-weight: 500;
+    display: inline-flex;
+    align-items: center;
+    transition: color 0.2s ease;
+}
+
+.back-link a:hover {
+    color: var(--link-color);
+}
+
 /* Blog Post Content Styles (Reusable) */
 .blog-post-content {
     max-width: 720px;
