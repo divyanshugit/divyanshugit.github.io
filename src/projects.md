@@ -1,6 +1,6 @@
 ---
 layout: projects-page.njk
-title: Projects - Divyanshu Kumar
+title: Projects
 pageTitle: Research Projects
 subtitle: Ongoing and completed research projects in AI security, efficiency, and related areas
 permalink: /projects.html

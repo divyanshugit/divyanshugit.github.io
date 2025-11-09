@@ -1,6 +1,6 @@
 ---
 layout: homepage.njk
-title: Divyanshu Kumar
+title: Home
 permalink: /index.html
 name: Divyanshu Kumar
 jobTitle: Founding ML Research Engineer

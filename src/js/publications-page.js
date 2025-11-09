@@ -98,9 +98,28 @@ class PublicationsPage {
     createLinksHtml(links) {
         if (!links) return '';
 
+        const iconMap = {
+            'paper': '📄',
+            'arxiv': '📝',
+            'openreview': '📋',
+            'github': '💻',
+            'code': '💻',
+            'demo': '🚀',
+            'website': '🌐',
+            'slides': '📊',
+            'poster': '🖼️',
+            'video': '🎥',
+            'dataset': '📊',
+            'blog': '✍️'
+        };
+
         return Object.entries(links)
-            .map(([type, url]) => `<a href="${url}" class="pub-link" target="_blank">${type}</a>`)
-            .join(' / ');
+            .map(([type, url]) => {
+                const icon = iconMap[type.toLowerCase()] || '🔗';
+                const displayName = type.charAt(0).toUpperCase() + type.slice(1);
+                return `<a href="${url}" class="pub-link" target="_blank">${icon} ${displayName}</a>`;
+            })
+            .join(' ');
     }
 
     getFilteredPublications() {
@@ -243,8 +262,27 @@ class PublicationsPage {
         // Links
         const linksContainer = document.getElementById('modalLinks');
         if (pub.links) {
+            const iconMap = {
+                'paper': '📄',
+                'arxiv': '📝',
+                'openreview': '📋',
+                'github': '💻',
+                'code': '💻',
+                'demo': '🚀',
+                'website': '🌐',
+                'slides': '📊',
+                'poster': '🖼️',
+                'video': '🎥',
+                'dataset': '📊',
+                'blog': '✍️'
+            };
+
             linksContainer.innerHTML = Object.entries(pub.links)
-                .map(([type, url]) => `<a href="${url}" class="btn-primary" target="_blank">${type}</a>`)
+                .map(([type, url]) => {
+                    const icon = iconMap[type.toLowerCase()] || '🔗';
+                    const displayName = type.charAt(0).toUpperCase() + type.slice(1);
+                    return `<a href="${url}" class="btn-primary" target="_blank">${icon} ${displayName}</a>`;
+                })
                 .join('');
         }
 

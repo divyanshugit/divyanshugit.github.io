@@ -1,6 +1,6 @@
 ---
 layout: publications-page.njk
-title: Publications - Divyanshu Kumar
+title: Publications
 pageTitle: Publications
 subtitle: Research contributions in AI security, efficiency, and related areas
 permalink: /publications.html

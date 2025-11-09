@@ -1,4 +1,0 @@
-Traceback (most recent call last):
-  File "/Users/divyanshu/dev/divyanshugit.github.io/validate_urls.py", line 2, in <module>
-    import requests
-ModuleNotFoundError: No module named 'requests'

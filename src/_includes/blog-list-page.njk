@@ -30,7 +30,46 @@ layout: base.njk
 
         <!-- Blog Posts Container -->
         <div class="blog-posts-container" id="blogPostsContainer">
-            <!-- Blog posts will be dynamically loaded here -->
+            {% for post in collections.blog %}
+            <div class="blog-post-item {{ 'featured' if post.data.featured }}" 
+                 data-tags="{{ post.data.tags | join(',') }}" 
+                 data-category="{{ post.data.tags[0] if post.data.tags }}"
+                 data-featured="{{ post.data.featured }}" 
+                 data-date="{{ post.data.date }}">
+                <div class="blog-post-header">
+                    <div class="blog-post-meta">
+                        <span class="blog-post-date">{{ post.data.date | readableDate }}</span>
+                        {% if post.data.tags %}
+                        <span class="blog-post-category">{{ post.data.tags[0] }}</span>
+                        {% endif %}
+                        <span class="blog-post-read-time">{{ post.templateContent | readingTime }}</span>
+                    </div>
+                    <div class="blog-post-badges">
+                        {% if post.data.featured %}
+                        <span class="badge featured-badge">FEATURED</span>
+                        {% endif %}
+                    </div>
+                </div>
+                
+                <h3 class="blog-post-title">{{ post.data.title }}</h3>
+                
+                <p class="blog-post-excerpt">
+                    {{ post.data.description or (post.templateContent | excerpt) }}
+                </p>
+                
+                {% if post.data.tags %}
+                <div class="blog-post-tags">
+                    {% for tag in post.data.tags %}
+                    <span class="tag">{{ tag }}</span>
+                    {% endfor %}
+                </div>
+                {% endif %}
+                
+                <div class="blog-post-actions">
+                    <a href="{{ post.url }}" class="btn-secondary">Read Full Post</a>
+                </div>
+            </div>
+            {% endfor %}
         </div>
 
         <!-- Blog Series Section -->
@@ -74,6 +113,5 @@ layout: base.njk
     </div>
 </div>
 
-<script src="/data/blog.js"></script>
-<script src="/js/blog-page.js"></script>
+<script src="/js/blog-page-simple.js"></script>
 

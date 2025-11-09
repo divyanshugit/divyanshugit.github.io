@@ -1,6 +1,6 @@
 ---
 layout: blog-list-page.njk
-title: Blog - Divyanshu Kumar
+title: Blog
 pageTitle: Blog
 subtitle: Thoughts, insights, and deep dives into AI security, differential privacy, and cutting-edge research
 permalink: /blog.html

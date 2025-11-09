@@ -55,6 +55,14 @@ layout: base.njk
             </div>
         </div>
 
+        <!-- Tags Cloud -->
+        <div class="tags-section">
+            <h3>Research Topics</h3>
+            <div class="tags-cloud" id="tagsCloud">
+                <!-- Tags will be dynamically generated -->
+            </div>
+        </div>
+
         <!-- Research Areas -->
         <div class="research-areas-section">
             <h3>Research Areas</h3>
@@ -69,6 +77,19 @@ layout: base.njk
         </div>
 
         {{ content | safe }}
+    </div>
+</div>
+
+<!-- Modal for Publication Details -->
+<div id="modalOverlay" class="modal-overlay">
+    <div class="modal-content">
+        <button id="modalClose" class="modal-close">&times;</button>
+        <h2 id="modalTitle"></h2>
+        <p id="modalAuthors"></p>
+        <p id="modalVenue"></p>
+        <p id="modalAbstract"></p>
+        <div id="modalTags"></div>
+        <div id="modalLinks"></div>
     </div>
 </div>
 

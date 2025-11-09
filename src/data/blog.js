@@ -4,9 +4,9 @@
 const blogPosts = [
     {
         id: "ai-safety-benchmarks-survey",
-        title: "A Survey of Safety Benchmarks for AI and AI-Agent Systems",
-        description: "A comprehensive survey of over two dozen safety benchmarks for large language models and AI-agent systems, covering robustness, alignment, and misuse-resilience.",
-        date: "2025-07-26",
+        title: "Where AI Agent Safety Benchmarks Stand Today",
+        description: "A survey of current AI agent safety benchmarks reveals a three-layered risk landscape—and shows we're failing at all three layers simultaneously.",
+        date: "2025-11-09",
         readTime: "15 min read",
         tags: ["AI Safety", "Benchmarking", "Responsible AI", "LLMs", "AI Agents"],
         category: "AI Safety",

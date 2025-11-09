@@ -139,6 +139,22 @@ module.exports = function (eleventyConfig) {
         });
     });
 
+    // Calculate reading time from content
+    eleventyConfig.addFilter("readingTime", (content) => {
+        if (!content) return '5 min read';
+        const wordsPerMinute = 200;
+        const wordCount = content.split(/\s+/).length;
+        const minutes = Math.ceil(wordCount / wordsPerMinute);
+        return `${minutes} min read`;
+    });
+
+    // Get first paragraph as excerpt
+    eleventyConfig.addFilter("excerpt", (content) => {
+        if (!content) return '';
+        const firstParagraph = content.split('\n\n')[0];
+        return firstParagraph.replace(/<[^>]*>/g, '').substring(0, 200) + '...';
+    });
+
     // Fix broken reference links that markdown-it creates
     eleventyConfig.addTransform("fixReferences", function (content) {
         // Only process HTML files
