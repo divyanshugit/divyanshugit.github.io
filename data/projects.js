@@ -3,6 +3,29 @@
 
 const projects = [
     {
+        id: "temporal-diffusion-safety",
+        title: "Temporal Dynamics of Safety in Diffusion-Based Language Models",
+        status: "active",
+        description: "Research project investigating how safety alignment evolves across denoising steps in diffusion-based language models, with focus on mechanistic understanding and temporal intervention strategies.",
+        fullDescription: "This research project models, measures, and mitigates the temporal evolution of safety alignment within diffusion-based language models such as Dream-7B, TraDo-8B, LLaDA2.0 and many more. Unlike autoregressive models that generate tokens sequentially, diffusion models produce text via iterative denoising, creating unique safety vulnerabilities. The project aims to establish the first temporal safety framework for diffusion-based language models by quantifying when and how alignment fails during the generation process.",
+        researchQuestions: [
+            "How does the probability of unsafe token emergence evolve across denoising steps?",
+            "Can step-wise or in-loop alignment reduce harmful emergence earlier than end-only filtering?",
+            "Do jailbreaks and alignment failures transfer between diffusion and autoregressive models?"
+        ],
+        methodology: [
+            "Mechanistic Mapping: Step-wise logging of denoising states with metrics like First Harmful Step (FHS), Irreversibility Index, and KL Drift",
+            "Temporal Alignment: In-loop guardrails including step-wise risk scoring, mask-aware gating, and learned temporal policy heads",
+            "Cross-Architecture Transfer: Applying DIJA and PAD jailbreaks across Dream-7B and autoregressive baselines"
+        ],
+        expectedOutcomes: [
+            "Diffusion Safety Probe - open toolkit for per-step risk visualization",
+            "Publications: 'Alignment Drift in Diffusion LMs', 'Temporal Alignment for Diffusion Decoders', 'Transferable Jailbreaks Across Architectures'"
+        ],
+        technologies: ["PyTorch", "Dream-7B", "LLMs", "dLLMs", "AI Safety", "Red Teaming", "Interpretability"],
+        featured: true // Shows on homepage
+    },
+    {
         id: "speaker-stream",
         title: "SpeakerStream",
         status: "completed",
@@ -78,7 +101,7 @@ const projects = [
             code: "https://github.com/divyanshugit/vera"
         },
         featured: false // Only on projects page
-    }
+    },
 ];
 
 // Helper functions

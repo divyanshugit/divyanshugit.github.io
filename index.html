@@ -5,14 +5,44 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Divyanshu Kumar</title>
+
+    <!-- Prevent flash of light mode -->
+    <script>
+        (function () {
+            const savedTheme = localStorage.getItem('theme') ||
+                (window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light');
+            document.documentElement.setAttribute('data-theme', savedTheme);
+        })();
+    </script>
+
     <link rel="stylesheet" href="style.css">
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
 </head>
 
 <body>
+    <!-- Clean Header with Navigation -->
+    <header class="site-header">
+        <div class="header-container">
+            <nav class="header-nav">
+                <a href="index.html" class="nav-item active">Home</a>
+                <a href="publications.html" class="nav-item">Publications</a>
+                <a href="projects.html" class="nav-item">Projects</a>
+                <a href="timeline.html" class="nav-item">Timeline</a>
+                <a href="blog.html" class="nav-item">Blog</a>
+            </nav>
+
+            <div class="header-right">
+                <button id="theme-toggle" class="theme-toggle-header" aria-label="Toggle dark mode">
+                    <span class="theme-toggle-icon">☀️</span>
+                    <span class="theme-toggle-icon">🌙</span>
+                </button>
+            </div>
+        </div>
+    </header>
+
     <div class="container">
         <!-- Navigation -->
-        <nav class="page-nav index-nav">
+        <!-- <nav class="page-nav index-nav">
             <div class="nav-links">
                 <a href="index.html" class="active">Home</a>
                 <a href="publications.html">Publications</a>
@@ -20,13 +50,13 @@
                 <a href="timeline.html">Timeline</a>
                 <a href="blog.html">Blog</a>
             </div>
-        </nav>
+        </nav> -->
 
         <div class="main-layout">
             <div class="profile-column">
                 <div class="profile-content">
                     <img src="assets/pic.png" alt="Divyanshu Kumar" class="profile-image">
-                    <h1 class="name">Divyanshu Kumar</h1>
+                    <h1 class="name"><i>Divyanshu Kumar</i></h1>
                     <p class="title">Founding ML Research Engineer<br>Enkrypt AI</p>
 
 
@@ -53,7 +83,7 @@
             <div class="content-column">
                 <!-- Header Name -->
                 <div class="content-header">
-                    <h1 class="content-name">Divyanshu Kumar</h1>
+                    <h1 class="content-name"><i>Divyanshu Kumar</i></h1>
                     <p class="content-title">Founding ML Research Engineer, Enkrypt AI</p>
                 </div>
 
@@ -112,19 +142,6 @@
                     </div>
                     <div class="view-all">
                         <a href="projects.html">See all projects</a>
-                    </div>
-                </div>
-
-                <!-- Teaching & Service -->
-                <div class="section">
-                    <h2>Teaching & Service</h2>
-
-                    <div class="service-item">
-                        <strong>Open Source Contributions:</strong> HuggingFace, ONNX, OpenMined
-                    </div>
-                    <div class="service-item">
-                        <strong>Reviewing:</strong> Available for conference and workshop reviews in AI security and
-                        efficiency
                     </div>
                 </div>
 

@@ -5,6 +5,16 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Differential Privacy!! But Why? - Divyanshu Kumar</title>
+
+    <!-- Prevent flash of light mode -->
+    <script>
+        (function () {
+            const savedTheme = localStorage.getItem('theme') ||
+                (window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light');
+            document.documentElement.setAttribute('data-theme', savedTheme);
+        })();
+    </script>
+
     <link rel="stylesheet" href="../style.css">
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
 
@@ -33,6 +43,26 @@
 </head>
 
 <body>
+    <!-- Clean Header with Navigation -->
+    <header class="site-header">
+        <div class="header-container">
+            <nav class="header-nav">
+                <a href="../index.html" class="nav-item">Home</a>
+                <a href="../publications.html" class="nav-item">Publications</a>
+                <a href="../projects.html" class="nav-item">Projects</a>
+                <a href="../timeline.html" class="nav-item">Timeline</a>
+                <a href="../blog.html" class="nav-item active">Blog</a>
+            </nav>
+
+            <div class="header-right">
+                <button id="theme-toggle" class="theme-toggle-header" aria-label="Toggle dark mode">
+                    <span class="theme-toggle-icon">☀️</span>
+                    <span class="theme-toggle-icon">🌙</span>
+                </button>
+            </div>
+        </div>
+    </header>
+
     <div class="container">
         <!-- Navigation -->
         <nav class="page-nav">
@@ -186,6 +216,7 @@
         src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/plugins/line-numbers/prism-line-numbers.min.js"></script>
     <script
         src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/plugins/copy-to-clipboard/prism-copy-to-clipboard.min.js"></script>
+    <script src="../script.js"></script>
 </body>
 
 </html>

@@ -3,9 +3,19 @@
 
 const news = [
     {
+        id: "aaai-2026-workshops",
+        date: "Nov 2025",
+        content: "Two papers accepted to <b>AAAI 2026</b> workshops: one in AI Governance (AIGOV) and one in Graphs and Complex Structures for Learning and Reasoning (GCLR).",
+        featured: true,
+        links: {
+            "AIGOV": "#",
+            "GCLR": "#"
+        }
+    },
+    {
         id: "neurips-2025-workshops",
         date: "Sep 2025",
-        content: "Three papers accepted to NeurIPS 2025 workshops: one at LLM Evaluation and two at Reliable ML from Unreliable Data.",
+        content: "Three papers accepted to <b>NeurIPS 2025</b> workshops: one at LLM Evaluation and two at Reliable ML from Unreliable Data.",
         featured: true,
         links: {
             "LLM Evaluation": "#",
@@ -15,7 +25,7 @@ const news = [
     {
         id: "logml",
         date: "July 2025",
-        content: "[ONLINE] Participated in LOGML 2025 (July 7–11), focusing on research in graph reasoning with large language models.",
+        content: "[ONLINE] Participated in <b>LOGML 2025</b> (July 7–11), focusing on research in graph reasoning with large language models.",
         featured: true,
         links: {
             "LOGML": "https://logml.ai"
@@ -24,7 +34,7 @@ const news = [
     {
         id: "neurips-2024-workshops",
         date: "Oct 2024",
-        content: "Three papers accepted at NeurIPS 2024 workshops: Safe Generative AI, Red Teaming GenAI, and Pluralistic Alignment",
+        content: "Three papers accepted at <b>NeurIPS 2024</b> workshops: Safe Generative AI, Red Teaming GenAI, and Pluralistic Alignment",
         featured: true,
         links: {
             "Safe GenAI": "https://openreview.net/forum?id=tYDn5pGs5P",

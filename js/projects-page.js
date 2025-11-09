@@ -203,6 +203,39 @@ class ProjectsPage {
             `;
         }
 
+        if (project.researchQuestions) {
+            detailsHtml += `
+                <div class="modal-section">
+                    <h4>Research Questions</h4>
+                    <ul>
+                        ${project.researchQuestions.map(question => `<li>${question}</li>`).join('')}
+                    </ul>
+                </div>
+            `;
+        }
+
+        if (project.methodology) {
+            detailsHtml += `
+                <div class="modal-section">
+                    <h4>Methodology</h4>
+                    <ul>
+                        ${project.methodology.map(method => `<li>${method}</li>`).join('')}
+                    </ul>
+                </div>
+            `;
+        }
+
+        if (project.expectedOutcomes) {
+            detailsHtml += `
+                <div class="modal-section">
+                    <h4>Expected Outcomes</h4>
+                    <ul>
+                        ${project.expectedOutcomes.map(outcome => `<li>${outcome}</li>`).join('')}
+                    </ul>
+                </div>
+            `;
+        }
+
         detailsContainer.innerHTML = detailsHtml;
 
         // Technologies

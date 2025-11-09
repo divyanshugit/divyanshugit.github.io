@@ -3,22 +3,36 @@
 
 const publications = [
     {
+
+        id: "socioeval",
+        title: "SocioEval: A Template-Based Framework for Evaluating Socioeconomic Status Bias in Foundation Models",
+        authors: ["Divyanshu Kumar", "Ishita Gupta", "Nitin Aravind Birur", "Tanay Baswa", "Sahil Agarwal", "Prashanth Harshangi"],
+        venue: "3rd Workshop on AI Governance (AIGOV) at AAAI 2026",
+        year: 2025,
+        month: 11,
+        status: "published",
+        description: "SocioEval: A Template-Based Framework for Evaluating Socioeconomic Status Bias in Foundation Models",
+        abstract: "As Large Language Models (LLMs) increasingly power decision-making systems across critical domains, understanding and mitigating their biases becomes essential for responsible AI deployment. Although bias assessment frameworks have proliferated for attributes such as race and gender, socioeconomic status bias remains significantly underexplored despite its widespread implications in the real world. We introduce SocioEval, a template-based framework for systematically evaluating socioeconomic bias in foundation models through decision-making tasks. Our hierarchical framework encompasses 8 themes and 18 topics, generating 240 prompts across 6 class-pair combinations. We evaluated 13 frontier LLMs on 3,120 responses using a rigorous three-stage annotation protocol, revealing substantial variation in bias rates (0.42%-33.75%). Our findings demonstrate that bias manifests differently across themes lifestyle judgments show 10x higher bias than education-related decisions and that deployment safeguards effectively prevent explicit discrimination but show brittleness to domain-specific stereotypes. SocioEval provides a scalable, extensible foundation for auditing class-based bias in language models.",
+        tags: ["Socioeconomic Status", "Foundation Models", "NLP"],
+        featured: false // Shows on homepage
+    },
+    {
         id: "graphreasoning",
         title: "Lost in Serialization: Invariance and Generalization of LLM Graph Reasoners",
-        authors: ["Daniel Herbst", "Lea Karbevska", "Divyanshu Kumar", "Akanksha Ahuja", "Fatemeh Gholamzadeh Nasrabadi", "Fabrizio Frasca"],
-        venue: "arXiv preprint",
+        authors: ["Daniel Herbst*", "Lea Karbevska*", "Divyanshu Kumar*", "Akanksha Ahuja*", "Fatemeh Gholamzadeh Nasrabadi*", "Fabrizio Frasca"],
+        venue: "5th Workshop on Graphs and Complex Structures for Learning and Reasoning (GCLR) at AAAI 2026",
         year: 2025,
-        month: 10,
-        status: "preprint",
+        month: 11,
+        status: "published",
         description: "Lost in Serialization: Invariance and Generalization of LLM Graph Reasoners",
         abstract: "While promising, graph reasoners based on Large Language Models (LLMs) lack built-in invariance to symmetries in graph representations. Operating on sequential graph serializations, LLMs can produce different outputs under node reindexing, edge reordering, or formatting changes, raising robustness concerns. We systematically analyze these effects, studying how fine-tuning impacts encoding sensitivity as well generalization on unseen tasks. We propose a principled decomposition of graph serializations into node labeling, computational structure, and surface encoding, and evaluate LLM robustness to variations of each of these factors on a comprehensive benchmarking suite. We also contribute a novel set of spectral tasks to further assess generalization abilities of fine-tuned reasoners. Results show that larger (non-fine-tuned) models are more robust, and fine-tuning reduces sensitivity to node relabeling but may increase it to variations in structure and format, while it does not consistently improve performance on unseen tasks.",
         tags: ["Graph Reasoning", "LLM", "NLP"],
-        featured: false // Shows on homepage
+        featured: true // Shows on homepage
     },
     {
         id: "agentredteaming",
         title: "Black-Box Red Teaming of Agentic AI: A Taxonomy-Driven Framework for Automated Risk Discovery",
-        authors: ["Divyanshu Kumar", "Sahil Agarwal", "Prashanth Harshangi"],
+        authors: ["Divyanshu Kumar", "Nitin Aravind Birur", "Tanay Baswa", "Sahil Agarwal", "Prashanth Harshangi"],
         venue: "arXiv preprint",
         year: 2025,
         month: 10,
@@ -31,7 +45,7 @@ const publications = [
     {
         id: "multimodalredteaming",
         title: "Beyond Text: Multimodal Jailbreaking of Vision-Language and Audio Models through Perceptually Simple Transformations",
-        authors: ["Divyanshu Kumar", "Shreyas Jena", "Nitin Aravind Birur", "Tanay Baswa", "Sahil Agarwal", "Prashanth Harshangi"],
+        authors: ["Divyanshu Kumar*", "Shreyas Jena*", "Nitin Aravind Birur", "Tanay Baswa", "Sahil Agarwal", "Prashanth Harshangi"],
         venue: "NeurIPS Reliable ML from Unreliable Data Workshop",
         year: 2025,
         month: 10,
@@ -60,7 +74,7 @@ const publications = [
     {
         id: "partisanbias",
         title: "Beyond Western Politics: Cross-Cultural Benchmarks for Evaluating Partisan Associations in LLMs",
-        authors: ["Divyanshu Kumar", "Isita Gupta", "Nitin Aravind Birur", "Tanay Baswa", "Sahil Agarwal", "Prashanth Harshangi"],
+        authors: ["Divyanshu Kumar*", "Isita Gupta*", "Nitin Aravind Birur", "Tanay Baswa", "Sahil Agarwal", "Prashanth Harshangi"],
         venue: "NeurIPS LLM Evaluation Workshop (Poster)",
         year: 2025,
         month: 9, // October
@@ -102,7 +116,7 @@ const publications = [
             openreview: "tYDn5pGs5P"
         },
         tags: ["Bias", "Fairness", "LLMs", "Safety", "Evaluation"],
-        featured: true // Shows on homepage
+        featured: false // Shows on homepage
     },
     {
         id: "kumar2024sagert",
