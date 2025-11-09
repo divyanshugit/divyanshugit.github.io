@@ -16,15 +16,17 @@
         })();
     </script>
 
-    <link rel="stylesheet" href="/css/style.css">
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="{{ '/css/fonts.css' | cacheBust }}">
+    <link rel="stylesheet" href="{{ '/css/style.css' | cacheBust }}">
 
-    <!-- Prism.js for syntax highlighting -->
-    <link href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism-tomorrow.min.css" rel="stylesheet" />
-    <link href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/plugins/toolbar/prism-toolbar.min.css" rel="stylesheet" />
+    <!-- Prism.js for syntax highlighting - conditionally loaded -->
+    {% if hasMath or hasCode %}
+    <link rel="stylesheet" href="{{ '/css/prism-tomorrow.min.css' | cacheBust }}" />
+    <link rel="stylesheet" href="{{ '/css/prism-toolbar.min.css' | cacheBust }}" />
+    {% endif %}
 
-    <!-- MathJax for mathematical formulas -->
-    <script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+    <!-- MathJax for mathematical formulas - conditionally loaded -->
+    {% if hasMath %}
     <script>
         window.MathJax = {
             tex: {
@@ -40,6 +42,8 @@
             }
         };
     </script>
+    <script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+    {% endif %}
 </head>
 
 <body>
@@ -65,13 +69,15 @@
 
     {{ content | safe }}
 
-    <!-- Prism.js JavaScript -->
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-core.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/plugins/autoloader/prism-autoloader.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/plugins/toolbar/prism-toolbar.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/plugins/copy-to-clipboard/prism-copy-to-clipboard.min.js"></script>
+    <!-- Prism.js JavaScript - conditionally loaded -->
+    {% if hasCode %}
+    <script defer src="{{ '/js/vendor/prism-core.min.js' | cacheBust }}"></script>
+    <script defer src="{{ '/js/vendor/prism-autoloader.min.js' | cacheBust }}"></script>
+    <script defer src="{{ '/js/vendor/prism-toolbar.min.js' | cacheBust }}"></script>
+    <script defer src="{{ '/js/vendor/prism-copy-to-clipboard.min.js' | cacheBust }}"></script>
+    {% endif %}
     
-    <script src="/js/script.js"></script>
+    <script src="{{ '/js/script.js' | cacheBust }}"></script>
 </body>
 
 </html>

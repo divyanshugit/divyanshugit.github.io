@@ -6,7 +6,11 @@ layout: base.njk
     <div class="main-layout">
         <div class="profile-column">
             <div class="profile-content">
-                <img src="{{ profileImage }}" alt="{{ name }}" class="profile-image">
+                <picture>
+                    <source type="image/avif" srcset="/assets/optimized/pic-200w.avif 200w, /assets/optimized/pic-400w.avif 400w" sizes="200px">
+                    <source type="image/webp" srcset="/assets/optimized/pic-200w.webp 200w, /assets/optimized/pic-400w.webp 400w" sizes="200px">
+                    <img src="/assets/optimized/pic-400w.jpeg" alt="{{ name }}" class="profile-image" width="200" height="200" loading="eager">
+                </picture>
                 <h1 class="name"><i>{{ name }}</i></h1>
                 <p class="title">{{ jobTitle }}<br>{{ organization }}</p>
 
@@ -92,10 +96,10 @@ layout: base.njk
     </div>
 </div>
 
-<script src="/data/publications.js"></script>
-<script src="/data/projects.js"></script>
-<script src="/data/news.js"></script>
-<script src="/data/blog.js"></script>
-<script src="/js/homepage.js"></script>
-<script src="/js/scroll-header.js"></script>
+<script src="{{ '/data/publications.js' | cacheBust }}"></script>
+<script src="{{ '/data/projects.js' | cacheBust }}"></script>
+<script src="{{ '/data/news.js' | cacheBust }}"></script>
+<script src="{{ '/data/blog.js' | cacheBust }}"></script>
+<script src="{{ '/js/homepage.js' | cacheBust }}"></script>
+<script src="{{ '/js/scroll-header.js' | cacheBust }}"></script>
 

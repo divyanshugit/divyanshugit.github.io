@@ -82,25 +82,21 @@
     margin: 0;
     padding: 0;
     box-sizing: border-box;
-    transition: background-color 0.3s cubic-bezier(0.4, 0, 0.2, 1),
-        color 0.3s cubic-bezier(0.4, 0, 0.2, 1),
-        border-color 0.3s cubic-bezier(0.4, 0, 0.2, 1),
-        box-shadow 0.3s cubic-bezier(0.4, 0, 0.2, 1);
 }
 
-/* Smooth page transitions */
+/* Smooth page transitions - only for theme changes */
 html {
     transition: background-color 0.3s cubic-bezier(0.4, 0, 0.2, 1);
 }
 
 body {
-    transition: color 0.3s cubic-bezier(0.4, 0, 0.2, 1);
     font-family: var(--font-family);
     font-size: var(--font-size-base);
     line-height: var(--line-height-base);
     color: var(--text-primary);
     background: var(--background);
-    transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+    transition: background-color 0.3s cubic-bezier(0.4, 0, 0.2, 1),
+        color 0.3s cubic-bezier(0.4, 0, 0.2, 1);
     padding-top: 60px;
     /* Space for fixed header */
 }
@@ -117,7 +113,8 @@ body {
     -webkit-backdrop-filter: blur(20px);
     border-bottom: 1px solid var(--border-color);
     z-index: 1000;
-    transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+    transition: background-color 0.3s cubic-bezier(0.4, 0, 0.2, 1),
+        border-color 0.3s cubic-bezier(0.4, 0, 0.2, 1);
 }
 
 [data-theme="dark"] .site-header {
@@ -149,7 +146,7 @@ body {
     font-weight: 500;
     padding: 0.5rem 0;
     position: relative;
-    transition: color 0.3s ease;
+    transition: color 0.2s ease;
 }
 
 .nav-item:hover,
@@ -357,6 +354,7 @@ body {
 .links a {
     color: var(--link-color);
     text-decoration: none;
+    transition: color 0.2s ease;
 }
 
 .links a:hover {
@@ -690,6 +688,7 @@ body {
 .section a {
     color: var(--link-color);
     text-decoration: none;
+    transition: color 0.2s ease;
 }
 
 .section a:hover {
@@ -1071,7 +1070,7 @@ button:focus {
     border-radius: 4px;
     cursor: pointer;
     font-size: 12px;
-    transition: all 0.2s ease;
+    transition: background-color 0.2s ease, color 0.2s ease, border-color 0.2s ease;
 }
 
 .filter-btn.active,
@@ -1202,7 +1201,7 @@ button:focus {
     cursor: pointer;
     font-size: 12px;
     text-decoration: none;
-    transition: all 0.2s ease;
+    transition: background-color 0.2s ease, color 0.2s ease, border-color 0.2s ease;
 }
 
 .btn-secondary:hover {
@@ -1220,7 +1219,7 @@ button:focus {
     cursor: pointer;
     font-size: 12px;
     text-decoration: none;
-    transition: all 0.2s ease;
+    transition: background-color 0.2s ease, border-color 0.2s ease;
 }
 
 .btn-primary:hover {

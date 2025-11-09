@@ -3,7 +3,8 @@
     "version": "1.0.0",
     "description": "Personal Website for Divyanshu Kumar",
     "scripts": {
-        "build": "eleventy",
+        "build": "npm run build:eleventy",
+        "build:eleventy": "eleventy",
         "serve": "eleventy --serve",
         "start": "eleventy --serve",
         "build:old": "node build-blog.js",
@@ -17,7 +18,13 @@
         "marked": "^11.1.1"
     },
     "devDependencies": {
-        "@11ty/eleventy": "^3.1.2"
+        "@11ty/eleventy": "^3.1.2",
+        "@11ty/eleventy-img": "^6.0.4",
+        "clean-css-cli": "^5.6.3",
+        "google-fonts-complete": "^2.2.3",
+        "html-minifier": "^4.0.0",
+        "sharp": "^0.34.5",
+        "terser": "^5.44.1"
     },
     "author": "Divyanshu Kumar",
     "license": "MIT"

@@ -1,0 +1,39 @@
+# Cache control for GitHub Pages
+# All CSS/JS files use query string cache busting (?v=hash)
+# Safe to use long-term caching
+
+# Cache static assets for 1 year (with cache busting)
+/css/*
+  Cache-Control: public, max-age=31536000, immutable
+
+/js/*
+  Cache-Control: public, max-age=31536000, immutable
+
+# Fonts can be cached for 1 year (rarely change)
+/fonts/*
+  Cache-Control: public, max-age=31536000, immutable
+
+# Optimized images with dimensions in filename (effectively versioned)
+/assets/optimized/*
+  Cache-Control: public, max-age=31536000, immutable
+
+# Other assets - 1 month cache
+/assets/*
+  Cache-Control: public, max-age=2592000
+
+# Generated images - 1 year cache
+/img/*
+  Cache-Control: public, max-age=31536000, immutable
+
+# Cache HTML files for 1 hour with revalidation
+/*.html
+  Cache-Control: public, max-age=3600, must-revalidate
+
+# Cache the root index for 1 hour
+/
+  Cache-Control: public, max-age=3600, must-revalidate
+
+# Cache data files for 1 day (also cache busted)
+/data/*
+  Cache-Control: public, max-age=86400, stale-while-revalidate=3600
+

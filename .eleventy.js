@@ -1,15 +1,59 @@
 const markdownIt = require("markdown-it");
+const Image = require("@11ty/eleventy-img");
+const path = require("path");
+const htmlmin = require("html-minifier");
+const { minify: terserMinify } = require("terser");
+const CleanCSS = require("clean-css");
+const crypto = require("crypto");
+
+async function imageShortcode(src, alt, sizes = "100vw") {
+    let metadata = await Image(src, {
+        widths: [200, 400, 800],
+        formats: ["avif", "webp", "jpeg"],
+        outputDir: "./_site/img/",
+        urlPath: "/img/",
+        filenameFormat: function (id, src, width, format, options) {
+            const extension = path.extname(src);
+            const name = path.basename(src, extension);
+            return `${name}-${width}w.${format}`;
+        }
+    });
+
+    let imageAttributes = {
+        alt,
+        sizes,
+        loading: "lazy",
+        decoding: "async",
+    };
+
+    return Image.generateHTML(metadata, imageAttributes);
+}
 
 module.exports = function (eleventyConfig) {
+
+    // ===== CACHE BUSTING =====
+    // Generate a build hash for cache busting
+    const buildHash = crypto.createHash('md5').update(Date.now().toString()).digest('hex').substring(0, 8);
+
+    // Add global data for cache busting
+    eleventyConfig.addGlobalData("cacheBust", buildHash);
+
+    // Filter to add cache bust parameter to URLs
+    eleventyConfig.addFilter("cacheBust", function (url) {
+        return `${url}?v=${buildHash}`;
+    });
 
     // ===== PASSTHROUGH COPY =====
     // Copy static assets without processing
     eleventyConfig.addPassthroughCopy("src/css");
     eleventyConfig.addPassthroughCopy("src/js");
-    eleventyConfig.addPassthroughCopy("src/assets");
+    eleventyConfig.addPassthroughCopy("src/fonts");
+    eleventyConfig.addPassthroughCopy("src/assets/optimized");
+    eleventyConfig.addPassthroughCopy("src/assets/logo.svg");
     eleventyConfig.addPassthroughCopy("src/data");
     eleventyConfig.addPassthroughCopy("src/CNAME");
     eleventyConfig.addPassthroughCopy("src/.nojekyll");
+    eleventyConfig.addPassthroughCopy("src/_headers");
 
     // ===== MARKDOWN CONFIGURATION =====
     // Configure markdown-it to preserve HTML and not escape special characters
@@ -166,6 +210,20 @@ module.exports = function (eleventyConfig) {
         return content;
     });
 
+    // Minify HTML output
+    eleventyConfig.addTransform("htmlmin", function (content) {
+        if (this.page.outputPath && this.page.outputPath.endsWith(".html")) {
+            return htmlmin.minify(content, {
+                useShortDoctype: true,
+                removeComments: true,
+                collapseWhitespace: true,
+                minifyCSS: true,
+                minifyJS: true
+            });
+        }
+        return content;
+    });
+
     // Extract references from frontmatter and generate HTML
     eleventyConfig.addFilter("generateReferences", function (references) {
         if (!references || Object.keys(references).length === 0) {
@@ -188,6 +246,11 @@ module.exports = function (eleventyConfig) {
     });
 
     // ===== SHORTCODES =====
+    // Image optimization shortcode
+    eleventyConfig.addNunjucksAsyncShortcode("image", imageShortcode);
+    eleventyConfig.addLiquidShortcode("image", imageShortcode);
+    eleventyConfig.addJavaScriptFunction("image", imageShortcode);
+
     // Shortcode for email subject encoding
     eleventyConfig.addFilter("urlencode", function (str) {
         return encodeURIComponent(str || '');
