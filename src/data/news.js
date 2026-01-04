@@ -61,7 +61,7 @@ const news = [
     {
         id: "presentation-he",
         date: "Oct 2023",
-        content: "Presented a work on Efficient Homemorphic Enkryption in LLMs at AI-ML Systems 2023."
+        content: "Presented a work on Efficient Homomorphic Enkryption in LLMs at AI-ML Systems 2023."
     },
     {
         id: "ai-ml-systems-demo-track",
@@ -90,7 +90,7 @@ const news = [
     {
         id: "iisc-research",
         date: "2022",
-        content: "Jonied IISc Bangalore as Research Associate. Will be working on Neural Machine Translation for Indic Languages under the gudidance of Prof. Prathosh AP.",
+        content: "Joined IISc Bangalore as Research Associate. Will be working on Neural Machine Translation for Indic Languages under the guidance of Prof. Prathosh AP.",
         featured: false
     },
     {
