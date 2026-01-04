@@ -5,7 +5,7 @@ const news = [
     {
         id: "aaai-2026-attendance",
         date: "Jan 2026",
-        content: "Presenting papers at the <b>AAAI 2026</b> workshops—LAMaS, AIGOV, and GCLR—in Singapore. Will be sharing recent work and engaging in discussions on multi-agent systems, AI governance, and graph reasoning.",
+        content: "Presenting papers at the <b>AAAI 2026</b> workshops: LAMaS, AIGOV, and GCLR. Will be sharing recent work and engaging in discussions on multi-agent systems, AI governance, and graph reasoning.",
         featured: true
     },
     {
