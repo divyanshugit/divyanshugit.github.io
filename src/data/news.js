@@ -3,13 +3,20 @@
 
 const news = [
     {
+        id: "aaai-2026-attendance",
+        date: "Jan 2026",
+        content: "Presenting papers at the <b>AAAI 2026</b> workshops—LAMaS, AIGOV, and GCLR—in Singapore. Will be sharing recent work and engaging in discussions on multi-agent systems, AI governance, and graph reasoning.",
+        featured: true
+    },
+    {
         id: "aaai-2026-workshops",
         date: "Nov 2025",
-        content: "Two papers accepted to <b>AAAI 2026</b> workshops: one in AI Governance (AIGOV) and one in Graphs and Complex Structures for Learning and Reasoning (GCLR).",
+        content: "Three papers accepted to <b>AAAI 2026</b> workshops: one in LaMAS (LLM-based Multi-Agent Systems), one in AI Governance (AIGOV), and one in Graphs and Complex Structures for Learning and Reasoning (GCLR).",
         featured: true,
         links: {
-            "AIGOV": "#",
-            "GCLR": "#"
+            "AIGOV": "https://openreview.net/pdf?id=qu5WtftyAQ",
+            "GCLR": "https://arxiv.org/abs/2511.10234",
+            "LaMAS": "https://openreview.net/pdf?id=ZLzc8coumq"
         }
     },
     {
