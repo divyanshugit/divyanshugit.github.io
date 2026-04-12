@@ -50,6 +50,7 @@ module.exports = function (eleventyConfig) {
     eleventyConfig.addPassthroughCopy("src/fonts");
     eleventyConfig.addPassthroughCopy("src/assets/optimized");
     eleventyConfig.addPassthroughCopy("src/assets/logo.svg");
+    eleventyConfig.addPassthroughCopy("src/blog/assets");
     eleventyConfig.addPassthroughCopy("src/data");
     eleventyConfig.addPassthroughCopy("src/CNAME");
     eleventyConfig.addPassthroughCopy("src/.nojekyll");
