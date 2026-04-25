@@ -4,6 +4,7 @@ _site/
 # Node modules
 node_modules/
 
+personal.code-workspace
 # npm
 package-lock.json
 

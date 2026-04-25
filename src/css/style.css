@@ -1780,6 +1780,76 @@ button:focus {
     font-family: var(--font-code);
 }
 
+/* Tables — editorial, with monospace numerics and subtle zebra striping */
+.blog-content table {
+    width: 100%;
+    margin: 28px 0;
+    border-collapse: separate;
+    border-spacing: 0;
+    background: var(--card-background);
+    border: 1px solid var(--border-color);
+    border-radius: var(--card-radius);
+    overflow: hidden;
+    box-shadow: var(--card-shadow);
+    font-size: 0.95rem;
+    line-height: 1.5;
+}
+
+.blog-content thead th {
+    font-family: var(--font-display);
+    font-weight: 500;
+    text-align: left;
+    padding: 12px 18px;
+    background: var(--filter-bg);
+    color: var(--text-primary);
+    border-bottom: 1px solid var(--border-color);
+    font-size: 1rem;
+    letter-spacing: 0.01em;
+}
+
+.blog-content tbody td {
+    padding: 11px 18px;
+    border-top: 1px solid var(--border-color);
+    color: var(--text-secondary);
+    vertical-align: middle;
+}
+
+.blog-content tbody tr:first-child td {
+    border-top: none;
+}
+
+.blog-content tbody tr:nth-child(even) td {
+    background: color-mix(in srgb, var(--filter-bg) 50%, transparent);
+}
+
+.blog-content table th[style*="text-align: right"],
+.blog-content table th[style*="text-align:right"],
+.blog-content table td[style*="text-align: right"],
+.blog-content table td[style*="text-align:right"] {
+    font-family: var(--font-code);
+    font-variant-numeric: tabular-nums;
+    font-size: 0.9rem;
+    white-space: nowrap;
+}
+
+.blog-content tbody td strong {
+    color: var(--text-primary);
+    font-weight: 600;
+}
+
+.blog-content table code {
+    font-size: 0.85em;
+    padding: 1px 5px;
+}
+
+@media (max-width: 600px) {
+    .blog-content table {
+        display: block;
+        overflow-x: auto;
+        white-space: nowrap;
+    }
+}
+
 .blog-content pre {
     background: #1C1C1E !important;
     padding: 20px !important;

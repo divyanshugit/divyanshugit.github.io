@@ -165,6 +165,12 @@
         },
         {
             "path": "../genocide-study"
+        },
+        {
+            "path": "../causal-eval-framework"
+        },
+        {
+            "path": "../glyph"
         }
     ]
 }
