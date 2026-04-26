@@ -36,13 +36,13 @@ The headline result of the paper: across 22 guardrail systems we evaluated (prov
 
 ![Safety-Usability Plane from the No Free Lunch With Guardrails paper. enkrypt-api sits at the lower-left corner of the Pareto frontier, ahead of provider APIs and competitive with LLM-based evaluators on a fraction of the latency.](/blog/assets/nfl-safety-usability-plane.png)
 
-The [Enkrypt AI](https://www.enkryptai.com/) guardrail (`enkrypt-api` in the figure) already sits at the lower-left of the Pareto frontier: low residual risk, low false-positive rate, low latency. Hundreds of small optimizations and several years of red-team feedback got us there. It's the system I trust most in production today, and the comparison space in the figure is the evidence behind that claim.
+The [Enkrypt AI](https://www.enkryptai.com/) guardrail (`enkrypt-api` in the figure) already sits at the lower-left of the Pareto frontier: low residual risk, low false-positive rate, low latency. Hundreds of small optimizations and years of red-team feedback got us there. It's the system I trust most in production today, and the comparison space in the figure is the evidence behind that claim.
 
 So why Glyph? Because the NFL theorem says you can't escape the trade-off, but it doesn't say you can't pick a smaller, sharper region inside it and try to be the best system there. Glyph is that experiment: how far can English-only prompt-injection accuracy go *without* a transformer in the hot path? If the answer is "respectably far," Glyph becomes a clean first stage in front of the heavier Enkrypt classifier, a router that resolves the obvious cases before any model gets paged. If the answer is "not far enough," we learn something useful and keep paying the inference cost where it actually matters.
 
 ## What Is Glyph and Why Build Another One?
 
-Glyph is a single-binary Go detector that you can put in front of an LLM and have decide, in microseconds, whether a prompt is benign, an attack, or something the system should escalate. It's open-source ([github.com/divyanshugit/glyph](https://github.com/divyanshugit/glyph)) and Apache-2.0 licensed.
+Glyph is a single-binary Go detector that you can put in front of an LLM and have decide, in microseconds, whether a prompt is benign, an attack, or something the system should escalate. It's open-source ([github.com/enkryptai/glyph](https://github.com/enkryptai/glyph)) and Apache-2.0 licensed.
 
 The "another one" question is fair. There are already plenty of prompt-injection detectors. [Lakera](https://www.lakera.ai/) ships a hosted classifier. [InjecGuard](https://arxiv.org/abs/2410.22770) put out a strong open benchmark. [Hackett et al.](https://arxiv.org/abs/2504.11168) showed how easy most current detectors are to bypass with simple obfuscation. The space is not empty.
 
@@ -122,7 +122,7 @@ Two paths, depending on what you want to do:
 
 ```bash
 # Build the binary
-git clone https://github.com/divyanshugit/glyph
+git clone https://github.com/enkryptai/glyph
 cd glyph
 make build
 
