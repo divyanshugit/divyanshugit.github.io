@@ -25,6 +25,13 @@
     <link rel="stylesheet" href="{{ '/css/prism-toolbar.min.css' | cacheBust }}" />
     {% endif %}
 
+    <!-- Page-specific CSS, opt-in via `extraCss: [proposal.css]` -->
+    {% if extraCss %}
+        {% for css in extraCss %}
+        <link rel="stylesheet" href="{{ ('/css/' + css) | cacheBust }}">
+        {% endfor %}
+    {% endif %}
+
     <!-- Google Analytics -->
     <script async src="https://www.googletagmanager.com/gtag/js?id=G-D9VESR00K0"></script>
     <script>

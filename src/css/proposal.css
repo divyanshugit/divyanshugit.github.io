@@ -1,0 +1,504 @@
+/* ============================================================
+   Research Proposal stylesheet
+   Loaded on pages that opt in via `extraCss: [proposal.css]`.
+   Scoped to `.proposal`, so it won't bleed into other pages.
+   Optimized for long-form reading on a single web page.
+   ============================================================ */
+
+/* Widen the parent container/page-layout when a proposal lives inside.
+   Default site limits are 1000px and 800px — too narrow for a two-column
+   research proposal with a sidebar TOC. */
+.container:has(.proposal) { max-width: 1240px; }
+.page-layout:has(.proposal) { max-width: none; }
+
+.proposal {
+  --p-accent:   var(--link-color,    #C4532A);
+  --p-text:     var(--text-primary,  #1A1A1A);
+  --p-text-2:   var(--text-secondary,#3A3A3A);
+  --p-muted:    var(--text-muted,    #6B6B6B);
+  --p-rule:     var(--border-color,  #E8E5E0);
+  --p-soft:     var(--phd-note-bg,   #FDF8F6);
+  --p-card:     var(--card-background,#FFFFFF);
+  --p-code-bg:  var(--code-bg,       #F5F3F0);
+
+  /* Type system tuned for reading */
+  --p-fs:       1.0625rem;   /* ~17px */
+  --p-lh:       1.72;
+  --p-measure:  82ch;        /* comfortable but not cramped */
+
+  font-family: var(--font-body);
+  font-size:   var(--p-fs);
+  line-height: var(--p-lh);
+  color: var(--p-text);
+
+  max-width: 100%;
+}
+
+/* ------------------------------------------------------------
+   Override the page-header so the proposal's own hero owns the top
+   ------------------------------------------------------------ */
+.proposal-meta {
+  color: var(--p-muted);
+  font-size: 0.9rem;
+  margin: -0.25rem 0 0 0;
+  padding-bottom: 1rem;
+  border-bottom: 1px solid var(--p-rule);
+}
+.proposal-meta a { color: var(--p-accent); text-decoration: none; }
+.proposal-meta a:hover { text-decoration: underline; }
+
+/* ------------------------------------------------------------
+   Two-column grid: sticky TOC + content
+   ------------------------------------------------------------ */
+.proposal-grid {
+  display: grid;
+  grid-template-columns: minmax(0, 240px) minmax(0, var(--p-measure));
+  gap: 3.5rem;
+  margin-top: 2rem;
+  align-items: start;
+  justify-content: start;
+}
+@media (max-width: 980px) {
+  .proposal-grid {
+    grid-template-columns: 1fr;
+    gap: 1.5rem;
+  }
+}
+
+/* Sidebar TOC */
+.proposal-toc {
+  position: sticky;
+  top: 1.5rem;
+  align-self: start;
+  font-size: 0.875rem;
+  line-height: 1.5;
+  padding-left: 1rem;
+  border-left: 2px solid var(--p-rule);
+  max-height: calc(100vh - 3rem);
+  overflow-y: auto;
+}
+.proposal-toc h4 {
+  font-family: var(--font-body);
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  font-size: 0.72rem;
+  color: var(--p-muted);
+  font-weight: 600;
+  margin: 0 0 0.85rem 0;
+}
+.proposal-toc ol {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  counter-reset: toc;
+}
+.proposal-toc li { margin: 0.25rem 0; }
+.proposal-toc a {
+  color: var(--p-text-2);
+  text-decoration: none;
+  display: block;
+  padding: 0.15rem 0;
+  border-radius: 3px;
+  transition: color 0.15s ease, background 0.15s ease;
+}
+.proposal-toc a:hover {
+  color: var(--p-accent);
+}
+.proposal-toc .toc-num {
+  display: inline-block;
+  width: 1.75rem;
+  color: var(--p-muted);
+  font-family: var(--font-code);
+  font-size: 0.78rem;
+  font-variant-numeric: tabular-nums;
+}
+
+/* Wrapping for short mobile TOC */
+@media (max-width: 980px) {
+  .proposal-toc {
+    position: static;
+    border-left: none;
+    border-top: 1px solid var(--p-rule);
+    border-bottom: 1px solid var(--p-rule);
+    padding: 1rem 0;
+    max-height: none;
+  }
+  .proposal-toc ol { columns: 2; column-gap: 1.25rem; }
+}
+
+/* ------------------------------------------------------------
+   Body — long-form reading
+   ------------------------------------------------------------ */
+.proposal-body { min-width: 0; max-width: var(--p-measure); }
+.proposal-body p {
+  margin: 0 0 1.15rem 0;
+}
+.proposal-body ul,
+.proposal-body ol {
+  margin: 0 0 1.25rem 0;
+  padding-left: 1.4rem;
+}
+.proposal-body li {
+  margin: 0.4rem 0;
+  line-height: 1.65;
+}
+.proposal-body strong { color: var(--p-text); font-weight: 600; }
+.proposal-body em { color: var(--p-text-2); }
+
+.proposal-body a {
+  color: var(--p-accent);
+  text-decoration: none;
+  border-bottom: 1px solid transparent;
+  transition: border-color 0.15s ease;
+}
+.proposal-body a:hover { border-bottom-color: var(--p-accent); }
+
+/* ------------------------------------------------------------
+   Sections
+   ------------------------------------------------------------ */
+.proposal-body section {
+  scroll-margin-top: 1rem;
+  padding: 2.75rem 0 0.5rem 0;
+  border-top: 1px solid var(--p-rule);
+}
+.proposal-body section:first-of-type {
+  border-top: none;
+  padding-top: 1rem;
+}
+.proposal-body .section-num {
+  display: inline-block;
+  font-family: var(--font-code);
+  font-size: 0.72rem;
+  color: var(--p-muted);
+  letter-spacing: 0.14em;
+  margin-bottom: 0.5rem;
+  font-weight: 500;
+}
+.proposal-body h2 {
+  font-family: var(--font-display);
+  font-size: 2.05rem;
+  line-height: 1.15;
+  margin: 0 0 1.4rem 0;
+  font-weight: 400;
+  color: var(--p-text);
+  letter-spacing: -0.005em;
+}
+.proposal-body h3 {
+  font-family: var(--font-display);
+  font-size: 1.35rem;
+  line-height: 1.3;
+  margin: 1.9rem 0 0.7rem 0;
+  font-weight: 500;
+  color: var(--p-text);
+}
+.proposal-body h3 .subtle {
+  color: var(--p-muted);
+  font-size: 0.85rem;
+  font-weight: 400;
+  margin-left: 0.4rem;
+}
+.proposal-body h4 {
+  font-family: var(--font-body);
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  font-size: 0.78rem;
+  color: var(--p-muted);
+  font-weight: 600;
+  margin: 1.6rem 0 0.6rem 0;
+}
+.proposal-body h4 .subtle {
+  text-transform: none;
+  letter-spacing: 0;
+  color: var(--p-muted);
+  font-weight: 400;
+}
+
+/* ------------------------------------------------------------
+   Hero — TL;DR
+   ------------------------------------------------------------ */
+.proposal-hero {
+  background: var(--p-soft);
+  border: 1px solid var(--p-rule);
+  border-left: 3px solid var(--p-accent);
+  border-radius: 6px;
+  padding: 1.75rem 2rem !important;
+  margin: 1rem 0 2.5rem 0;
+  border-top: 1px solid var(--p-rule) !important;
+}
+.proposal-hero h2 {
+  font-size: 0.78rem;
+  font-family: var(--font-body);
+  text-transform: uppercase;
+  letter-spacing: 0.14em;
+  color: var(--p-accent);
+  margin: 0 0 1rem 0;
+  font-weight: 700;
+}
+.proposal-hero .lead {
+  font-family: var(--font-display);
+  font-size: 1.4rem;
+  line-height: 1.4;
+  margin-bottom: 1.3rem;
+  color: var(--p-text);
+  font-weight: 400;
+}
+.proposal-hero ol.phase-list {
+  counter-reset: phase;
+  list-style: none;
+  padding: 0;
+  margin: 1.1rem 0 0.5rem 0;
+}
+.proposal-hero ol.phase-list li {
+  counter-increment: phase;
+  padding-left: 2.5rem;
+  position: relative;
+  margin: 0.75rem 0;
+  line-height: 1.55;
+}
+.proposal-hero ol.phase-list li::before {
+  content: "0" counter(phase);
+  position: absolute;
+  left: 0;
+  top: 0.05rem;
+  font-family: var(--font-code);
+  font-size: 0.85rem;
+  color: var(--p-accent);
+  font-weight: 700;
+  letter-spacing: 0.05em;
+}
+.proposal-hero .hero-footer {
+  margin: 1.25rem 0 0 0;
+  color: var(--p-text-2);
+  font-size: 0.95rem;
+  padding-top: 1rem;
+  border-top: 1px dashed var(--p-rule);
+}
+
+/* ------------------------------------------------------------
+   Pull-out quote / intuition
+   ------------------------------------------------------------ */
+.proposal-body blockquote {
+  margin: 1.2rem 0 1.4rem 0;
+  padding: 0.85rem 1.4rem;
+  border-left: 3px solid var(--p-accent);
+  background: var(--p-soft);
+  font-family: var(--font-display);
+  font-size: 1.12rem;
+  line-height: 1.5;
+  color: var(--p-text-2);
+  border-radius: 0 4px 4px 0;
+}
+.proposal-body blockquote p { margin: 0; }
+.proposal-body blockquote em { color: var(--p-text); font-style: italic; }
+
+/* ------------------------------------------------------------
+   Callouts
+   ------------------------------------------------------------ */
+.callout {
+  margin: 1.4rem 0;
+  padding: 1.05rem 1.25rem;
+  border-radius: 6px;
+  border-left: 3px solid;
+  font-size: 0.97rem;
+  line-height: 1.6;
+}
+.callout > :last-child { margin-bottom: 0; }
+.callout-title {
+  font-weight: 700;
+  text-transform: uppercase;
+  font-size: 0.7rem;
+  letter-spacing: 0.12em;
+  margin-bottom: 0.45rem;
+}
+.callout-warn      { border-color: #E65100; background: #FFF3E0; }
+.callout-warn      .callout-title { color: #E65100; }
+.callout-info      { border-color: #0D47A1; background: #E3F2FD; }
+.callout-info      .callout-title { color: #0D47A1; }
+.callout-decision  { border-color: #1B5E20; background: #E8F5E9; }
+.callout-decision  .callout-title { color: #1B5E20; }
+
+[data-theme="dark"] .callout-warn     { background: rgba(230, 81, 0, 0.13); }
+[data-theme="dark"] .callout-info     { background: rgba(13, 71, 161, 0.20); }
+[data-theme="dark"] .callout-decision { background: rgba(27, 94, 32, 0.20); }
+
+/* ------------------------------------------------------------
+   Math — give equations real breathing room
+   ------------------------------------------------------------ */
+.math-display {
+  margin: 1.5rem 0 !important;
+  padding: 0.25rem 0.5rem;
+  text-align: center;
+  overflow-x: auto;
+}
+.proposal-body mjx-container[display="true"] {
+  margin: 0 !important;
+}
+
+/* ------------------------------------------------------------
+   Phase cards
+   ------------------------------------------------------------ */
+.phase-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 0.85rem;
+  margin: 1.5rem 0 2rem 0;
+}
+@media (max-width: 780px) {
+  .phase-grid { grid-template-columns: 1fr; }
+}
+.phase-card {
+  border: 1px solid var(--p-rule);
+  border-radius: 6px;
+  padding: 1.05rem 1.2rem;
+  background: var(--p-card);
+  transition: border-color 0.15s ease;
+}
+.phase-card:hover { border-color: var(--p-accent); }
+.phase-card .phase-tag {
+  font-family: var(--font-code);
+  font-size: 0.7rem;
+  color: var(--p-accent);
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  font-weight: 700;
+}
+.phase-card h5 {
+  font-family: var(--font-display);
+  font-size: 1.1rem;
+  color: var(--p-text);
+  margin: 0.4rem 0 0.5rem 0;
+  font-weight: 500;
+  text-transform: none;
+  letter-spacing: 0;
+}
+.phase-card p {
+  font-size: 0.92rem;
+  line-height: 1.55;
+  color: var(--p-text-2);
+  margin: 0;
+}
+
+/* ------------------------------------------------------------
+   Tables
+   ------------------------------------------------------------ */
+.proposal-body table {
+  width: 100%;
+  border-collapse: collapse;
+  margin: 0.8rem 0 1.6rem 0;
+  font-size: 0.95rem;
+}
+.proposal-body th,
+.proposal-body td {
+  padding: 0.65rem 0.85rem;
+  text-align: left;
+  border-bottom: 1px solid var(--p-rule);
+  vertical-align: top;
+  line-height: 1.5;
+}
+.proposal-body th {
+  background: transparent;
+  font-weight: 600;
+  font-size: 0.72rem;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  color: var(--p-muted);
+  border-bottom: 2px solid var(--p-rule);
+}
+
+/* ------------------------------------------------------------
+   Code
+   ------------------------------------------------------------ */
+.proposal-body pre {
+  background: var(--p-code-bg);
+  border: 1px solid var(--p-rule);
+  border-radius: 6px;
+  padding: 1rem 1.15rem;
+  font-size: 0.84rem;
+  line-height: 1.6;
+  overflow-x: auto;
+  margin: 1.1rem 0 1.6rem 0;
+}
+.proposal-body code {
+  font-family: var(--font-code);
+  font-size: 0.92em;
+}
+.proposal-body p code,
+.proposal-body li code,
+.proposal-body td code {
+  background: var(--p-code-bg);
+  padding: 0.1em 0.4em;
+  border-radius: 3px;
+  color: var(--p-text);
+}
+
+/* ------------------------------------------------------------
+   Milestone list
+   ------------------------------------------------------------ */
+.milestones {
+  list-style: none;
+  padding: 0;
+  margin: 1rem 0 1.5rem 0;
+}
+.milestones li {
+  display: grid;
+  grid-template-columns: 60px 1fr;
+  gap: 1rem;
+  padding: 0.85rem 0;
+  border-bottom: 1px solid var(--p-rule);
+  align-items: baseline;
+}
+.milestones li:last-child { border-bottom: none; }
+.milestones .ms-id {
+  font-family: var(--font-code);
+  font-size: 0.82rem;
+  color: var(--p-accent);
+  font-weight: 700;
+  letter-spacing: 0.04em;
+}
+.milestones .ms-body strong {
+  font-family: var(--font-display);
+  font-size: 1.05rem;
+  font-weight: 500;
+  display: block;
+  margin-bottom: 0.25rem;
+}
+.milestones .ms-body p {
+  font-size: 0.94rem;
+  line-height: 1.55;
+  color: var(--p-text-2);
+  margin: 0;
+}
+.milestones .ms-week {
+  display: inline-block;
+  font-family: var(--font-code);
+  font-size: 0.7rem;
+  color: var(--p-muted);
+  border: 1px solid var(--p-rule);
+  padding: 0.08rem 0.45rem;
+  border-radius: 3px;
+  margin-left: 0.6rem;
+  vertical-align: middle;
+  font-weight: 500;
+  letter-spacing: 0.04em;
+}
+
+/* ------------------------------------------------------------
+   Footer signature
+   ------------------------------------------------------------ */
+.proposal-footer {
+  margin-top: 3rem;
+  padding-top: 1.5rem;
+  border-top: 1px solid var(--p-rule);
+  font-size: 0.85rem;
+  color: var(--p-muted);
+  text-align: center;
+  font-style: italic;
+}
+
+/* ------------------------------------------------------------
+   Selection
+   ------------------------------------------------------------ */
+.proposal ::selection {
+  background: rgba(196, 83, 42, 0.18);
+  color: inherit;
+}
