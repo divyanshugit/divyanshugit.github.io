@@ -18,7 +18,6 @@ socialLinks:
     url: https://www.linkedin.com/in/divyanshuusingh/
   - text: Twitter
     url: https://x.com/divyanshutwt
-phdNote: <strong>🎓 Open to PhD opportunities for Fall 2026</strong> in AI Security, Efficiency, and LLM Reasoning.<br>If you have leads or would like to discuss potential collaborations, please get in touch!
 miscellaneous: |
   <p>
     I started my research journey in 2020 with text summarization at Helppr AI.
