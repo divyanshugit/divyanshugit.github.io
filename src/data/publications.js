@@ -33,12 +33,16 @@ const publications = [
         id: "graphreasoning",
         title: "Lost in Serialization: Invariance and Generalization of LLM Graph Reasoners",
         authors: ["Daniel Herbst*", "Lea Karbevska*", "Divyanshu Kumar*", "Akanksha Ahuja*", "Fatemeh Gholamzadeh Nasrabadi*", "Fabrizio Frasca"],
-        venue: "5th Workshop on Graphs and Complex Structures for Learning and Reasoning (GCLR) at AAAI 2026",
-        year: 2025,
-        month: 11,
+        venue: "GCLR @ AAAI 2026; GFM @ ICML 2026 (Poster)",
+        year: 2026,
+        month: 7,
         status: "published",
         description: "Lost in Serialization: Invariance and Generalization of LLM Graph Reasoners",
         abstract: "While promising, graph reasoners based on Large Language Models (LLMs) lack built-in invariance to symmetries in graph representations. Operating on sequential graph serializations, LLMs can produce different outputs under node reindexing, edge reordering, or formatting changes, raising robustness concerns. We systematically analyze these effects, studying how fine-tuning impacts encoding sensitivity as well generalization on unseen tasks. We propose a principled decomposition of graph serializations into node labeling, computational structure, and surface encoding, and evaluate LLM robustness to variations of each of these factors on a comprehensive benchmarking suite. We also contribute a novel set of spectral tasks to further assess generalization abilities of fine-tuned reasoners. Results show that larger (non-fine-tuned) models are more robust, and fine-tuning reduces sensitivity to node relabeling but may increase it to variations in structure and format, while it does not consistently improve performance on unseen tasks.",
+        links: {
+            paper: "https://openreview.net/forum?id=SnzUcNsaXY",
+            openreview: "SnzUcNsaXY"
+        },
         tags: ["Graph Reasoning", "LLM", "NLP"],
         featured: true // Shows on homepage
     },
@@ -52,6 +56,10 @@ const publications = [
         status: "published",
         description: "Multimodal Jailbreaking of Vision-Language and Audio Models through Perceptually Simple Transformations",
         abstract: "Multimodal large language models (MLLMs) have achieved remarkable progress, yet remain critically vulnerable to adversarial attacks that exploit weaknesses in cross-modal processing. We present a systematic study of multimodal jailbreaks targeting both vision-language and audio-language models, showing that even simple perceptual transformations can reliably bypass state-of-the-art safety filters. Our evaluation spans 1,900 adversarial prompts across three high-risk safety categories harmful content, CBRN (Chemical, Biological, Radiological, Nuclear), and CSEM (Child Sexual Exploitation Material) tested against seven frontier models. We explore the effectiveness of attack techniques on MLLMs, including FigStep-Pro (visual keyword decomposition), Intelligent Masking (semantic obfuscation), and audio perturbations (Wave-Echo, Wave-Pitch, Wave-Speed). The results reveal severe vulnerabilities: models with almost perfect text-only safety (0\% ASR) suffer >75\% attack success under perceptually modified inputs, with FigStep-Pro achieving up to 89\% ASR in Llama-4 variants. Audio-based attacks further uncover provider-specific weaknesses, with even basic modality transfer yielding 25\% ASR for technical queries. These findings expose a critical gap between text-centric alignment and multimodal threats, demonstrating that current safeguards fail to generalize across cross-modal attacks. The accessibility of these attacks, which require minimal technical expertise, suggests that robust multimodal AI safety will require a paradigm shift toward boarder semantic-level reasoning to mitigate possible risks.",
+        links: {
+            paper: "https://openreview.net/forum?id=NaibehcKG8",
+            openreview: "NaibehcKG8"
+        },
         tags: ["Multimodal", "Jailbreaking", "Vision-Language", "Audio", "NLP"],
         featured: true // Shows on homepage
 
