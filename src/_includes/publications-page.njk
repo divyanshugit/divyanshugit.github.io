@@ -81,15 +81,17 @@ layout: base.njk
 </div>
 
 <!-- Modal for Publication Details -->
-<div id="modalOverlay" class="modal-overlay">
-    <div class="modal-content">
-        <button id="modalClose" class="modal-close">&times;</button>
-        <h2 id="modalTitle"></h2>
-        <p id="modalAuthors"></p>
-        <p id="modalVenue"></p>
-        <p id="modalAbstract"></p>
-        <div id="modalTags"></div>
-        <div id="modalLinks"></div>
+<div id="modalOverlay" class="pub-modal-overlay">
+    <div class="pub-modal" role="dialog" aria-modal="true" aria-labelledby="modalTitle">
+        <button id="modalClose" class="pub-modal__close" aria-label="Close details">&times;</button>
+        <span id="modalStatus" class="pub-modal__status"></span>
+        <h2 id="modalTitle" class="pub-modal__title"></h2>
+        <p id="modalAuthors" class="pub-modal__authors"></p>
+        <p id="modalVenue" class="pub-modal__venue"></p>
+        <h4 class="pub-modal__label">Abstract</h4>
+        <p id="modalAbstract" class="pub-modal__abstract"></p>
+        <div id="modalTags" class="pub-modal__tags"></div>
+        <div id="modalLinks" class="pub-modal__links"></div>
     </div>
 </div>
 

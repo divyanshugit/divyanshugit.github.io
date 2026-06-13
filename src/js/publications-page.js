@@ -54,10 +54,11 @@ class PublicationsPage {
 
     createPublicationElement(pub) {
         const pubDiv = document.createElement('div');
-        pubDiv.className = `publication-item ${pub.status}`;
+        pubDiv.className = `publication-item ${pub.status}${pub.featured ? ' featured' : ''}`;
         pubDiv.dataset.id = pub.id;
 
         const statusBadge = this.getStatusBadge(pub.status);
+        const featuredBadge = pub.featured ? '<span class="featured-badge">Featured</span>' : '';
         const authorsHtml = pub.authors.map(author =>
             author === 'Divyanshu Kumar' ? `<strong>${author}</strong>` : author
         ).join(', ');
@@ -66,12 +67,15 @@ class PublicationsPage {
             <div class="pub-header">
                 <div class="pub-title-section">
                     <h4 class="pub-title">${pub.title}</h4>
-                    ${statusBadge}
+                    <div class="pub-badges">
+                        ${statusBadge}
+                        ${featuredBadge}
+                    </div>
                 </div>
             </div>
             <div class="pub-authors">${authorsHtml}</div>
-            <div class="pub-venue">${pub.venue}, ${pub.year}</div>
-            <div class="pub-description">${pub.description}</div>
+            <div class="pub-venue">${pub.venue.includes(String(pub.year)) ? pub.venue : `${pub.venue}, ${pub.year}`}</div>
+            ${(pub.description && pub.description !== pub.title) ? `<div class="pub-description">${pub.description}</div>` : ''}
             <div class="pub-tags">
                 ${pub.tags.map(tag => `<span class="tag">${tag}</span>`).join('')}
             </div>
@@ -250,9 +254,15 @@ class PublicationsPage {
         const pub = getPublicationById(pubId);
         if (!pub) return;
 
+        const statusEl = document.getElementById('modalStatus');
+        if (statusEl) {
+            statusEl.textContent = pub.status || '';
+            statusEl.dataset.status = (pub.status || '').toLowerCase();
+            statusEl.style.display = pub.status ? 'inline-block' : 'none';
+        }
         document.getElementById('modalTitle').textContent = pub.title;
         document.getElementById('modalAuthors').textContent = pub.authors.join(', ');
-        document.getElementById('modalVenue').textContent = `${pub.venue}, ${pub.year}`;
+        document.getElementById('modalVenue').textContent = pub.venue.includes(String(pub.year)) ? pub.venue : `${pub.venue}, ${pub.year}`;
         document.getElementById('modalAbstract').textContent = pub.abstract || 'Abstract not available.';
 
         // Tags
@@ -261,6 +271,7 @@ class PublicationsPage {
 
         // Links
         const linksContainer = document.getElementById('modalLinks');
+        linksContainer.innerHTML = '';
         if (pub.links) {
             const iconMap = {
                 'paper': '📄',

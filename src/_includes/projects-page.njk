@@ -45,6 +45,19 @@ layout: base.njk
     </div>
 </div>
 
+<!-- Modal for Project Details -->
+<div id="modalOverlay" class="pub-modal-overlay">
+    <div class="pub-modal" role="dialog" aria-modal="true" aria-labelledby="modalTitle">
+        <button id="modalClose" class="pub-modal__close" aria-label="Close details">&times;</button>
+        <div id="modalStatus" class="pub-modal__badges"></div>
+        <h2 id="modalTitle" class="pub-modal__title"></h2>
+        <p id="modalDescription" class="pub-modal__desc"></p>
+        <div id="modalDetails"></div>
+        <div id="modalTechnologies" class="pub-modal__block"></div>
+        <div id="modalLinks" class="pub-modal__block pub-modal__linkblock"></div>
+    </div>
+</div>
+
 <script src="/data/projects.js"></script>
 <script src="/js/projects-page.js"></script>
 

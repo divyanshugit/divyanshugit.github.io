@@ -31,7 +31,7 @@ class ProjectsPage {
 
     createProjectElement(project) {
         const projectDiv = document.createElement('div');
-        projectDiv.className = `project-card ${project.status}`;
+        projectDiv.className = `project-card ${project.status}${project.featured ? ' featured' : ''}`;
         projectDiv.dataset.id = project.id;
 
         const statusBadge = this.getStatusBadge(project.status);
@@ -240,6 +240,7 @@ class ProjectsPage {
 
         // Technologies
         const techContainer = document.getElementById('modalTechnologies');
+        techContainer.innerHTML = '';
         if (project.technologies) {
             techContainer.innerHTML = `
                 <h4>Technologies Used</h4>
@@ -251,6 +252,7 @@ class ProjectsPage {
 
         // Links
         const linksContainer = document.getElementById('modalLinks');
+        linksContainer.innerHTML = '';
         if (project.links) {
             linksContainer.innerHTML = `
                 <h4>Project Links</h4>
