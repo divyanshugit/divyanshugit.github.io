@@ -14,13 +14,13 @@ sitemap:
 
 <div class="proposal">
 
-<p class="proposal-meta">Divyanshu Kumar &middot; Working draft, last updated 2026-06-17 &middot; <a href="https://github.com/divyanshugit">github.com/divyanshugit</a></p>
+<p class="proposal-meta">Divyanshu Kumar &middot; Working draft, last updated 2026-06-18 &middot; <a href="https://github.com/divyanshugit">github.com/divyanshugit</a></p>
 
 <main class="proposal-body" style="max-width: 80ch; margin: 2rem auto 0 auto;">
 
 <section class="proposal-hero" style="margin-top: 0;">
 <h2>The thesis, in plain words</h2>
-<p class="lead">I want AI that behaves the same way no matter <em>how</em> you ask. Rephrase the question, change the file format, swap a sentence for a picture of that sentence &mdash; the answer shouldn't flip. When it does, two things break:</p>
+<p class="lead">I want AI that behaves the same way no matter <em>how</em> you ask. Rephrase the question, change the file format, swap a sentence for a picture of that sentence, and the answer shouldn't flip. When it does, two things break:</p>
 <ul>
 <li><strong>Safety.</strong> An attacker disguises a harmful request (hides it in an image, splits it across turns) and slips it past the filter.</li>
 <li><strong>Reliability.</strong> The system nails the demo, then fails in production on the same task in a slightly different format.</li>
@@ -63,7 +63,7 @@ sitemap:
 <li><strong>Systems for AI.</strong> The infrastructure that measures and stresses both: benchmarks, evaluation harnesses, probes.</li>
 </ul>
 <p>So the thesis sharpens: <strong>provable invariance is not going to come from the model directly.</strong> You can't certify a fallible component into a guarantee. It gets <em>engineered</em> at the system level, built <strong>brick by brick</strong> into AI-enabled systems whose invariance is enforced by their scaffolding, not hoped for from the weights. The model stays fallible; the system around it is what we make provable.</p>
-<p>And the sequencing is deliberate. The model itself &mdash; weights you can trust on their own &mdash; is the big problem, and I expect to reach it <em>last</em>. Understanding what's actually happening inside, through <strong>interpretability x causality</strong> (the thread <a href="/proposal/ceval.html">ceval</a> and the activation probes pull on), is the long game that eventually gets us there. But the systems are deployed <em>now</em>, so we don't wait on it. While that understanding matures, build the components that keep today's AI-enabled systems <strong>safe x secure</strong>, and fold what we learn about the model back in as it comes.</p>
+<p>And the sequencing is deliberate. The model itself, weights you can trust on their own, is the big problem, and I expect to reach it <em>last</em>. Understanding what's actually happening inside, through <strong>interpretability x causality</strong> (the thread <a href="/proposal/ceval.html">ceval</a> and the activation probes pull on), is the long game that eventually gets us there. But the systems are deployed <em>now</em>, so we don't wait on it. While that understanding matures, build the components that keep today's AI-enabled systems <strong>safe x secure</strong>, and fold what we learn about the model back in as it comes.</p>
 <p><em>Plainly: don't wait for a model that can't be fooled. Wrap a fallible one in enough checks that the <strong>system</strong> can't be fooled, and then prove it.</em></p>
 </section>
 

@@ -1,6 +1,6 @@
 ---
 layout: page.njk
-title: "Research Proposal — Causal Evaluation of Language Models"
+title: "Research Proposal: Causal Evaluation of Language Models"
 pageTitle: "Causal Evaluation of Language Models"
 subtitle: "Eval suites that measure mechanisms, not correlations. A three-phase research program."
 permalink: /proposal/ceval.html
@@ -15,7 +15,7 @@ sitemap:
 
 <div class="proposal">
 
-<p class="proposal-meta">Divyanshu Kumar &middot; Working draft, last updated 2026-05-27 &middot; <a href="https://github.com/divyanshugit">github.com/divyanshugit</a></p>
+<p class="proposal-meta">Divyanshu Kumar &middot; Working draft, last updated 2026-06-18 &middot; <a href="https://github.com/divyanshugit">github.com/divyanshugit</a></p>
 
 <div class="proposal-grid">
 
@@ -157,7 +157,7 @@ alternative_hypotheses:
 <span class="section-num">05 / INTERVENTIONS</span>
 <h2>Intervention taxonomy</h2>
 
-<h4>Prompt-level <span class="subtle">— all models</span></h4>
+<h4>Prompt-level <span class="subtle">: all models</span></h4>
 <table>
 <thead><tr><th>Type</th><th>Tests</th></tr></thead>
 <tbody>
@@ -169,7 +169,7 @@ alternative_hypotheses:
 </tbody>
 </table>
 
-<h4>Activation-level <span class="subtle">— open-weight models</span></h4>
+<h4>Activation-level <span class="subtle">: open-weight models</span></h4>
 <table>
 <thead><tr><th>Type</th><th>Tests</th></tr></thead>
 <tbody>
@@ -178,7 +178,7 @@ alternative_hypotheses:
 </tbody>
 </table>
 
-<h4>Agent-level <span class="subtle">— Phase 3</span></h4>
+<h4>Agent-level <span class="subtle">: Phase 3</span></h4>
 <table>
 <thead><tr><th>Type</th><th>Tests</th></tr></thead>
 <tbody>
@@ -228,7 +228,7 @@ alternative_hypotheses:
 </div>
 </div>
 
-<h3>Phase 1 — SLMs as calibration lab</h3>
+<h3>Phase 1: SLMs as calibration lab</h3>
 <p>Small open-weight models are where ground truth lives: activation access, fine-tuning control, known scaling ladders, published teacher-student pairs.</p>
 <p><strong>Model selection.</strong> Two study sets in the registry, answering different questions:</p>
 <ul>
@@ -245,7 +245,7 @@ alternative_hypotheses:
 </ul>
 <p><strong>Activation-level validation.</strong> Prompt-level interventions are suggestive of mechanism; circuit ablation and SAE feature injection are <em>causal evidence at the substrate</em>. On open-weight models we can ablate the predicted circuit and check that the model fails on tasks tagged with that mechanism but not others, closing the gap between behavior and mechanism.</p>
 
-<h3>Phase 2 — Behavioral calibration → closed models</h3>
+<h3>Phase 2: Behavioral calibration → closed models</h3>
 <p>Activation access is only available on open-weight models. To make causal scoring useful for the closed frontier, we need to know <em>how predictive behavioral interventions are of true mechanism</em>.</p>
 <p>For each prompt-level intervention (value swap, paraphrase, noise, decomposition probe), measure its correlation with activation-level ground truth on Phase 1's SLMs. Publish the correlation. Now every intervention has a <strong>known predictive strength</strong>. Apply the behavioral suite to closed frontier models with <strong>calibrated confidence bounds</strong>:</p>
 <blockquote>"Behavioral score $X$ maps to true mechanism fidelity $Y \pm 0.12$, based on SLM calibration ($n=\ldots$, $r^2 = \ldots$)."</blockquote>
@@ -257,7 +257,7 @@ alternative_hypotheses:
 <p><strong>Scale-dependent shortcuts.</strong> Sycophancy, long-context drift, certain hallucination modes don't exist at SLM scale; new interventions are needed at the frontier.</p>
 </div>
 
-<h3>Phase 3 — Agentic mechanism fidelity</h3>
+<h3>Phase 3: Agentic mechanism fidelity</h3>
 <p>Mechanism fidelity <em>is</em> the anti-Goodhart measure. Agents give the richest causal substrate: every tool call, argument, intermediate result is observable and interveneable. Three research threads:</p>
 <ol>
 <li><strong>Reward hacking as a measurable phenomenon.</strong> A benchmark of proxy/objective divergence pairs across domains (code, task completion, knowledge). Report a per-model <em>Goodhart rate</em>: the fraction of runs in which the agent exploits the proxy at the expense of the true objective.</li>

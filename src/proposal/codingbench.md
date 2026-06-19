@@ -1,6 +1,6 @@
 ---
 layout: page.njk
-title: "Research Proposal — CodingAgentBench"
+title: "Research Proposal: CodingAgentBench"
 pageTitle: "CodingAgentBench"
 subtitle: "A multi-language, multi-repo benchmark for evaluating real-world AI coding agents."
 permalink: /proposal/codingbench.html
@@ -14,7 +14,7 @@ sitemap:
 
 <div class="proposal">
 
-<p class="proposal-meta">Divyanshu Kumar &middot; Working draft, last updated 2026-05-27 &middot; <a href="https://github.com/divyanshugit">github.com/divyanshugit</a></p>
+<p class="proposal-meta">Divyanshu Kumar &middot; Working draft, last updated 2026-06-18 &middot; <a href="https://github.com/divyanshugit">github.com/divyanshugit</a></p>
 
 <div class="proposal-grid">
 
@@ -176,10 +176,10 @@ sitemap:
 <span class="section-num">06 / AGENDA</span>
 <h2>Four-phase research agenda</h2>
 
-<h3>Phase 0 — Curation + runner <span class="subtle">(done)</span></h3>
+<h3>Phase 0: Curation + runner <span class="subtle">(done)</span></h3>
 <p>682 tasks curated from 35 repos. CLI shipped. Aider adapter shipped. The substrate is real.</p>
 
-<h3>Phase 1 — Multi-agent leaderboard</h3>
+<h3>Phase 1: Multi-agent leaderboard</h3>
 <p>The visible deliverable. Adapters for the agents that matter:</p>
 <ul>
 <li><strong>Aider</strong> (done). Baseline, well-documented, scriptable.</li>
@@ -190,12 +190,12 @@ sitemap:
 </ul>
 <p>Output: a public leaderboard with per-language, per-repo, per-difficulty resolve rates and cost/time profiles. This is the artifact that makes the benchmark <em>useful</em> to buyers and <em>visible</em> to the field.</p>
 
-<h3>Phase 2 — Difficulty calibration from agent traces</h3>
+<h3>Phase 2: Difficulty calibration from agent traces</h3>
 <p>Current difficulty labels are heuristic over diff size, files touched, and PR keywords. After Phase 1, we have N agents × 682 tasks of trace data, enough to re-derive difficulty <em>empirically</em>.</p>
 <p>A task that 7/8 frontier agents solve is "easy" regardless of its diff size. A task with 5 files changed that no agent can solve might be "easy in shape, hard in semantics", exactly the discrimination heuristic labels miss. Concretely: fit an item-response model (Rasch / 2PL) on the agent×task matrix to get a per-task discrimination and difficulty parameter, and a per-agent ability parameter. Drop tasks with zero discrimination. Re-label difficulty from the IRT difficulty parameter.</p>
 <p>This is the part of the project that's actually <em>scientifically</em> interesting, and the part that ages best as frontier agents saturate the easy cases.</p>
 
-<h3>Phase 3 — Capability decomposition</h3>
+<h3>Phase 3: Capability decomposition</h3>
 <p>Pass/fail tells you that the agent solved (or didn't solve) the task. It doesn't tell you <em>why</em>. From the per-run trace we can decompose agent capability into sub-skills, each independently failable:</p>
 
 <table>
@@ -211,7 +211,7 @@ sitemap:
 
 <p>Per-agent capability profiles, not just a scalar score. An agent that's strong at navigation and weak at failure recovery has a very different product story than an agent that's the opposite.</p>
 
-<h3>Phase 4 — Contamination-resistant variant</h3>
+<h3>Phase 4: Contamination-resistant variant</h3>
 <p>Even fresh PRs leak via training-data cutoffs as models update. The only durable mitigation is a <strong>rolling stream</strong>: a quarterly drop of new tasks curated from PRs merged <em>after</em> the latest model release. The contamination control is the publication-date filter.</p>
 <p>Methodology piece: a contamination-detection probe per task. Ask the agent to recite the fix without seeing the codebase. High recitation accuracy on the unmodified test signals contamination and the task is flagged or dropped.</p>
 </section>
@@ -252,26 +252,26 @@ sitemap:
 <p>Ship a leaderboard with at least 3 agents × full task set. <strong>If the leaderboard surfaces meaningful agent ordering and discriminates within 5% on at least one language, the benchmark is signal-bearing. Proceed.</strong> If all agents bunch within 2% or one agent saturates above 90%, the curated task set needs harder tasks before the rest of the agenda is worth running.</p>
 </div>
 
-<h3>Phase 1 — Multi-agent leaderboard</h3>
+<h3>Phase 1: Multi-agent leaderboard</h3>
 <ol class="milestones">
 <li><span class="ms-id">M1</span><div class="ms-body"><strong>Adapter sprint<span class="ms-week">3 wk</span></strong><p>Claude Code, Cline, OpenHands, Cursor adapters. Each implements <code>BaseAdapter</code>. Headless invocation, isolated workspace per task, deterministic trace capture.</p></div></li>
 <li><span class="ms-id">M2</span><div class="ms-body"><strong>Sandboxed runner<span class="ms-week">2 wk</span></strong><p>Docker-per-task isolation. Repo state hermetic. Cost / time / token metering. Resume-from-checkpoint for long sweeps.</p></div></li>
 <li><span class="ms-id">M3</span><div class="ms-body"><strong>v1 sweep + report<span class="ms-week">2 wk</span></strong><p>5 agents × 682 tasks × N=3 reruns. Public leaderboard page. Blog post / methodology writeup.</p></div></li>
 </ol>
 
-<h3>Phase 2 — Difficulty calibration</h3>
+<h3>Phase 2: Difficulty calibration</h3>
 <ol class="milestones">
 <li><span class="ms-id">M4</span><div class="ms-body"><strong>IRT calibration<span class="ms-week">2 wk</span></strong><p>Fit a 2PL item-response model on the agent × task matrix. Per-task difficulty and discrimination. Drop zero-discrimination tasks.</p></div></li>
 <li><span class="ms-id">M5</span><div class="ms-body"><strong>Re-stratification<span class="ms-week">1 wk</span></strong><p>New difficulty labels from IRT. Public comparison with heuristic labels. Sub-benchmark splits for fast iteration.</p></div></li>
 </ol>
 
-<h3>Phase 3 — Capability decomposition</h3>
+<h3>Phase 3: Capability decomposition</h3>
 <ol class="milestones">
 <li><span class="ms-id">M6</span><div class="ms-body"><strong>Trace schema + extractors<span class="ms-week">2 wk</span></strong><p>Common trace format across adapters. Extractors for navigation overlap, plan presence, edit precision, test interpretation, failure recovery.</p></div></li>
 <li><span class="ms-id">M7</span><div class="ms-body"><strong>Construct validity<span class="ms-week">2 wk</span></strong><p>Show sub-skill scores predict resolve rate on held-out tasks better than baseline. Per-agent capability profiles published.</p></div></li>
 </ol>
 
-<h3>Phase 4 — Contamination-resistant variant</h3>
+<h3>Phase 4: Contamination-resistant variant</h3>
 <ol class="milestones">
 <li><span class="ms-id">M8</span><div class="ms-body"><strong>Rolling stream pipeline<span class="ms-week">2 wk</span></strong><p>Automated quarterly curation from recent PRs in the same 35 repos. Date-filter against named model release dates. Contamination probe.</p></div></li>
 <li><span class="ms-id">M9</span><div class="ms-body"><strong>First fresh drop<span class="ms-week">1 wk</span></strong><p>CodingAgentBench-fresh-2026Q3 (or current quarter). Published with contamination report and a head-to-head against the original 682.</p></div></li>
