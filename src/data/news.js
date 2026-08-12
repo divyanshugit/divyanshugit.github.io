@@ -8,7 +8,7 @@ const news = [
         content: "<b>Anaconda</b> acquired <b>Enkrypt AI</b>. Continuing my AI safety and evaluation research at Anaconda as an AI Research Engineer.",
         featured: true,
         links: {
-            "Anaconda": "https://www.anaconda.com/",
+            "Anaconda": "https://www.anaconda.com/blog/anaconda-acquires-enkrypt-ai",
             "Enkrypt AI": "https://enkryptai.com"
         }
     },
