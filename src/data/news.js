@@ -3,6 +3,16 @@
 
 const news = [
     {
+        id: "anaconda-acquisition",
+        date: "Aug 2026",
+        content: "<b>Anaconda</b> acquired <b>Enkrypt AI</b>. Continuing my AI safety and evaluation research at Anaconda as an AI Research Engineer.",
+        featured: true,
+        links: {
+            "Anaconda": "https://www.anaconda.com/",
+            "Enkrypt AI": "https://enkryptai.com"
+        }
+    },
+    {
         id: "aaai-2026-attendance",
         date: "Jan 2026",
         content: "Presenting papers at the <b>AAAI 2026</b> workshops: LAMaS, AIGOV, and GCLR. Will be sharing recent work and engaging in discussions on multi-agent systems, AI governance, and graph reasoning.",

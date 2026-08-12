@@ -3,8 +3,8 @@ layout: homepage.njk
 title: Home
 permalink: /index.html
 name: Divyanshu Kumar
-jobTitle: Founding ML Research Engineer
-organization: Enkrypt AI
+jobTitle: AI Research Engineer
+organization: Anaconda
 email: kumardivy1999 [at] gmail.com
 profileImage: /assets/pic.png
 socialLinks:
@@ -28,7 +28,9 @@ miscellaneous: |
   </p>
 ---
 
-Currently, I am a Founding ML Research Engineer at **[Enkrypt AI](https://enkryptai.com)**, where I design and evaluate adversarial testing pipelines, build guardrail systems, and study failure modes of AI models in real-world applications. This role gives me a unique perspective on applied AI security bridging cutting-edge research with deployment challenges faced by companies building AI systems today.
+Currently, I am an AI Research Engineer at **[Anaconda](https://www.anaconda.com/)**, continuing my AI safety and evaluation research following Anaconda's acquisition of Enkrypt AI in 2026.
+
+I joined **[Enkrypt AI](https://enkryptai.com)** as its Founding ML Research Engineer, where I designed and evaluated adversarial testing pipelines spanning 250+ foundation models, built production guardrail systems, and studied failure modes of AI models in real-world deployments. This work gave me a unique perspective on applied AI security bridging cutting-edge research with the deployment challenges faced by companies building AI systems today.
 
 Previously, I was a Research Associate at **[IISc Bangalore](https://iisc.ac.in/)**, working under **[Prof. Prathosh A. P.](https://sites.google.com/view/prathosh/home)**. My work there spanned Neural Machine Translation for Indic languages, machine unlearning in generative models, and privacy-preserving ML. These projects deepened my interest in differential privacy and federated learning as practical approaches for building privacy-aware systems.
 
