@@ -13,6 +13,15 @@ const news = [
         }
     },
     {
+        id: "bluedot-technical-ai-safety",
+        date: "June 2026",
+        content: "Completed the <b>Technical AI Safety</b> course by <b>BlueDot Impact</b>.",
+        featured: true,
+        links: {
+            "Technical AI Safety": "https://bluedot.org/certification?id=recacj1wIfclbcE3I"
+        }
+    },
+    {
         id: "aaai-2026-attendance",
         date: "Jan 2026",
         content: "Presenting papers at the <b>AAAI 2026</b> workshops: LAMaS, AIGOV, and GCLR. Will be sharing recent work and engaging in discussions on multi-agent systems, AI governance, and graph reasoning.",
