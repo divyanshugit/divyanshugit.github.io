@@ -1,37 +1,26 @@
 ---
-layout: homepage.njk
+layout: home.njk
 title: Home
 permalink: /index.html
-name: Divyanshu Kumar
-jobTitle: AI Research Engineer
-organization: Anaconda
-email: kumardivy1999 [at] gmail.com
-profileImage: /assets/pic.png
-socialLinks:
-  - text: CV
-    url: /assets/cv.pdf
-  - text: Scholar
-    url: https://scholar.google.com/citations?user=KdLbMkYAAAAJ&hl=en
-  - text: GitHub
-    url: https://github.com/divyanshugit
-  - text: LinkedIn
-    url: https://www.linkedin.com/in/divyanshuusingh/
-  - text: Twitter
-    url: https://x.com/divyanshutwt
-miscellaneous: |
-  <p>
-    I started my research journey in 2020 with text summarization at Helppr AI.
-    Since then, I've worked across language models, unlearning, and generative AI.
-    Today I'm building systems that are robust and scalable in practice.
-    In my free time, I contribute to open source projects and explore the latest developments in AI
-    safety.
-  </p>
+description: "Divyanshu Kumar, AI Research Engineer at Anaconda. I make AI systems efficient, secure and private: quantization, inference, guardrails, red-teaming and differential privacy."
+display: "I’m Divyanshu. I make AI systems efficient, secure and private."
+figCaption: "The author, illustrated."
+pageJs:
+  - /js/probe-core.js
+  - /js/probe.js
+epsHint: "Lower ε and this page releases the portrait, the plates and the particulars under calibrated Laplace noise. The prose stays as written."
+# Section headings and the one-liners that are not in src/data/*.js
+now:
+  gist: "Whether a diffusion language model turns harmful at a particular denoising step, and whether it can take that step back."
+  margin: "In progress · with Dream-7B"
+papers:
+  graphreasoning: { gist: "Does an LLM’s answer about a graph change when only the way the graph is written down changes?", venue: "GCLR @ AAAI ’26 · GFM @ ICML ’26", note: "co-first" }
+  multimodalredteaming: { gist: "Text-safe models break when the same request arrives as a simply transformed image or audio clip.", venue: "NeurIPS ’25 workshop", note: "co-first" }
+  kumar2024sagert: { gist: "Synthetic alignment and red-teaming data, generated at scale, for evaluating model safety.", venue: "NeurIPS ’24 workshop", note: "co-first" }
+placesLine: "I have lived in nine places so far: Berai, Patna, Kolkata, Delhi, Bangalore, Singapore, Malaysia, the Philippines and Bali."
 ---
+<!-- The short bio on the home page: 2–3 sentences, no footnotes.
+     The long version lives in about.md. -->
 
-Currently, I am an AI Research Engineer at **[Anaconda](https://www.anaconda.com/)**, continuing my AI safety and evaluation research following Anaconda's acquisition of Enkrypt AI in 2026.
+I’m an AI Research Engineer at [Anaconda](https://www.anaconda.com/), which [acquired Enkrypt AI](https://www.anaconda.com/blog/anaconda-acquires-enkrypt-ai) this August. Before that I was Enkrypt’s founding ML research engineer, red-teaming more than 250 foundation models, and a Research Associate at IISc Bangalore. Mostly I find out how models fail once they are made smaller, faster or more private, and build the guardrails that catch it.
 
-I joined **[Enkrypt AI](https://enkryptai.com)** as its Founding ML Research Engineer, where I designed and evaluated adversarial testing pipelines spanning 250+ foundation models, built production guardrail systems, and studied failure modes of AI models in real-world deployments. This work gave me a unique perspective on applied AI security bridging cutting-edge research with the deployment challenges faced by companies building AI systems today.
-
-Previously, I was a Research Associate at **[IISc Bangalore](https://iisc.ac.in/)**, working under **[Prof. Prathosh A. P.](https://sites.google.com/view/prathosh/home)**. My work there spanned Neural Machine Translation for Indic languages, machine unlearning in generative models, and privacy-preserving ML. These projects deepened my interest in differential privacy and federated learning as practical approaches for building privacy-aware systems.
-
-I am also collaborating with [**Fabrizio Frasca**](https://noired.github.io/) (Postdoctoral Researcher, Technion) on a project titled _**Beyond Text: Exploring Adaptations of LLMs for Graph-Based Tasks**_. In this work, we aim to investigate how pretrained LLMs can be adapted through parameter-efficient fine-tuning to effectively process relational and graph-structured data, and to study the resulting impacts on invariance, robustness, and generalization to new graph tasks.

@@ -15,7 +15,7 @@ sitemap:
 
 <div class="proposal">
 
-<p class="proposal-meta">Divyanshu Kumar &middot; Working draft, last updated 2026-06-18 &middot; <a href="https://github.com/divyanshugit">github.com/divyanshugit</a></p>
+<p class="proposal-meta">Divyanshu Kumar &middot; Working draft, last updated 2026-07-10 &middot; <a href="https://github.com/divyanshugit">github.com/divyanshugit</a></p>
 
 <div class="proposal-grid">
 
@@ -55,7 +55,7 @@ sitemap:
 <ul>
 <li><strong>Unsafe intermediate states.</strong> A denoising trajectory can surface harmful content at an early step and then partially mask it, or assemble harmful content late, after early steps looked benign. An end-only check sees only the final frame of a movie.</li>
 <li><strong>Order-agnostic infilling attacks.</strong> Because diffusion decoders fill masked spans anywhere in the sequence, attacks like DIJA and PAD exploit infilling positions that AR decoders never expose. The threat surface is shaped differently.</li>
-<li><strong>No temporal alignment signal.</strong> Alignment training for these models still optimizes the final sample. Nothing supervises <em>when</em> in the denoising process harmful content emerges or how reversible it is.</li>
+<li><strong>No temporal alignment signal.</strong> Diffusion LMs can't use vanilla DPO/PPO (masked diffusion has no tractable sequence likelihood, only an ELBO), so alignment relies on diffusion-native methods like VRPO (LLaDA 1.5) and diffu-GRPO. But these still optimize the <em>endpoint</em>, the ELBO of the final sample. Nothing supervises <em>when</em> in the denoising process harmful content emerges or how reversible it is.</li>
 </ul>
 </section>
 

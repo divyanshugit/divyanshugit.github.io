@@ -1,24 +1,55 @@
 ---
 layout: base.njk
+pageCss: timeline.css
+bodyClass: page-timeline
 ---
+{%- import "partials/plates.njk" as plates -%}
+{#- The timeline: the dated milestones from src/data/news.js, as addenda to
+    the manuscript. Years in the gutter, months beside each line, and for the
+    few entries tied to a place, that place's plate in the margin (it links to
+    the full entry on About). Data: src/timeline.11tydata.js. -#}
+{%- set total = [] -%}{%- for y in chronicle %}{% for it in y.items %}{% set _ = total.push(1) %}{% endfor %}{% endfor -%}
+{%- set newest = chronicle | first -%}{%- set oldest = chronicle | last -%}
+{%- set rots = ["-1.2deg", "0.9deg", "-0.6deg", "1.1deg"] -%}
 
-<div class="container">
-    <div class="page-layout">
-        <div class="page-header">
-            <h1>{{ pageTitle }}</h1>
-            <p class="page-subtitle">{{ subtitle }}</p>
+<section class="sheet page-head tl-head" id="top" aria-labelledby="tl-h">
+  <div class="gut"></div>
+  <div class="body">
+    <p class="over lab noindent">Timeline<span class="sep">·</span>{{ total.length }} entries{% if newest and oldest %}, {{ oldest.year }}–{{ newest.year }}{% endif %}</p>
+    <h1 id="tl-h">{{ pageTitle or title }}</h1>
+    {%- if subtitle %}<p class="dek noindent">{{ subtitle }}</p>{% endif %}
+    {{ content | safe }}
+    <p class="tl-places noindent"><a class="more" href="/about.html#places">The places, with their plates <span>→</span></a></p>
+  </div>
+</section>
+
+{%- for y in chronicle %}
+<section class="sheet yr" id="y{{ y.year }}" aria-labelledby="h-{{ y.year }}" data-toc="{{ y.year }}" data-toc-no="">
+  <div class="gut"><h2 class="yr__h" id="h-{{ y.year }}">{{ y.year }}</h2></div>
+  <div class="body">
+    <ol class="addenda">
+      {%- for it in y.items %}
+      {%- set pl = (places | where("id", it.place))[0] if it.place else null %}
+      <li class="add{% if it.featured %} add--key{% endif %}" id="{{ it.id }}">
+        <span class="add__m">{% if it.label %}<time datetime="{{ it.year }}-{{ '0' if it.month < 10 }}{{ it.month }}">{{ it.label }}</time>{% else %}<time class="add__y" datetime="{{ it.year }}" title="Month not recorded">{{ it.year }}</time>{% endif %}</span>
+        <div class="add__c">
+          <p>{{ it.content | safe }}</p>
+          {%- if it.links.length or pl %}
+          <p class="add__l">
+            {%- for l in it.links %}<a href="{{ l[1] }}"{% if l[1].startsWith("http") %} rel="noopener"{% endif %}>{{ l[0] }}<span aria-hidden="true"> ↗</span></a>{% endfor %}
+            {%- if pl %}<a class="add__place" href="/about.html#place-{{ pl.id }}"><span class="pl">Pl. {{ pl.plate }}</span>{{ pl.name }}<span aria-hidden="true"> →</span></a>{% endif %}
+          </p>
+          {%- endif %}
         </div>
-
-        <!-- Timeline Content -->
-        <div class="minimal-timeline-container">
-            <!-- Timeline entries will be dynamically loaded here -->
-            <div id="timeline-entries" class="minimal-timeline"></div>
-        </div>
-
-        {{ content | safe }}
-    </div>
-</div>
-
-<script src="/data/news.js"></script>
-<script src="/js/timeline-page.js"></script>
-
+      </li>
+      {%- endfor %}
+    </ol>
+    {#- the plates, in the margin beside their entries -#}
+    {%- for it in y.items %}{% if it.place %}{% set pl = (places | where("id", it.place))[0] %}{% if pl %}
+    <aside class="note note--plate" id="n-{{ it.id }}" data-anchor="{{ it.id }}" data-top="2" aria-label="The place">
+      <div class="note__in"><a class="plate-link" href="/about.html#place-{{ pl.id }}" aria-label="Plate {{ pl.plate }}, {{ pl.name }}: the entry on About">{{ plates.plate(pl, { rot: rots[loop.index0 % 4], sizes: "8rem" }) }}</a></div>
+    </aside>
+    {%- endif %}{% endif %}{% endfor %}
+  </div>
+</section>
+{%- endfor %}

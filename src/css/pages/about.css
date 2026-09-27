@@ -1,0 +1,178 @@
+/* ==========================================================================
+   pages/about.css — the About page (the full manuscript) (title page, prose, plates, leaf, place entries).
+   Shared components (notes, plates, ε instrument) live in /css/site.css.
+   ========================================================================== */
+
+/* ---------- title page ---------- */
+.title { padding-bottom: var(--s6); }
+.title + .sec { padding-top: var(--s8); }
+/* About is prose you read: no automatic hyphenation breaks */
+.page-about .body > p, .page-about .lede > p { hyphens: manual; }
+.title .over i { font-style: normal; color: var(--ink); }
+.title .dek { margin: 0 0 var(--s6) !important; max-width: 38ch; }
+.lede > p { font-size: var(--fs-lede); line-height: 1.52; margin: 0 0 var(--s5); text-wrap: pretty; hanging-punctuation: first; }
+.lede > p:first-of-type::first-letter { float: left; font-family: var(--serif); font-size: 4.6em; line-height: .8; padding: .04em .1em 0 0; margin-left: -.02em; color: var(--ink); }
+.lede > .note + p { text-indent: 1.5em; margin-top: calc(-1 * var(--s5) + .1em); }
+.lede { position: static; }
+.particulars { font-size: 1.04rem; line-height: 1.6; color: var(--text-2); margin: var(--s5) 0 0 !important; font-variant-numeric: lining-nums; }
+.title .ico-row { margin-top: var(--s4); }
+.links a { font-family: var(--sc); font-size: .95rem; letter-spacing: .08em; text-transform: uppercase; text-decoration: none; color: var(--text-2); }
+.links a:hover { color: var(--ink); }
+.links .mail { font-family: var(--serif); font-size: 1.05rem; letter-spacing: 0; text-transform: none; font-style: italic; color: var(--text); }
+
+/* portrait + instrument in the rail */
+.portrait { width: 12.5rem; }
+.portrait .plate__img img { aspect-ratio: 2 / 3; object-fit: cover; }
+.note--eps .note__in { border-left-color: transparent !important; }
+.eps-slot--rail { width: 100%; padding-top: var(--s3); border-top: 1px solid var(--rule); }
+.eps-slot:empty { display: none !important; }
+
+/* ---------- §1 prose ---------- */
+.prose-home > p:first-of-type { text-indent: 0; margin-top: 0; }
+
+/* ---------- §2 gathering of plates ---------- */
+/* Nine plates on a 10-track grid, two tracks each: five across, then the next
+   row of four set half a plate in, like prints tipped into a notebook. Upright
+   prints are cut to 4:5 and landscapes to 3:2 (each keeps its --focus); the
+   leaf below shows every photograph whole. */
+.gathering { margin-top: var(--s7); display: grid; grid-template-columns: repeat(10, minmax(0, 1fr)); column-gap: 26px; row-gap: 48px; align-items: start; }
+.gathering > .plate { grid-column: span 2; }
+.gathering > .plate:nth-child(5n+1):nth-last-child(4) { grid-column: 2 / span 2; }   /* a last row of four sits half a plate in */
+.gathering .plate--p .plate__img img, .gathering .plate--p .plate__blank { aspect-ratio: 4 / 5; object-fit: cover; }
+.gathering .plate--l .plate__img img, .gathering .plate--l .plate__blank { aspect-ratio: 3 / 2; object-fit: cover; }
+.gathering .plate--s .plate__img img { aspect-ratio: 1; object-fit: cover; }
+/* the loose rhythm: landscapes sit lower, toward an upright's middle; uprights step a little */
+.gathering > .plate--l { margin-top: 36px; }
+.gathering > .plate--l:nth-child(odd) { margin-top: 54px; }
+.gathering > .plate--p:nth-child(even) { margin-top: 22px; }
+.place { transition: color .2s var(--ease); }
+.place.is-lit { color: var(--ink); }
+.plate__open { appearance: none; border: 0; background: none; padding: 0; margin: 0; display: block; width: 100%; cursor: zoom-in; text-align: left; font: inherit; color: inherit; }
+.plate__more { display: block; font-family: var(--sc); font-size: .74rem; letter-spacing: .1em; color: var(--ink); margin-top: 3px; text-transform: uppercase; }
+.entry-link { margin-top: var(--s7); }
+
+/* the leaf: a plate lifted out, with its note */
+.leaf { margin-top: var(--s7); padding-top: var(--s6); border-top: 1px solid var(--rule); }
+.leaf[hidden] { display: none; }
+.leaf__close { appearance: none; border: 0; background: none; padding: 0; font-family: var(--sc); font-size: .8rem; letter-spacing: .1em; color: var(--text-3); cursor: pointer; float: right; text-transform: uppercase; }
+.leaf__close:hover { color: var(--ink); }
+.leaf .place-entry { animation: leaf-in .5s var(--ease) both; }
+@keyframes leaf-in { from { opacity: 0; transform: translateY(8px); } to { opacity: 1; transform: none; } }
+
+/* place entry (shared shape with the Timeline; see DESIGN.md) */
+.place-entry { display: grid; grid-template-columns: minmax(0, var(--main)) var(--gap) var(--rail); align-items: start; }
+.place-entry__photos { grid-column: 1; display: grid; grid-template-columns: 1fr 1fr; gap: 22px; align-items: start; }
+.place-entry__photos > .plate:first-child { grid-column: 1 / -1; }
+/* the leaf lays itself out from the set's shape (places.js `layout`, one letter per photo) */
+.place-entry__photos[data-layout] > .plate { grid-column: auto; }
+.place-entry__photos[data-layout="l"] { grid-template-columns: 1fr; }
+.place-entry__photos[data-layout="p"], .place-entry__photos[data-layout="s"] { grid-template-columns: minmax(0, 60%); }
+.place-entry__photos[data-layout="pp"] { grid-template-columns: 1fr 1fr; gap: 28px; }
+.place-entry__photos[data-layout="ppp"] { grid-template-columns: repeat(3, 1fr); gap: 20px; }
+.place-entry__photos[data-layout="pp"] > .plate:nth-child(2),
+.place-entry__photos[data-layout="ppp"] > .plate:nth-child(2) { margin-top: 38px; }
+.place-entry__photos[data-layout="ppp"] > .plate:nth-child(3) { margin-top: 12px; }
+.place-entry__photos[data-layout="pl"] { grid-template-columns: 5fr 7fr; align-items: end; gap: 26px; }
+.place-entry__photos[data-layout="lp"] { grid-template-columns: 7fr 5fr; align-items: end; gap: 26px; }
+.place-entry__photos[data-layout="pl"] > .plate--l, .place-entry__photos[data-layout="lp"] > .plate--l { margin-bottom: 30px; }
+.place-entry__note { grid-column: 3; font-family: var(--sans); font-size: var(--fs-note); line-height: 1.5; color: var(--text-2); border-left: 1px solid var(--ink); padding-left: 12px; margin-left: -13px; }
+.place-entry--quiet .place-entry__note { border-left-color: var(--rule-2); }
+.place-entry__head { margin: 0; }
+.place-entry__head .pl { font-family: var(--sc); letter-spacing: .1em; color: var(--ink); font-size: .78rem;  text-transform: uppercase; }
+.place-entry__head b { font-family: var(--serif); font-style: italic; font-weight: 400; font-size: 1.3rem; color: var(--text); }
+.place-entry__head .loc { color: var(--text-3); }
+.place-entry__meta { margin: 2px 0 0; color: var(--text-3); }
+.place-entry__story { margin-top: 10px; }
+.place-entry__story p { margin: 0 0 .6em; }
+.place-entry__credit { margin: 10px 0 0; font-size: .8rem; color: var(--text-3); }
+
+/* ---------- entry points ---------- */
+.project__t { font-size: 1.32rem; line-height: 1.3; margin: 0 0 6px !important; }
+.project__d { color: var(--text-2); font-size: 1.1rem; margin-bottom: var(--s5) !important; }
+.list--quiet { margin-bottom: var(--s3); }
+
+/* ---------- addenda ---------- */
+.addenda { margin: 0 0 var(--s3); padding: 0; list-style: none; }
+.addenda li { display: grid; grid-template-columns: 6.5rem 1fr; gap: var(--s5); padding: 10px 0; font-size: 1.08rem; line-height: 1.5; }
+.addenda time { font-family: var(--sans); font-size: .9rem; color: var(--text-3); padding-top: .18em; font-variant-numeric: lining-nums; }
+.addenda b { font-weight: 500; }
+
+/* one-line pointer to the probe on the home page */
+.probe-link { font-family: var(--sans); font-size: .92rem; color: var(--text-3); text-decoration: none !important; display: inline-block; margin-top: var(--s6); }
+.probe-link span { color: var(--ink); display: inline-block; transition: transform .3s var(--ease); }
+.probe-link:hover { color: var(--ink); }
+.probe-link:hover span { transform: translateX(4px); }
+
+/* ---------- responsive ---------- */
+@media (max-width: 1080px) {
+  .gathering { grid-template-columns: repeat(2, minmax(0, 1fr)); column-gap: 20px; row-gap: 34px; }
+  .gathering > .plate, .gathering > .plate:nth-child(5n+1):nth-last-child(4) { grid-column: auto; margin-top: 0; }
+  .gathering > .plate:nth-child(2n) { margin-top: 18px; }
+  .gathering > .plate--l, .gathering > .plate--l:nth-child(odd) { margin-top: 26px; }
+  /* an odd plate out closes the gathering, centred */
+  .gathering > .plate:last-child:nth-child(odd) { grid-column: 1 / -1; justify-self: center; width: calc(50% - 10px); }
+  .note--portrait { float: right; width: 31%; max-width: 160px; margin: 8px 0 12px 20px !important; }
+  .note--portrait .portrait { width: 100%; }
+  .note--portrait figcaption { font-size: .74rem; }
+  .note--portrait > .note__in { border-left: 0 !important; padding: 0 !important; }
+  .eps-slot--inline .eps__head { justify-content: flex-start; gap: 12px; }
+  .eps-slot--inline .eps__toggle { margin-left: auto; }
+  .eps-slot--inline > .eps { display: grid; grid-template-columns: 1fr auto; align-items: baseline; }
+  .eps-slot--inline .eps__body { grid-column: 1 / -1; }
+  .eps-slot--inline { margin-top: var(--s4); padding-top: var(--s3); border-top: 1px solid var(--rule); max-width: 26rem; }
+  .place-entry { grid-template-columns: 1fr; gap: 18px; }
+  .place-entry__note { grid-column: 1; margin-left: 0; }
+}
+@media (max-width: 720px) {
+  .title { padding-top: 40px; padding-bottom: var(--s5); }
+  .title + .sec { padding-top: var(--s7); }
+  .addenda li { grid-template-columns: 1fr; gap: 0; }
+  .gathering { column-gap: 14px; }
+  .plate figcaption .loc { display: none; }
+  .place-entry__photos[data-layout="pp"] { gap: 16px; }
+  .place-entry__photos[data-layout="pp"] > .plate:nth-child(2) { margin-top: 26px; }
+  .place-entry__photos[data-layout="p"], .place-entry__photos[data-layout="s"] { grid-template-columns: minmax(0, 78%); }
+  /* upright + landscape: stacked, the landscape tipped in over the upright's lower edge */
+  .place-entry__photos[data-layout="pl"], .place-entry__photos[data-layout="lp"] { grid-template-columns: 1fr; gap: 0; }
+  .place-entry__photos[data-layout="pl"] > .plate--p, .place-entry__photos[data-layout="lp"] > .plate--p { width: 72%; }
+  .place-entry__photos[data-layout="pl"] > .plate--l, .place-entry__photos[data-layout="lp"] > .plate--l { width: 86%; justify-self: end; margin: -48px 0 0; position: relative; z-index: 1; }
+}
+
+/* ---------- §3 where I've worked (src/_data/work.js) ----------
+   A ledger: start year in the gutter, the organisation in the serif, a few
+   plain lines; role, dates and place sit in the margin (.note--cv) on wide
+   screens and print as one meta line under the name on narrow ones. */
+.cv__intro { font-size: 1.04rem; line-height: 1.55; color: var(--text-2); margin: 0 0 var(--s4) !important; }
+.cv .cv__g { color: var(--text-3); font-size: var(--fs-label); line-height: 1.3; margin: var(--s7) 0 0; padding: 0 0 10px; border-bottom: 1px solid var(--rule); }
+.cv .cv__g:first-of-type { margin-top: var(--s6); }
+.cv__list { list-style: none; margin: 0; padding: 0; }
+.cv__e { position: relative; padding: 18px 0 20px; border-bottom: 1px solid var(--rule); scroll-margin-top: 96px; }
+.cv__e:last-child { border-bottom: 0; padding-bottom: 4px; }
+.cv__yr { position: absolute; left: calc(-1 * var(--gutter)); top: 18px; width: calc(var(--gutter) - 24px); text-align: right; font-family: var(--serif); font-size: 1.32rem; line-height: 1.86rem; color: var(--text-3); font-variant-numeric: lining-nums; }
+.cv__org { font-family: var(--serif); font-weight: 400; font-style: normal; font-size: 1.55rem; line-height: 1.2; letter-spacing: .005em; margin: 0 0 6px; color: var(--text); text-wrap: balance; }
+.cv__org a { color: inherit; text-decoration: none; }
+.cv__org a:hover { text-decoration: underline; text-decoration-color: var(--ink); text-decoration-thickness: 1px; text-underline-offset: .18em; }
+.cv__aside { font-family: var(--sans); font-size: .86rem; letter-spacing: 0; color: var(--text-3); margin-left: .55em; white-space: nowrap; }
+.cv__l { margin: 0; font-size: 1.08rem; line-height: 1.55; color: var(--text); text-indent: 0 !important; text-wrap: pretty; hyphens: manual; }
+.cv__l + .cv__l { margin-top: 5px; }
+.cv__meta { display: none; }
+.cv__pin { color: var(--text-2); text-decoration: none !important; white-space: nowrap; transition: color .2s var(--ease); }
+.cv__pin .pl { font-family: var(--sc); font-size: .74rem; letter-spacing: .1em; text-transform: uppercase; color: var(--ink); margin-right: .4em; }
+.cv__pin:hover, .cv__pin:focus-visible, .cv__pin.is-lit { color: var(--ink); }
+/* the margin note beside each entry */
+.note--cv p { margin: 0; }
+.note--cv .cv__role { color: var(--text-2); }
+.note--cv .cv__when, .note--cv .cv__where { color: var(--text-3); font-variant-numeric: lining-nums tabular-nums; }
+.note--cv p + p { margin-top: 2px !important; }
+
+@media (max-width: 1080px) {
+  .cv__yr { display: none; }
+  .cv__meta { display: block; margin: 0 0 8px; font-family: var(--sans); font-size: .95rem; line-height: 1.45; color: var(--text-3); font-variant-numeric: lining-nums; }
+  .cv__meta .cv__role { display: block; color: var(--text-2); }
+  .cv__meta .sep { margin: 0 .5em; color: var(--rule-2); }
+}
+@media (max-width: 720px) {
+  .cv__org { font-size: 1.42rem; }
+  .cv__l { font-size: 1.04rem; }
+  .cv__aside { display: block; margin: 2px 0 0; white-space: normal; }
+}

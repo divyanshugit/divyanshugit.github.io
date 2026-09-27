@@ -1,37 +1,71 @@
 <!DOCTYPE html>
 <html lang="en">
-
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>{% if title %}{{ title }} - {% endif %}Divyanshu Kumar</title>
-    <link rel="icon" type="image/svg+xml" href="/assets/logo.svg">
-    <link rel="canonical" href="https://dvynsh.org{{ page.url }}">
+    <title>{% if title and title != "Home" %}{{ title }} · {% endif %}{{ site.name }}</title>
+    {% if description %}<meta name="description" content="{{ description }}">{% endif %}
 
-    <!-- Prevent flash of light mode -->
+    {#- Social previews. A post with `banner: <slug>` uses its pre-generated card
+        (src/assets/og/<slug>.png, `npm run og`); every other page uses the site card. -#}
+    {%- set isPost = page.inputPath and ("/blog/" in page.inputPath) and banner %}
+    {%- set ogTitle = (title | cleanTitle) if (title and title != "Home") else site.name %}
+    {%- set ogDesc = (description | cleanTitle | replace(r/^tl;dr\s*[-—:]*\s*/i, "")) if description else (site.name + " · " + site.role + ". Research on AI safety, privacy and evaluation.") %}
+    <meta property="og:site_name" content="{{ site.name }}">
+    <meta property="og:type" content="{{ 'article' if isPost else 'website' }}">
+    <meta property="og:title" content="{{ ogTitle }}">
+    <meta property="og:description" content="{{ ogDesc }}">
+    <link rel="canonical" href="{{ site.url }}{{ page.url }}">
+    <meta property="og:url" content="{{ site.url }}{{ page.url }}">
+    <meta property="og:image" content="{{ site.url }}{{ (banner if isPost else '') | ogImage }}">
+    <meta property="og:image:width" content="1200">
+    <meta property="og:image:height" content="630">
+    <meta property="og:image:alt" content="{{ ogTitle }}{% if isPost %}, with a figure drawn from the post{% endif %}">
+    {%- if isPost %}<meta property="article:published_time" content="{{ page.date | isoDate }}">{% endif %}
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:creator" content="@divyanshutwt">
+    <meta name="twitter:title" content="{{ ogTitle }}">
+    <meta name="twitter:description" content="{{ ogDesc }}">
+    <meta name="twitter:image" content="{{ site.url }}{{ (banner if isPost else '') | ogImage }}">
+    {#- The mark (DESIGN.md "Mark"): SVG first, ICO for browsers without SVG icons. -#}
+    <link rel="icon" href="/assets/favicon.ico" sizes="32x32">
+    <link rel="icon" type="image/svg+xml" href="/assets/logo.svg">
+    <link rel="apple-touch-icon" href="/assets/apple-touch-icon.png">
+    <link rel="manifest" href="/site.webmanifest">
+    <meta name="theme-color" content="#F5F1E8" media="(prefers-color-scheme: light)">
+    <meta name="theme-color" content="#191612" media="(prefers-color-scheme: dark)">
+
+    {#- No-flash theme: only an explicit choice is applied; otherwise CSS follows the system. -#}
     <script>
         (function () {
-            const savedTheme = localStorage.getItem('theme') ||
-                (window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light');
-            document.documentElement.setAttribute('data-theme', savedTheme);
+            var d = document.documentElement;
+            d.classList.add('js');
+            try { var t = localStorage.getItem('theme'); if (t === 'light' || t === 'dark') d.setAttribute('data-theme', t); } catch (e) {}
+            {%- if legacyCss %}
+            // legacy stylesheet only knows [data-theme]; mirror the system without storing it
+            if (!d.hasAttribute('data-theme') && window.matchMedia && matchMedia('(prefers-color-scheme: dark)').matches) d.setAttribute('data-theme', 'dark');
+            {%- endif %}
         })();
     </script>
 
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link rel="stylesheet" href="{{ '/css/fonts.css' | cacheBust }}">
-    <link rel="stylesheet" href="{{ '/css/style.css' | cacheBust }}">
 
-    <!-- Prism.js for syntax highlighting - conditionally loaded -->
+    {#- Pages not yet moved to the new system keep the old stylesheet (legacyCss: true). -#}
+    {% if legacyCss %}<link rel="stylesheet" href="{{ '/css/legacy-fonts.css' | cacheBust }}"><link rel="stylesheet" href="{{ '/css/style.css' | cacheBust }}">{% endif %}
+    <link rel="stylesheet" href="{{ '/css/site.css' | cacheBust }}">
+    {% if pageCss %}<link rel="stylesheet" href="{{ ('/css/pages/' + pageCss) | cacheBust }}">{% endif %}
+
     {% if hasMath or hasCode %}
     <link rel="stylesheet" href="{{ '/css/prism-tomorrow.min.css' | cacheBust }}" />
     <link rel="stylesheet" href="{{ '/css/prism-toolbar.min.css' | cacheBust }}" />
     {% endif %}
 
-    <!-- Page-specific CSS, opt-in via `extraCss: [proposal.css]` -->
-    {% if extraCss %}
-        {% for css in extraCss %}
-        <link rel="stylesheet" href="{{ ('/css/' + css) | cacheBust }}">
-        {% endfor %}
-    {% endif %}
+    {#- Page-specific CSS, opt-in via `extraCss: [proposal.css]` (used by /proposal/*) -#}
+    {% if extraCss %}{% for css in extraCss %}
+    <link rel="stylesheet" href="{{ ('/css/' + css) | cacheBust }}">
+    {% endfor %}{% endif %}
 
     <!-- Google Analytics -->
     <script async src="https://www.googletagmanager.com/gtag/js?id=G-D9VESR00K0"></script>
@@ -42,7 +76,6 @@
         gtag('config', 'G-D9VESR00K0');
     </script>
 
-    <!-- MathJax for mathematical formulas - conditionally loaded -->
     {% if hasMath %}
     <script>
         window.MathJax = {
@@ -63,39 +96,29 @@
     {% endif %}
 </head>
 
-<body>
-    <!-- Clean Header with Navigation -->
-    <header class="site-header">
-        <div class="header-container">
-            <nav class="header-nav">
-                <a href="/index.html" class="nav-item {% if page.url == '/' %}active{% endif %}">Home</a>
-                <a href="/publications.html" class="nav-item {% if page.url == '/publications/' %}active{% endif %}">Publications</a>
-                <a href="/projects.html" class="nav-item {% if page.url == '/projects/' %}active{% endif %}">Projects</a>
-                <a href="/timeline.html" class="nav-item {% if page.url == '/timeline/' %}active{% endif %}">Timeline</a>
-                <a href="/blog.html" class="nav-item {% if page.url.startsWith('/blog') %}active{% endif %}">Blog</a>
-            </nav>
+<body class="{{ bodyClass or '' }}{% if legacyCss %} legacy{% endif %}">
+    <a class="skip" href="#main">Skip to text</a>
+    {% include "partials/masthead.njk" %}
 
-            <div class="header-right">
-                <button id="theme-toggle" class="theme-toggle-header" aria-label="Toggle dark mode">
-                    <span class="theme-toggle-icon">☀️</span>
-                    <span class="theme-toggle-icon">🌙</span>
-                </button>
-            </div>
-        </div>
-    </header>
-
+    <main id="main">
     {{ content | safe }}
+    </main>
 
-    <!-- Prism.js JavaScript - conditionally loaded -->
+    {% include "partials/colophon.njk" %}
+
+    {#- The ε engine: facts from src/_data/particulars.js, used by any page that marks [data-f] or [data-eps-img]. -#}
+    <script>window.EPS_FACTS = {{ particulars.facts | json | safe }};</script>
+    <script src="{{ '/js/eps.js' | cacheBust }}"></script>
+    <script src="{{ '/js/dmark.js' | cacheBust }}"></script>
+    <script src="{{ '/js/site.js' | cacheBust }}"></script>
+
     {% if hasCode %}
     <script defer src="{{ '/js/vendor/prism-core.min.js' | cacheBust }}"></script>
-    <script defer src="{{ '/js/vendor/prism-autoloader.min.js' | cacheBust }}"></script>
+    <script defer src="{{ '/js/vendor/prism-autoloader.min.js' | cacheBust }}" data-autoloader-path="/js/vendor/components/"></script>
     <script defer src="{{ '/js/vendor/prism-toolbar.min.js' | cacheBust }}"></script>
     <script defer src="{{ '/js/vendor/prism-copy-to-clipboard.min.js' | cacheBust }}"></script>
     {% endif %}
-    
-    <script src="{{ '/js/script.js' | cacheBust }}"></script>
+    {% if legacyCss %}<script src="{{ '/js/script.js' | cacheBust }}"></script>{% endif %}
+    {% if pageJs %}{% for js in pageJs %}<script src="{{ js | cacheBust }}"></script>{% endfor %}{% endif %}
 </body>
-
 </html>
-

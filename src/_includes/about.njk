@@ -1,0 +1,138 @@
+---
+layout: base.njk
+pageCss: about.css
+bodyClass: page-about
+---
+{%- import "partials/plates.njk" as plates -%}
+{#- about.md is split at <!-- more -->: the lede, then §1. Everything else is data. -#}
+{%- set parts = content | splitOn("<!-- more -->") -%}
+
+<!-- ================= TITLE PAGE ================= -->
+<section class="sheet page-head title" id="top" aria-labelledby="name">
+  <div class="gut"></div>
+  <div class="body" data-probe-sec="Title">
+    <aside class="note note--portrait always" id="n-portrait" data-anchor="name" data-top="4" aria-label="Portrait and privacy budget">
+      <div class="note__in">
+        <figure class="plate portrait" style="--r:1.2deg" data-eps-img data-eps-mode="anon" data-eps-w="300">
+          <div class="plate__mount"><div class="plate__c"></div>
+            <div class="plate__img">
+              <picture>
+                <source type="image/avif" srcset="/assets/optimized/pic-200w.avif 200w, /assets/optimized/pic-400w.avif 400w, /assets/optimized/pic-800w.avif 800w" sizes="200px">
+                <img src="/assets/optimized/pic-400w.webp" srcset="/assets/optimized/pic-200w.webp 200w, /assets/optimized/pic-400w.webp 400w, /assets/optimized/pic-800w.webp 800w" sizes="200px" width="400" height="600" alt="An illustrated portrait of Divyanshu, arms folded, in a black t-shirt." decoding="async" fetchpriority="high">
+              </picture>
+            </div>
+          </div>
+          <figcaption><span class="pl">Fig. 1</span>{{ figCaption }}</figcaption>
+        </figure>
+      </div>
+    </aside>
+
+    <p class="over lab noindent">About<span class="sep">·</span>a working manuscript, revised <i>{{ site.revised | localDate }}</i></p>
+    <h1 id="name">{{ site.name }}</h1>
+    <p class="dek noindent">{{ subtitle }}</p>
+
+    <div class="lede" data-probe>{{ parts[0] | safe }}</div>
+
+    <p class="particulars noindent" id="particulars" aria-label="Particulars (releasable under the privacy budget)">
+      {%- for part in particulars.line -%}
+        {%- if part.f %}<span class="f" data-f="{{ part.f }}">{{ particulars.facts[part.f].exact or particulars.facts[part.f].levels[0] }}</span>{% else %}{{ part }}{% endif -%}
+      {%- endfor -%}
+    </p>
+
+    <aside class="note note--eps" id="n-eps" data-anchor="particulars" aria-label="Privacy budget"><div class="note__in">
+      <div class="eps-slot eps-slot--rail" data-eps-dock="title-wide"><div data-eps-instrument data-eps-docks="title" data-hint="{{ epsHint }}"></div></div>
+    </div></aside>
+    <div class="eps-slot eps-slot--inline" data-eps-dock="title-narrow"></div>
+
+    {% include "partials/links.njk" %}
+
+    <a class="probe-link" href="/index.html#probe">Ask this site something, or try to make it misbehave <span>→</span></a>
+  </div>
+</section>
+
+<!-- ================= §1 WORK (markdown, from index.md) ================= -->
+<section class="sheet sec" id="work" data-toc="What I work on" data-toc-no="§1" aria-labelledby="h-work">
+  <div class="sec__rule"></div>
+  <div class="gut">§ 1<span>the stack</span></div>
+  <div class="body prose-home" data-probe data-probe-sec="§1">
+    <h2 id="h-work">{{ workHeading }}</h2>
+    {{ parts[1] | safe }}
+  </div>
+</section>
+
+<!-- ================= §2 PLACES (src/_data/places.js) ================= -->
+<section class="sheet sec" id="places" data-toc="Where this happened" data-toc-no="§2" aria-labelledby="h-places">
+  <div class="sec__rule"></div>
+  <div class="gut">§ 2<span>places</span></div>
+  <div class="body" data-probe data-probe-sec="§2">
+    <h2 id="h-places">Where this happened</h2>
+    {{ journey | md | placeSpans(places) | safe }}
+    <aside class="note note--eps" id="n-eps-places" data-anchor="h-places" aria-label="Privacy budget for the plates"><div class="note__in">
+      <div class="eps-slot eps-slot--rail" data-eps-dock="plates-wide"><div data-eps-instrument data-eps-docks="plates" data-hint="The plates are released through the same budget: grain and blocks grow as ε falls, and each caption keeps only a generalised place."></div></div>
+    </div></aside>
+    <div class="eps-slot eps-slot--inline" data-eps-dock="plates-narrow"></div>
+  </div>
+  <div class="wide gathering" aria-label="Plates I to {{ places[places.length - 1].plate }}: the places, in order">
+    {%- set rots = ["-1.1deg", "0.8deg", "-0.5deg", "1.3deg", "0.6deg", "-1.2deg", "0.9deg", "-0.7deg", "1deg"] %}
+    {%- for p in places %}
+    {{ plates.plate(p, { rot: rots[loop.index0 % 9], open: true, id: true }) }}
+    {%- endfor %}
+  </div>
+  <div class="wide leaf" id="leaf" hidden></div>
+  {%- for p in places %}{% if p.story or p.isSet %}<template id="leaf-{{ p.id }}">{{ plates.entry(p) }}</template>{% endif %}{% endfor %}
+  <div class="body entry-link"><a class="more" href="/timeline.html">Milestones, year by year <span>→</span></a></div>
+</section>
+
+<!-- ================= §3 WHERE I'VE WORKED (src/_data/work.js) ================= -->
+{#- A ledger: the start year in the gutter, the organisation in the serif, a few
+    plain lines, and the role, dates and place as a margin note beside it (on
+    narrow screens the same facts print as one meta line under the name). A place
+    with a plate in §2 links to it. -#}
+{%- macro pin(e) -%}
+  {%- set pl = (places | where("id", e.placeId))[0] if e.placeId else null -%}
+  {%- if pl and e.placeNote -%}{{ e.place }}, <a class="cv__pin" href="#place-{{ pl.id }}" data-place="{{ pl.id }}" aria-label="{{ e.placeNote }}: plate {{ pl.plate }}, {{ pl.name }}"><span class="pl">Pl. {{ pl.plate }}</span>{{ e.placeNote }}</a>
+  {%- elif pl -%}<a class="cv__pin" href="#place-{{ pl.id }}" data-place="{{ pl.id }}" aria-label="{{ e.place }}: plate {{ pl.plate }}"><span class="pl">Pl. {{ pl.plate }}</span>{{ e.place }}</a>
+  {%- else -%}{{ e.place }}{%- endif -%}
+{%- endmacro -%}
+{%- macro cvEntry(e) -%}
+      <li class="cv__e" id="w-{{ e.id }}">
+        {%- if e.showYear %}<span class="cv__yr" aria-hidden="true">{{ e.year }}</span>{% endif %}
+        <h4 class="cv__org">{% if e.link %}<a href="{{ e.link }}" rel="noopener">{{ e.org }}</a>{% else %}{{ e.org }}{% endif %}{% if e.note %}<span class="cv__aside">{{ e.note }}</span>{% endif %}</h4>
+        <p class="cv__meta"><span class="cv__role">{{ e.role }}</span> <span class="cv__sub"><time>{{ e.dates }}</time>{% if e.place %}<span class="sep">·</span>{{ pin(e) | safe }}{% endif %}</span></p>
+        {%- for l in e.lines %}
+        <p class="cv__l">{{ l | mdInline | safe }}</p>
+        {%- endfor %}
+      </li>
+{%- endmacro -%}
+{%- macro cvNote(e) -%}
+    <aside class="note note--meta note--cv" id="n-w-{{ e.id }}" data-anchor="w-{{ e.id }}" data-top="7" aria-label="{{ e.org }}: role, dates, place"><div class="note__in">
+      <p class="cv__role">{{ e.role }}</p>
+      <p class="cv__when"><time>{{ e.dates }}</time></p>
+      {%- if e.place %}<p class="cv__where">{{ pin(e) | safe }}</p>{% endif %}
+    </div></aside>
+{%- endmacro %}
+<section class="sheet sec" id="worked" data-toc="Where I’ve worked" data-toc-no="§3" aria-labelledby="h-worked">
+  <div class="sec__rule"></div>
+  <div class="gut">§ 3<span>the record</span></div>
+  <div class="body cv">
+    <h2 id="h-worked">Where I’ve worked</h2>
+    <p class="cv__intro noindent">Newest first. Where a place has a plate in §2, it links there.</p>
+    {%- for g in work.groups %}
+    <h3 class="cv__g lab" id="w-g-{{ g.id }}">{{ g.label }}</h3>
+    <ol class="cv__list">
+      {%- for e in g.items %}
+{{ cvEntry(e) }}
+      {%- endfor %}
+    </ol>
+    {%- endfor %}
+    <h3 class="cv__g lab" id="w-g-service">Service</h3>
+    <ol class="cv__list">
+{{ cvEntry(work.service) }}
+    </ol>
+    {#- the margin: role, dates and place beside each entry -#}
+    {%- for g in work.groups %}{% for e in g.items %}
+{{ cvNote(e) }}
+    {%- endfor %}{% endfor %}
+{{ cvNote(work.service) }}
+  </div>
+</section>

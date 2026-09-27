@@ -1,63 +1,132 @@
 ---
 layout: base.njk
+pageCss: projects.css
+bodyClass: page-projects
+pageJs:
+  - /js/projects.js
 ---
+{#- Projects: the active lead project set as a short paper (questions, method,
+    working terms in the margin, what comes out of it), then the others as a
+    calm list whose detail unfolds in place.
+    Data: lead / leadMethod / others from src/projects.11tydata.js (built on
+    src/_data/projs.js). Every item carries id="<data id>" for the probe. -#}
+{%- set L = lead -%}
+{%- macro linkrow(list) -%}
+{%- if list.length %}<p class="plinks">{% for l in list %}<a href="{{ l.url }}"{% if l.internal %} class="int"{% endif %}>{{ l.label }}{% if l.internal %} <span aria-hidden="true">→</span>{% endif %}</a>{% endfor %}</p>{% endif -%}
+{%- endmacro -%}
+{%- macro techs(list) -%}{% for t in list %}<span class="tk">{{ t }}</span>{% if not loop.last %}<span class="sep" aria-hidden="true"> · </span>{% endif %}{% endfor %}{%- endmacro -%}
+{%- macro status(s) -%}{% if s == "active" %}<span class="st live">in progress</span>{% else %}<span class="st">finished</span>{% endif %}{%- endmacro -%}
 
-<div class="container">
-    <div class="page-layout">
-        <div class="page-header">
-            <h1>{{ pageTitle }}</h1>
-            <p class="page-subtitle">{{ subtitle }}</p>
-        </div>
+<section class="sheet page-head proj-title" id="top" aria-labelledby="h-proj">
+  <div class="gut"></div>
+  <div class="body">
+    <p class="over lab noindent">{{ overline }}</p>
+    <h1 id="h-proj">{{ pageTitle }}</h1>
+    <p class="dek noindent">{{ intro }}</p>
+  </div>
+</section>
 
-        <!-- Filter Options -->
-        <div class="filter-section">
-            <div class="filter-buttons">
-                <button class="filter-btn active" data-filter="all">All Projects</button>
-                <button class="filter-btn" data-filter="active">Active</button>
-                <button class="filter-btn" data-filter="completed">Completed</button>
-                <button class="filter-btn" data-filter="featured">Featured</button>
-            </div>
-        </div>
+{#- ---------- § 1  the lead project ---------- -#}
+<section class="sheet sec lead" id="now" data-toc="Now" data-toc-no="§1" aria-labelledby="{{ L.id }}-t">
+  <div class="sec__rule"></div>
+  <div class="gut">§ 1<span>now</span></div>
+  <article class="body" id="{{ L.id }}">
+    <aside class="note note--ink" id="n-lead" data-anchor="{{ L.id }}-t" data-top="6" aria-label="Status and tools"><div class="note__in">
+      <span class="lab">in progress</span>{% if L.collaboration %}{{ L.collaboration }}.{% endif %}
+      <p class="tech">{{ techs(L.technologies) }}</p>
+    </div></aside>
 
-        <!-- Projects Grid -->
-        <div class="projects-container" id="projectsContainer">
-            <!-- Projects will be dynamically loaded here -->
-        </div>
+    <h2 class="lead__t" id="{{ L.id }}-t">{{ L.title }}</h2>
+    <p class="lead__d noindent">{{ L.fullDescription or L.description }}</p>
 
-        <!-- Technologies Used -->
-        <div class="technologies-section">
-            <h3>Technologies & Tools</h3>
-            <div class="tech-categories">
-                {% for category in techCategories %}
-                <div class="tech-category">
-                    <h4>{{ category.name }}</h4>
-                    <div class="tech-tags">
-                        {% for tech in category.technologies %}
-                        <span class="tech-tag">{{ tech }}</span>
-                        {% endfor %}
-                    </div>
-                </div>
-                {% endfor %}
-            </div>
-        </div>
+    {%- if L.researchQuestions and L.researchQuestions.length %}
+    <h3 class="sub">Questions</h3>
+    <ol class="qs">
+      {%- for q in L.researchQuestions %}<li>{{ q }}</li>{% endfor %}
+    </ol>
+    {%- endif %}
 
-        {{ content | safe }}
-    </div>
-</div>
+    {%- if leadMethod.length %}
+    <h3 class="sub">How</h3>
+    <dl class="method">
+      {%- for m in leadMethod %}
+      <div class="method__i"><dt>{{ m.term }}</dt><dd>{{ m.html | safe }}</dd></div>
+      {%- endfor %}
+    </dl>
+    {%- if metrics and (leadMethod | where("hasTerms") | length) %}
+    <aside class="note" id="n-terms" data-anchor="terms" aria-label="Working terms"><div class="note__in">
+      <span class="lab">working terms</span>
+      {%- for t in metrics %}<p><i>{{ t.term }}</i>: {{ t.gloss }}</p>{% endfor %}
+    </div></aside>
+    {%- endif %}
 
-<!-- Modal for Project Details -->
-<div id="modalOverlay" class="pub-modal-overlay">
-    <div class="pub-modal" role="dialog" aria-modal="true" aria-labelledby="modalTitle">
-        <button id="modalClose" class="pub-modal__close" aria-label="Close details">&times;</button>
-        <div id="modalStatus" class="pub-modal__badges"></div>
-        <h2 id="modalTitle" class="pub-modal__title"></h2>
-        <p id="modalDescription" class="pub-modal__desc"></p>
-        <div id="modalDetails"></div>
-        <div id="modalTechnologies" class="pub-modal__block"></div>
-        <div id="modalLinks" class="pub-modal__block pub-modal__linkblock"></div>
-    </div>
-</div>
+    <figure class="schem" aria-labelledby="schem-cap">
+      <svg viewBox="0 0 520 150" role="img" aria-label="Schematic: a risk curve over denoising steps crosses a threshold at the first harmful step and stays above it; a dotted curve crosses and comes back under.">
+        <rect class="schem__wash" x="244" y="14" width="256" height="114"/>
+        <line class="schem__axis" x1="40" y1="128" x2="500" y2="128"/>
+        {%- for i in range(0, 13) %}<line class="schem__tk" x1="{{ 40 + i * 38.333 }}" y1="128" x2="{{ 40 + i * 38.333 }}" y2="{{ 132 if i % 6 else 135 }}"/>{% endfor %}
+        <line class="schem__thr" x1="40" y1="64" x2="500" y2="64"/>
+        <text class="schem__lab" x="42" y="57">threshold</text>
+        <polyline class="schem__alt" points="40,119 78.3,117 116.7,114 155,106 193.3,90 231.7,66 270,56 308.3,60 346.7,74 385,90 423.3,100 461.7,106 500,110"/>
+        <polyline class="schem__run" points="40,118 78.3,116 116.7,113 155,108 193.3,96 231.7,70 270,52 308.3,44 346.7,40 385,38 423.3,36 461.7,35 500,34"/>
+        <line class="schem__fhs" x1="244" y1="64" x2="244" y2="128"/>
+        <circle class="schem__dot" cx="244" cy="64" r="3"/>
+        <text class="schem__lab schem__lab--ink" x="250" y="118">first harmful step</text>
+        <text class="schem__lab" x="498" y="26" text-anchor="end">stays harmful</text>
+        <text class="schem__lab" x="498" y="100" text-anchor="end">recovers</text>
+        <text class="schem__lab" x="40" y="147" text-anchor="middle">T</text>
+        <text class="schem__lab" x="500" y="147" text-anchor="middle">0</text>
+        <text class="schem__lab" x="270" y="147" text-anchor="middle">denoising step</text>
+      </svg>
+      <figcaption id="schem-cap"><span class="pl">Fig.</span>{{ figCaption }}</figcaption>
+    </figure>
+    {%- endif %}
 
-<script src="/data/projects.js"></script>
-<script src="/js/projects-page.js"></script>
+    {%- if L.toolkit or L.planned.length or L.otherOutcomes.length %}
+    <h3 class="sub">What comes out of it</h3>
+    <ul class="outs">
+      {%- if L.toolkit %}<li><span class="outs__k">toolkit</span><span><i>{{ L.toolkit.name }}</i>: {{ L.toolkit.text }}.</span></li>{% endif %}
+      {%- if L.planned.length %}<li><span class="outs__k">papers</span><span>{% for t in L.planned %}<i>{{ t }}</i>{% if not loop.last %}; {% endif %}{% endfor %}.</span></li>{% endif %}
+      {%- for o in L.otherOutcomes %}<li><span class="outs__k">also</span><span>{{ o }}</span></li>{% endfor %}
+    </ul>
+    <p class="planned noindent">All planned; nothing here is published yet.</p>
+    {%- endif %}
 
+    {{ linkrow(L.linkList) }}
+
+    <p class="collab noindent"><span class="lab">collaboration</span>{{ collaborate }} <a href="/about.html#contact" data-email="{{ site.emailObf }}" data-subject="{{ L.title }}">Write to me <span aria-hidden="true">→</span></a></p>
+  </article>
+</section>
+
+{#- ---------- § 2  the others ---------- -#}
+<section class="sheet sec others" id="others" data-toc="Other projects" data-toc-no="§2" aria-labelledby="h-others">
+  <div class="sec__rule"></div>
+  <div class="gut">§ 2<span>before, and alongside</span></div>
+  <div class="body"><h2 class="visually-hidden" id="h-others">Other projects</h2></div>
+  <ol class="wide plist">
+    {%- for p in others %}
+    <li class="pj" id="{{ p.id }}">
+      <div class="pj__main">
+        <h3 class="pj__t">{{ p.title }}</h3>
+        <p class="pj__d">{{ p.description }}</p>
+        <button type="button" class="pj__more" aria-expanded="false" aria-controls="d-{{ p.id }}">details</button>
+        <div class="pj__detail" id="d-{{ p.id }}" role="region" aria-label="Details: {{ p.title }}"><div>
+          {%- if p.fullDescription %}<p class="pj__full">{{ p.fullDescription }}</p>{% endif %}
+          {%- if p.detail.length %}
+          <p class="pj__k lab">{{ p.detailLabel }}</p>
+          <ul class="pj__list">{% for d in p.detail %}<li>{{ d }}</li>{% endfor %}</ul>
+          {%- endif %}
+          {%- if p.collaboration %}<p class="pj__collab">{{ p.collaboration }}.</p>{% endif %}
+          {{ linkrow(p.linkList) }}
+        </div></div>
+      </div>
+      <div class="pj__meta">
+        {{ status(p.status) }}
+        <span class="tech">{{ techs(p.technologies) }}</span>
+      </div>
+    </li>
+    {%- endfor %}
+  </ol>
+</section>
+
+{{ content | safe }}

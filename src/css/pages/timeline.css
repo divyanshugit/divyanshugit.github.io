@@ -1,0 +1,56 @@
+/* ==========================================================================
+   pages/timeline.css — the timeline (layout timeline-page.njk), set as
+   addenda to the manuscript: years in the gutter, the month beside each
+   line, and a place's plate in the margin where the record names one.
+   ========================================================================== */
+
+.tl-places { margin: var(--s5) 0 0 !important; }
+.tl-places .more { margin-top: 0; font-size: 1.04rem; }
+
+/* ---------- a year ---------- */
+.yr { padding-top: var(--s7); }
+.yr .gut { padding-top: 12px; }
+.yr__h { font-family: var(--serif) !important; font-style: normal !important; font-weight: 400 !important; font-size: 1.32rem !important; line-height: 1.2 !important; letter-spacing: .01em !important; color: var(--text-3); margin: 0 !important; font-variant-numeric: lining-nums; }
+.yr > .body { border-top: 1px solid var(--rule); }
+
+/* ---------- the entries ---------- */
+.addenda { list-style: none; margin: 0; padding: 0; }
+.add { display: grid; grid-template-columns: 3.1rem minmax(0, 1fr); column-gap: var(--s4); align-items: baseline; padding: 13px 0 14px; border-bottom: 1px solid var(--rule); scroll-margin-top: 96px; }
+.add:last-child { border-bottom: 0; }
+.add__m { font-family: var(--sc); font-size: .8rem; letter-spacing: .1em; text-transform: uppercase; color: var(--text-3); font-variant-numeric: lining-nums; }
+.add--key .add__m { color: var(--ink); }
+.add__y { color: var(--text-3); }
+.add__c p { margin: 0; font-size: 1.1rem; line-height: 1.5; color: var(--text); text-indent: 0; text-wrap: pretty; }
+.add__c b { font-weight: 500; }
+.add__c .add__l { margin-top: 5px; display: flex; flex-wrap: wrap; gap: 2px 16px; font-family: var(--sans); font-size: .9rem; line-height: 1.5; font-variant-numeric: lining-nums; }
+.add__l a { color: var(--text-2); text-decoration: none; }
+.add__l a span { color: var(--ink); }
+.add__l a:hover { color: var(--ink); text-decoration: underline; text-decoration-color: var(--ink-2); text-underline-offset: .2em; }
+.add__place .pl { font-family: var(--sc); font-size: .76rem; letter-spacing: .1em; color: var(--ink) !important; margin-right: .45em;  text-transform: uppercase; }
+
+/* a place's plate, in the margin beside its entry */
+.note--plate .note__in { border-left-color: transparent !important; }
+.note--plate .plate { width: 7.6rem; }
+.note--plate .plate__mount { padding: 5px; }
+.note--plate .plate__mount::before, .note--plate .plate__mount::after, .note--plate .plate__c::before, .note--plate .plate__c::after { width: 12px; height: 12px; }
+/* one shape for every margin plate, as on Home: 4:5, each photo's --focus in frame */
+.note--plate .plate__img img, .note--plate .plate__blank { aspect-ratio: 4 / 5; object-fit: cover; }
+.note--plate figcaption { margin-top: 8px; font-size: .78rem; }
+.note--plate figcaption b { font-size: 1rem; }
+.plate-link { display: block; color: inherit; text-decoration: none !important; }
+.page-timeline .colophon { padding-top: var(--s8); }
+
+@media (min-width: 1081px) {
+  .add__place { display: none; }            /* the plate in the margin says it */
+}
+@media (max-width: 1080px) {
+  .yr .gut { padding: 0 0 var(--s2); }
+  .note--plate { display: none !important; }
+}
+@media (max-width: 720px) {
+  .tl-head { padding-top: 36px; }
+  .subtitle { font-size: 1.24rem; }
+  .yr { padding-top: var(--s6); }
+  .add { grid-template-columns: 2.6rem minmax(0, 1fr); column-gap: var(--s3); }
+  .add__c p { font-size: 1.04rem; }
+}

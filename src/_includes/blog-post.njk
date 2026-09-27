@@ -1,50 +1,143 @@
 ---
 layout: base.njk
+pageCss: post.css
+pageJs:
+  - /js/post.js
 hasMath: true
 hasCode: true
+bodyClass: page-post
 ---
+{#- A post, set like a chapter: title page, then the text in one column with
+    the date, reading time, tags, references and footnotes in the margin.
+    Works cited, the series and a line to write to me close it. -#}
+{%- set ROMAN = ["", "i", "ii", "iii", "iv", "v", "vi", "vii", "viii", "ix", "x"] -%}
+{%- set postTags = tags if (tags and tags.length) else [] -%}
+{%- set ttl = title | cleanTitle -%}
+{%- set flagM = (title or "").match(r/\[([^\]]+)\]\s*$/) -%}
+{%- set flag = flagM[1] if flagM else "" -%}
+{#- "Main title: subtitle" is set as a title and an italic dek -#}
+{%- set tsplit = ttl | splitOn(": ") -%}
+{%- set h1 = tsplit[0] if tsplit.length == 2 else ttl -%}
+{%- set dek = tsplit[1] if tsplit.length == 2 else ("" if series else (description | cleanTitle | replace(r/^tl;dr\s*[-—:]*\s*/i, ""))) -%}
+{%- set mins = content | readingTime -%}
+{%- set subject = "Discussion: " + (emailSubject or ttl) -%}
 
-<div class="container">
-    <!-- Back to Blog Link -->
-    <div class="back-link">
-        <a href="/blog.html">← Back to Blog</a>
-    </div>
+{#- the series this post belongs to, oldest part first -#}
+{%- set parts = [] -%}
+{%- if series -%}
+  {%- for p in collections.blog | reverse -%}
+    {%- if p.data.series and p.data.series.id == series.id %}{% set _ = parts.push(p) %}{% endif -%}
+  {%- endfor -%}
+{%- endif -%}
+{%- set pos = [] -%}
+{%- for p in parts %}{% if p.url == page.url %}{% set _ = pos.push(loop.index0) %}{% endif %}{% endfor -%}
+{%- set at = pos[0] if pos.length else -1 -%}
+{%- set partNo = at + 1 -%}
+{%- set prevP = parts[at - 1] if at > 0 else null -%}
+{%- set nextP = parts[at + 1] if (at > -1 and at + 1 < parts.length) else null -%}
 
-    <!-- Blog Post Content -->
-    <div class="blog-post-content">
-        <div class="blog-post-header">
-            <div class="blog-post-date">{{ date | readableDate }}</div>
-            <div class="blog-post-main">
-                <h1 class="blog-post-title">{{ title }}</h1>
-                <p class="blog-post-description">{{ description }}</p>
-            </div>
-            <div class="blog-post-tags">
-                {% for tag in tags %}
-                <span class="tag">{{ tag }}</span>
-                {% endfor %}
-            </div>
+{#- h2s get ids so the side rail can list them ("On this page") -#}
+{%- set segs = content | splitOn("<h2>") -%}
+{%- set useToc = segs.length > 2 and segs.length < 14 -%}
+{%- set body -%}
+{{ segs[0] | safe }}
+{%- for seg in segs.slice(1) -%}
+  {%- set hp = seg | splitOn("</h2>") -%}
+  {%- set label = hp[0] | stripHtml | replace(r/^\d+\.\s*/, "") | trim -%}
+  <h2 id="s{{ loop.index }}"{% if useToc %} data-toc="{{ label }}" data-toc-no="§{{ loop.index }}"{% endif %}>{{ hp[0] | safe }}</h2>{{ hp.slice(1).join("</h2>") | safe }}
+{%- endfor -%}
+{%- endset -%}
+
+<article class="post" aria-labelledby="post-title" data-prismjs-copy="copy" data-prismjs-copy-success="copied" data-prismjs-copy-error="press ⌘C to copy" data-prismjs-copy-timeout="1600">
+  <header class="sheet page-head page-head--post post-head" id="top">
+    <div class="gut"></div>
+    <div class="body">
+      <p class="over lab noindent"><a href="/blog.html">Blog</a>{% if series %}<span class="sep">·</span><a href="/blog.html#series-{{ series.id }}">{{ series.name }}</a><span class="sep">·</span><span class="part">part {{ ROMAN[partNo] or partNo }} of {{ ROMAN[parts.length] or parts.length }}</span>{% elif postTags.length %}<span class="sep">·</span><a href="/blog.html?tag={{ postTags[0] | urlencode }}">{{ postTags[0] }}</a>{% endif %}</p>
+      <h1 id="post-title">{{ h1 }}</h1>
+      {%- if dek %}<p class="dek noindent">{{ dek }}</p>{% endif %}
+
+      {#- narrow screens: one quiet line; wide screens: the margin note below -#}
+      <p class="meta noindent"><time datetime="{{ page.date | isoDate }}">{{ page.date | longDate }}</time><span class="sep">·</span>{{ mins }}{% if postTags.length %}<span class="sep">·</span>{% for t in postTags %}<a href="/blog.html?tag={{ t | urlencode }}">{{ t }}</a>{% if not loop.last %}, {% endif %}{% endfor %}{% endif %}</p>
+
+      <aside class="note note--meta" id="n-meta" data-anchor="post-title" data-top="10" aria-label="About this post">
+        <div class="note__in">
+          <p><span class="lab">written</span><time datetime="{{ page.date | isoDate }}">{{ page.date | longDate }}</time></p>
+          <p><span class="lab">reading</span>{{ mins | replace(" read", "") }}</p>
+          {%- if postTags.length %}
+          <p class="tags"><span class="lab">filed under</span>{% for t in postTags %}<a href="/blog.html?tag={{ t | urlencode }}">{{ t }}</a>{% if not loop.last %}<span class="c">, </span>{% endif %}{% endfor %}</p>
+          {%- endif %}
+          {%- if flag %}
+          <p class="flag"><span class="lab">in progress</span>{{ flag | replace(r/^in progress\s*[-—:]*\s*/i, "") }}.</p>
+          {%- endif %}
         </div>
-
-        <div class="blog-content">
-            {{ content | safe }}
-
-            <hr style="margin: 40px 0; border: none; border-top: 1px solid var(--border-color);">
-
-            <div style="text-align: center; margin: 30px 0;">
-                <p><strong>Found this article helpful or have questions? 💡</strong></p>
-                <p>I'm always happy to discuss AI Safety, answer your questions, or hear your feedback.</p>
-                <p><strong><a
-                            href="mailto:kumardivy1999@gmail.com?subject=Discussion:%20{{ emailSubject or title | urlencode }}"
-                            style="color: var(--link-color); text-decoration: none;">📧 Click here to send me an
-                            email</a></strong></p>
-            </div>
-
-            <hr style="margin: 40px 0; border: none; border-top: 1px solid var(--border-color);">
-
-            {% if references %}
-            {{ references | generateReferences | safe }}
-            {% endif %}
-        </div>
+      </aside>
     </div>
-</div>
+  </header>
 
+  <div class="sheet post-text">
+    <div class="gut"></div>
+    <div class="body" id="text">
+      {#- the frontispiece: a figure drawn from the post's subject (front matter `banner: <slug>`, DESIGN.md § 11) -#}
+      {%- if banner %}
+      {% banner banner %}
+      {%- endif %}
+      {{ body | safe }}
+    </div>
+  </div>
+
+  <footer class="post-end">
+    {%- if parts.length > 1 %}
+    <nav class="sheet sec series" id="series" aria-labelledby="series-h">
+      <div class="sec__rule"></div>
+      <div class="gut">§<span>the series</span></div>
+      <div class="body">
+        <h2 class="series__h" id="series-h">{{ series.name }}</h2>
+        <ol class="series__list">
+          {%- for p in parts %}
+          <li{% if p.url == page.url %} aria-current="page"{% endif %}>
+            <span class="series__no">{{ ROMAN[loop.index] or loop.index }}</span>
+            {%- if p.url == page.url %}<span class="series__t">{{ p.data.title | cleanTitle | splitOn(":") | first }}</span><span class="series__here">you are here</span>
+            {%- else %}<a class="series__t" href="{{ p.url }}">{{ p.data.title | cleanTitle | splitOn(":") | first }}</a>{% endif %}
+            <time class="series__d" datetime="{{ p.date | isoDate }}">{{ p.date | monthYear }}</time>
+          </li>
+          {%- endfor %}
+        </ol>
+        {%- if nextP %}<a class="more" href="{{ nextP.url }}">Next: {{ nextP.data.title | cleanTitle | splitOn(":") | first }} <span>→</span></a>
+        {%- elif prevP %}<a class="more" href="{{ parts[0].url }}">From the beginning <span>→</span></a>{% endif %}
+      </div>
+    </nav>
+    {%- endif %}
+
+    <section class="sheet sec signoff" aria-label="Write to me">
+      <div class="sec__rule"></div>
+      <div class="gut">Fin.<span>replies</span></div>
+      <div class="body">
+        <p class="signoff__line noindent">If this was useful, or wrong somewhere, I would like to hear it. I am always happy to talk about {{ "privacy" if series else "this, or AI safety generally" }}: <a href="/about.html#contact" data-email="{{ site.emailObf }}" data-subject="{{ subject }}">write to me</a>.</p>
+        <p class="signoff__nav noindent"><a class="more" href="/blog.html">All writing <span>→</span></a></p>
+      </div>
+    </section>
+
+    {%- if references %}
+    <section class="sheet sec refs" id="references" aria-label="References">
+      <div class="sec__rule"></div>
+      <div class="gut">Ref.<span>works cited</span></div>
+      <div class="body refs__list">
+        {{ references | generateReferences | safe }}
+      </div>
+    </section>
+    {%- endif %}
+  </footer>
+</article>
+
+{#- data for the reference margin notes (js/post.js): titles for my own posts -#}
+{%- if references %}
+<script type="application/json" id="ref-data">{
+{%- for num, url in references %}
+  {%- set slug = url | replace(r/[#?].*$/, "") | replace(r/\/+$/, "") | replace(r/\.html$/, "") | splitOn("/") | last -%}
+  {%- set mine = [] -%}
+  {%- if "dvynsh.org" in url -%}{%- for p in collections.blog -%}{%- if p.url and p.url.endsWith("/" + slug + ".html") %}{% set _ = mine.push(p) %}{% endif -%}{%- endfor -%}{%- endif -%}
+  {%- set own = mine[0] if mine.length else null -%}
+  "{{ num }}": {"u": {{ (own.url if own else url) | json | safe }}, "t": {{ ((own.data.title | cleanTitle) if own else "") | json | safe }}}{% if not loop.last %},{% endif %}
+{%- endfor %}
+}</script>
+{%- endif %}

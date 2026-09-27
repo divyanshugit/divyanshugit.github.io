@@ -1,0 +1,65 @@
+{#- ==========================================================================
+    Plate macros — the ONLY way places are rendered (data: src/_data/places.js).
+      {% import "partials/plates.njk" as plates %}
+      {{ plates.photo(photo, sizes) }}      one responsive image (owned or placeholder)
+      {{ plates.plate(p, { rot, sizes, eps, open }) }}   a tipped-in plate + caption
+      {{ plates.entry(p) }}                 plate(s) + caption + story note (the leaf on About)
+    Every plate carries --focus (the photo's `focus`, "x% y%") for object-position
+    and plate--p / plate--l / plate--s for its orientation; pages crop to a fixed
+    shape with aspect-ratio + object-fit and the focus keeps the subject in frame.
+    ========================================================================== -#}
+
+{% macro photo(ph, sizes = "(min-width: 1081px) 280px, 50vw", lazy = true) -%}
+{%- if ph.blank -%}
+{#- no photograph yet: the name set on the paper, released through ε like the caption -#}
+<div class="plate__blank" role="img" aria-label="{{ ph.alt }}"><span class="plate__blank-n" data-f="place-{{ ph.id }}" aria-hidden="true">{{ ph.name }}</span><span class="plate__blank-l" aria-hidden="true">photograph to come</span></div>
+{%- elif ph.srcset -%}
+<picture>
+  <source type="image/avif" srcset="{{ ph.srcset.avif }}" sizes="{{ sizes }}">
+  <source type="image/webp" srcset="{{ ph.srcset.webp }}" sizes="{{ sizes }}">
+  <img src="{{ ph.src }}" width="{{ ph.width }}" height="{{ ph.height }}" alt="{{ ph.alt }}"{% if lazy %} loading="lazy"{% endif %} decoding="async">
+</picture>
+{%- else -%}
+<img src="{{ ph.src }}" width="{{ ph.width }}" height="{{ ph.height }}" alt="{{ ph.alt }}"{% if lazy %} loading="lazy"{% endif %} decoding="async">
+{%- endif -%}
+{%- endmacro %}
+
+{% macro caption(p, withRole = true) -%}
+<figcaption><span class="pl">Pl. {{ p.plate }}</span><b><span data-f="place-{{ p.id }}">{{ p.name }}</span></b><span class="cap"><span class="loc" lang="und">{{ p.local }}</span> {{ p.caption }}{% if withRole and p.role %} {{ p.role }}.{% endif %}</span></figcaption>
+{%- endmacro %}
+
+{#- opts.id: true gives the figure id="place-<id>" (use it once per page: About's gathering) -#}
+{% macro plate(p, opts = {}) -%}
+{%- set hasMore = p.story or p.isSet -%}
+<figure class="plate plate--{{ p.shown[0].orient }}{% if p.isSet %} plate--set{% endif %}{% if hasMore and opts.open %} plate--opens{% endif %}"{% if opts.id %} id="place-{{ p.id }}"{% endif %} data-place="{{ p.id }}" style="--r:{{ opts.rot or '0deg' }};--focus:{{ p.shown[0].focus }}"{% if opts.eps !== false %} data-eps-img data-eps-mode="print" data-eps-w="480"{% endif %}>
+  {%- if hasMore and opts.open %}<button type="button" class="plate__open" aria-expanded="false" aria-controls="leaf" data-leaf="{{ p.id }}"><span class="visually-hidden">Open plate {{ p.plate }}, {{ p.name }}{% if p.story %}, with a note{% endif %}</span>{% endif %}
+  <div class="plate__mount"><div class="plate__c"></div><div class="plate__img">{{ photo(p.shown[0], opts.sizes or "(min-width: 1081px) 12rem, (min-width: 721px) 40vw, 46vw", not opts.eager) }}</div></div>
+  {%- if hasMore and opts.open %}</button>{% endif %}
+  {{ caption(p) }}
+  {%- if hasMore and opts.open %}<span class="plate__more" aria-hidden="true">{% if p.isSet %}{{ p.shown.length }} photographs{% endif %}{% if p.isSet and p.story %} · {% endif %}{% if p.story %}a note{% endif %}</span>{% endif %}
+</figure>
+{%- endmacro %}
+
+{#- The leaf shows each photograph whole (no crop), laid out from p.layout:
+    "l" full width · "p" a single upright print · "pp"/"ppp" a tipped-in pair or
+    row · "pl"/"lp" an upright beside a landscape. Every photo goes through ε. -#}
+{% macro entry(p) -%}
+{%- set many = p.shown.length > 1 -%}
+<article class="place-entry{% if not p.story %} place-entry--quiet{% endif %}" id="entry-{{ p.id }}" data-place="{{ p.id }}">
+  <div class="place-entry__photos" data-layout="{{ p.layout }}">
+    {%- for ph in p.shown %}
+    {%- set sz = "(min-width: 1081px) 36rem, 92vw" if (ph.orient == "l" and not many) else ("(min-width: 1081px) 22rem, 60vw" if ph.orient == "l" else ("(min-width: 1081px) 18rem, 46vw" if many else "(min-width: 1081px) 22rem, 64vw")) %}
+    <figure class="plate plate--{{ ph.orient }}" style="--r:{{ ['-0.6deg', '0.8deg', '-0.9deg'][loop.index0] }}" data-eps-img data-eps-mode="print" data-eps-w="{{ 640 if ph.orient == 'l' else 480 }}">
+      <div class="plate__mount"><div class="plate__c"></div><div class="plate__img">{{ photo(ph, sz) }}</div></div>
+      {%- if ph.caption %}<figcaption class="ph-cap">{{ ph.caption }}</figcaption>{% endif %}
+    </figure>
+    {%- endfor %}
+  </div>
+  <div class="place-entry__note">
+    <p class="place-entry__head"><span class="pl">Pl. {{ p.plate }}</span> <b>{{ p.name }}</b> <span class="loc">{{ p.local }}</span></p>
+    <p class="place-entry__meta">{{ p.caption }}{% if p.role %} {{ p.role }}.{% endif %}{% if p.years %} <span class="years">{{ p.years }}</span>{% endif %}</p>
+    {%- if p.story %}<div class="place-entry__story">{{ p.story | md | safe }}</div>{% endif %}
+    {%- if p.credit %}<p class="place-entry__credit">Photograph: {{ p.credit.by }}, {% if p.credit.licenseUrl %}<a href="{{ p.credit.licenseUrl }}">{{ p.credit.license }}</a>{% else %}{{ p.credit.license }}{% endif %}.</p>{% endif %}
+  </div>
+</article>
+{%- endmacro %}

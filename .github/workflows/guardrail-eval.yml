@@ -1,0 +1,45 @@
+# Guardrail regression check: rebuild the knowledge base and run the labelled
+# eval (eval/cases.js + eval/fresh.js) against the local handler. No secrets, no
+# network beyond npm and a checkout; nothing is deployed.
+name: Guardrail eval
+
+on:
+  workflow_dispatch:
+  pull_request:
+    paths:
+      - "api/**"
+      - "src/js/probe-core.js"
+      - "src/search-index.11ty.js"
+      - "src/_data/**"
+      - "data/attack-bank/**"
+      - "models/**"
+      - "eval/**"
+      - "scripts/build-embeddings.js"
+
+permissions:
+  contents: read
+
+jobs:
+  eval:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: "24"
+      - run: npm install
+      - name: Build the site (to a temp dir) and the knowledge base
+        run: |
+          npx @11ty/eleventy --output="$RUNNER_TEMP/site" --quiet
+          node scripts/build-embeddings.js --site="$RUNNER_TEMP/site"
+      - name: Self-test (output check, normalizer)
+        run: npm run test:guardrail
+      - name: Eval (fails below 95% recall or above 3% false refusals)
+        run: npm run eval:ci -- --json="$RUNNER_TEMP/guardrail-eval.json"
+      - name: Offline fallback (rules only), for the record
+        run: npm run eval -- --mode=rules --fresh
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: guardrail-eval
+          path: ${{ runner.temp }}/guardrail-eval.json

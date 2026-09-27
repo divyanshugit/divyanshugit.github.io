@@ -36,3 +36,19 @@ yarn-error.log*
 
 personal.code-workspace
 .gstack/
+
+# Place photo originals may carry EXIF/GPS: never commit them.
+# The build writes stripped masters to src/assets/places/masters/ (commit those).
+src/assets/places/originals/*
+!src/assets/places/originals/.gitkeep
+
+# Guardrail: the knowledge base is rebuilt from the site on every build
+# (scripts/build-embeddings.js). The vendored model in models/ IS committed.
+api/_kb/
+eval/last*.json
+eval/asked.jsonl
+.vercel
+
+# owner's raw camera files (converted copies live in src/assets/places/originals/, git-ignored)
+/places/
+/src/assets/ME.DNG

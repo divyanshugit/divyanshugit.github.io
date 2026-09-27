@@ -114,7 +114,7 @@ Check the Actions tab for error messages. Common issues:
 
 #### Custom Domain
 
-`dvynsh.org` is served by Vercel. GitHub Pages has **no** custom domain set, so it serves a full mirror at `divyanshugit.github.io`. Canonical tags point at `dvynsh.org`.
+`dvynsh.org` is served by Vercel. GitHub Pages has **no** custom domain set, so it serves a full mirror at `divyanshugit.github.io`. Pages is static only, so `/api/ask` doesn't run there. Canonical tags point at `dvynsh.org`. See `docs/deploy-vercel.md`.
 
 ## ✍️ Adding Content
 

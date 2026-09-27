@@ -1,117 +1,113 @@
 ---
 layout: base.njk
+pageCss: blog.css
+pageJs:
+  - /js/blog.js
+bodyClass: page-blog
 ---
+{#- The blog index: writing grouped by year, the date and reading time in the
+    margin, tags as a quiet filter (js/blog.js). A series is one entry.
+    Robust to posts without tags, dates or descriptions; drafts never reach
+    collections.blog (see .eleventy.js and src/blog/blog.11tydata.js). -#}
+{%- set ROMAN = ["", "i", "ii", "iii", "iv", "v", "vi", "vii", "viii", "ix", "x"] -%}
+{%- set posts = collections.blog or [] -%}
 
-<div class="container">
-    <div class="page-layout">
-        <div class="page-header">
-            <h1>{{ pageTitle }}</h1>
-            <p class="page-subtitle">{{ subtitle }}</p>
-        </div>
+{#- series: gather each one's parts (oldest first) -#}
+{%- set seriesParts = { dp: [] } -%}
+{%- for p in posts | reverse -%}
+  {%- if p.data.series and p.data.series.id == "dp" %}{% set _ = seriesParts.dp.push(p) %}{% endif -%}
+{%- endfor -%}
 
-        <!-- Filter Options -->
-        <div class="filter-section">
-            <div class="filter-buttons">
-                <button class="filter-btn active" data-filter="all">All Posts</button>
-                <button class="filter-btn" data-filter="featured">Featured</button>
-                {% for tag in filterTags %}
-                <button class="filter-btn" data-filter="{{ tag }}">{{ tag }}</button>
-                {% endfor %}
-            </div>
-            <div class="sort-options">
-                <label for="sort-select">Sort by:</label>
-                <select id="sort-select">
-                    <option value="date-desc">Date (Newest First)</option>
-                    <option value="date-asc">Date (Oldest First)</option>
-                    <option value="title">Title</option>
-                </select>
-            </div>
-        </div>
+{#- the topics worth filtering by: tags on at least two posts, most used first -#}
+{%- set seen = [] -%}{%- set topics = [] -%}{%- set sigs = [] -%}
+{%- for p in posts -%}{%- for t in (p.data.tags or []) -%}
+  {%- if t and (t not in seen) -%}
+    {%- set _ = seen.push(t) -%}
+    {%- set uses = [] -%}
+    {%- for q in posts %}{% if t in (q.data.tags or []) %}{% set _ = uses.push(loop.index) %}{% endif %}{% endfor -%}
+    {#- a tag that picks exactly the same posts as an earlier one adds nothing (PETs = Differential Privacy) -#}
+    {%- set sig = uses | join(",") -%}
+    {%- if uses.length > 1 and (sig not in sigs) %}{% set _ = sigs.push(sig) %}{% set _ = topics.push({ t: t, c: uses.length }) %}{% endif -%}
+  {%- endif -%}
+{%- endfor -%}{%- endfor -%}
+{%- set topics = topics | sort(true, false, "c") -%}
+{%- set feat = [] -%}{%- for p in posts %}{% if p.data.featured %}{% set _ = feat.push(1) %}{% endif %}{% endfor -%}
+{%- set featuredCount = feat.length -%}
 
-        <!-- Blog Posts Container -->
-        <div class="blog-posts-container" id="blogPostsContainer">
-            {% for post in collections.blog %}
-            <div class="blog-post-item {{ 'featured' if post.data.featured }}" 
-                 data-tags="{{ post.data.tags | join(',') }}" 
-                 data-category="{{ post.data.tags[0] if post.data.tags }}"
-                 data-featured="{{ post.data.featured }}" 
-                 data-date="{{ post.data.date }}">
-                <div class="blog-post-header">
-                    <div class="blog-post-meta">
-                        <span class="blog-post-date">{{ post.data.date | readableDate }}</span>
-                        {% if post.data.tags %}
-                        <span class="blog-post-category">{{ post.data.tags[0] }}</span>
-                        {% endif %}
-                        <span class="blog-post-read-time">{{ post.templateContent | readingTime }}</span>
-                    </div>
-                    <div class="blog-post-badges">
-                        {% if post.data.featured %}
-                        <span class="badge featured-badge">FEATURED</span>
-                        {% endif %}
-                    </div>
-                </div>
-                
-                <h3 class="blog-post-title">{{ post.data.title }}</h3>
-                
-                <p class="blog-post-excerpt">
-                    {{ post.data.description or (post.templateContent | excerpt) }}
-                </p>
-                
-                {% if post.data.tags %}
-                <div class="blog-post-tags">
-                    {% for tag in post.data.tags %}
-                    <span class="tag">{{ tag }}</span>
-                    {% endfor %}
-                </div>
-                {% endif %}
-                
-                <div class="blog-post-actions">
-                    <a href="{{ post.url }}" class="btn-secondary">Read Full Post</a>
-                </div>
-            </div>
-            {% endfor %}
-        </div>
+{%- set first = posts | last -%}{%- set latest = posts | first -%}
 
-        <!-- Blog Series Section -->
-        <div class="blog-series-section">
-            <h3>Blog Series</h3>
-            <div class="series-container" id="seriesContainer">
-                <!-- Series will be dynamically generated -->
-            </div>
-        </div>
+<section class="sheet page-head blog-head" id="top" aria-labelledby="blog-h">
+  <div class="gut"></div>
+  <div class="body">
+    <p class="over lab noindent">Blog<span class="sep">·</span>{{ posts.length }} posts{% if first and latest %}, {{ first.date.getUTCFullYear() }}–{{ latest.date.getUTCFullYear() }}{% endif %}</p>
+    <h1 id="blog-h">{{ pageTitle or title }}</h1>
+    {%- if subtitle %}<p class="dek noindent">{{ subtitle }}</p>{% endif %}
+    {{ content | safe }}
 
-        <!-- Tags Cloud -->
-        <div class="blog-tags-section">
-            <h3>Topics</h3>
-            <div class="tags-cloud" id="blogTagsCloud">
-                <!-- Tags will be dynamically generated -->
-            </div>
-        </div>
-
-        <!-- Archive Section -->
-        <div class="blog-archive-section">
-            <h3>Archive</h3>
-            <div class="archive-container" id="archiveContainer">
-                <!-- Archive will be dynamically generated -->
-            </div>
-        </div>
-
-        {{ content | safe }}
+    <div class="filter" id="filter" role="group" aria-label="Filter posts by topic" hidden>
+      <span class="lab filter__lab">Topics</span>
+      <button type="button" class="filter__b" data-tag="" aria-pressed="true">all</button>
+      {%- if featuredCount %}<button type="button" class="filter__b" data-tag="__featured" aria-pressed="false">selected</button>{% endif %}
+      {%- for tp in topics %}<button type="button" class="filter__b" data-tag="{{ tp.t }}" aria-pressed="false">{{ tp.t }}</button>{% endfor %}
+      <p class="filter__foot"><button type="button" class="filter__order" id="order" aria-pressed="false" aria-label="Show oldest first">oldest first</button><span class="filter__count" id="filter-count" aria-live="polite"></span></p>
     </div>
+  </div>
+</section>
+
+<div class="years" id="years">
+{%- for yr in posts | groupby("data.year") | dictsort | reverse %}
+  {%- set year = yr[0] %}{% set ps = yr[1] %}
+  <section class="sheet yr" id="y{{ year }}" aria-labelledby="h-{{ year }}">
+    <div class="gut"><h2 class="yr__h" id="h-{{ year }}">{{ year }}</h2></div>
+    <ol class="wide entries">
+      {%- for post in ps %}
+      {%- set s = post.data.series %}
+      {%- set sparts = seriesParts[s.id] if (s and seriesParts[s.id]) else [] %}
+      {%- if s and sparts.length > 1 %}
+        {#- the whole series is one entry, placed at its latest part -#}
+        {%- if post.url == (sparts | last).url %}
+        {%- set allTags = [] %}{% set mins = [] %}
+        {%- for sp in sparts %}{% for t in (sp.data.tags or []) %}{% if t not in allTags %}{% set _ = allTags.push(t) %}{% endif %}{% endfor %}{% set _ = mins.push((sp.templateContent | readingTime | replace(" min read", "")) | int) %}{% endfor %}
+        {%- set sfeat = [] %}{% for sp in sparts %}{% if sp.data.featured %}{% set _ = sfeat.push(1) %}{% endif %}{% endfor %}{% set anyFeatured = sfeat.length %}
+        <li class="entry entry--series" id="series-{{ s.id }}" data-parts="{{ sparts.length }}" data-tags="{{ allTags | join('|') }}"{% if anyFeatured %} data-featured{% endif %}>
+          <div class="entry__main">
+            <p class="entry__t entry__t--series"><span class="entry__kind lab">a series in {{ sparts.length }} parts</span>{{ s.name }}</p>
+            <ol class="parts">
+              {%- for sp in sparts %}
+              <li><span class="parts__no">{{ ROMAN[loop.index] or loop.index }}</span><a href="{{ sp.url }}">{{ sp.data.title | cleanTitle | splitOn(":") | first }}</a></li>
+              {%- endfor %}
+            </ol>
+          </div>
+          <div class="entry__meta">
+            <span class="entry__d">{{ (sparts | first).date | monthYear | splitOn(" ") | first }} – {{ (sparts | last).date | monthYear }}</span>
+            <span class="entry__m">{{ mins | sum }} min, in all</span>
+          </div>
+        </li>
+        {%- endif %}
+      {%- else %}
+        {%- set ptags = post.data.tags or [] %}
+        {%- set gist = (post.data.description | cleanTitle | oneLine) if post.data.description else (post.templateContent | excerpt | oneLine) %}
+        <li class="entry" data-tags="{{ ptags | join('|') }}"{% if post.data.featured %} data-featured{% endif %}>
+          <div class="entry__main">
+            {%- set words = ((post.data.title or "Untitled") | cleanTitle).split(" ") %}{% set lastWord = words.pop() %}
+            <a class="entry__t" href="{{ post.url }}">{{ words.join(" ") }} <span class="nw">{{ lastWord }}<span class="arr" aria-hidden="true">&nbsp;→</span></span></a>
+            {%- if gist %}<p class="entry__g">{{ gist }}</p>{% endif %}
+          </div>
+          <div class="entry__meta">
+            <time class="entry__d" datetime="{{ post.date | isoDate }}">{{ post.date | longDate | replace(" " + year, "") }}</time>
+            <span class="entry__m">{{ post.templateContent | readingTime | replace(" read", "") }}</span>
+          </div>
+        </li>
+      {%- endif %}
+      {%- endfor %}
+    </ol>
+  </section>
+{%- endfor %}
 </div>
 
-<!-- Modal for Quick Preview -->
-<div id="modalOverlay" class="modal-overlay">
-    <div class="modal-content">
-        <button id="modalClose" class="modal-close">&times;</button>
-        <h2 id="modalTitle"></h2>
-        <div id="modalMeta"></div>
-        <p id="modalExcerpt"></p>
-        <div id="modalTags"></div>
-        <div id="modalSeries"></div>
-        <div id="modalLinks"></div>
-    </div>
-</div>
-
-<script src="/js/blog-page-simple.js"></script>
-
+<section class="sheet blog-foot" aria-label="Elsewhere">
+  <div class="body">
+    <p class="empty noindent" id="empty" hidden>Nothing under that topic yet. <button type="button" class="linkish" data-tag="">Show everything</button>.</p>
+    <p class="noindent blog-foot__l">The shorter record of what happened when is on the <a href="/timeline.html">timeline</a>; the papers are under <a href="/publications.html">publications</a>.</p>
+  </div>
+</section>

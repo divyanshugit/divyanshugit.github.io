@@ -1,0 +1,26 @@
+{#- Shared colophon: contact, colophon text, List of Plates (from src/_data/places.js). -#}
+{%- set credited = places | where("credit") %}
+{%- set ownLine = places | plateRanges %}
+<footer class="sheet colophon" id="colophon" aria-labelledby="colophon-h">
+  <div class="sec__rule"></div>
+  <div class="gut">Col.<span>colophon</span></div>
+  <div class="body">
+    <h2 id="colophon-h" class="visually-hidden">Colophon</h2>
+    <div class="colophon__contact" id="contact">{% set linksClass = "ico-row--small" %}{% include "partials/links.njk" %}</div>
+    <p class="colophon__text">Set in Instrument Serif and Source Sans 3. The box on the home page is guarded by hand-written rules and no model; the privacy budget runs a real Laplace mechanism over the portrait, the plates and the particulars, never the prose.</p>
+    {%- if credited.length or ownLine %}
+    <details class="plates-credits">
+      <summary class="lab">List of plates &amp; credits</summary>
+      {%- if credited.length %}
+      <ol class="plates-list">
+        {%- for p in credited %}
+        <li><b>{{ p.plate }}. {{ p.name }}</b>, {{ p.credit.subject }}. {{ p.credit.by }}, <a href="{{ p.credit.source }}">Wikimedia</a>, {% if p.credit.licenseUrl %}<a href="{{ p.credit.licenseUrl }}">{{ p.credit.license }}</a>{% else %}{{ p.credit.license }}{% endif %}.</li>
+        {%- endfor %}
+      </ol>
+      {%- endif %}
+      <p class="colophon__small">{% if ownLine %}{{ ownLine }}: photographs by the author. {% endif %}All plates cropped and lightly graded.</p>
+    </details>
+    {%- endif %}
+    <p class="colophon__end"><span aria-hidden="true">· · ·</span><br>© {{ site.revised.getFullYear() }} {{ site.name }} · {{ site.domain }}</p>
+  </div>
+</footer>

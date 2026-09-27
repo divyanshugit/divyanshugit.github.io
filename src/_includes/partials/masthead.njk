@@ -1,0 +1,21 @@
+{#- The running head. ≥1240px it is a side rail (a book's thumb index):
+    the mark, name, the pages, "on this page" (built by site.js from [data-toc]), theme.
+    The mark is two pixel-cut <svg>s (32px rail, 22px running head), set beside the name, mounted on ε by js/dmark.js.
+    Narrower, it is a horizontal running head. Styles: .head in css/site.css -#}
+<header class="head" id="head">
+  <div class="head__in">
+    {%- set nm = site.name.split(" ") %}
+    <a class="head__name" href="/index.html">{% dmark 32, "head__mark head__mark--rail" %}{% dmark 22, "head__mark head__mark--run" %}<span class="head__nm"><span>{{ nm[0] }}</span> <span>{{ nm.slice(1).join(" ") }}</span></span></a>
+    <nav class="head__nav" aria-label="Pages">
+      {%- for item in site.nav %}
+      {%- set active = (page.url == item.url) or (item.match != "/" and page.url and page.url.startsWith(item.match)) or (item.match == "/" and (page.url == "/" or page.url == "/index.html")) %}
+      <a href="{{ item.url }}"{% if active %} aria-current="page"{% endif %}>{{ item.text }}</a>
+      {%- endfor %}
+    </nav>
+    <nav class="head__toc" id="toc" aria-label="On this page" hidden><p class="lab">On this page</p><ol></ol></nav>
+    <button class="theme" id="theme" type="button" aria-label="Switch to night proof (dark theme)">
+      <svg viewBox="0 0 16 16" aria-hidden="true"><circle cx="8" cy="8" r="6.2" fill="none" stroke="currentColor" stroke-width="1"/><path d="M8 1.8a6.2 6.2 0 0 1 0 12.4z" fill="currentColor"/></svg>
+      <span class="lbl">Night proof</span>
+    </button>
+  </div>
+</header>

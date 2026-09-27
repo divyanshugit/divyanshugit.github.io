@@ -946,6 +946,257 @@ body {
     }
 }
 
+/* ===== SITE FOOTER: PLACES I'VE CALLED HOME ===== */
+/*
+ * Concept: the word "home" in massive Instrument Serif italic becomes a window.
+ * Inside the letterforms lives a continuous panorama of all 8 cities stitched
+ * together. Entrance: the image develops like a darkroom print — bright
+ * overexposure fading to correct tone. Interaction: your cursor pans the strip,
+ * sweeping through Patna → Bangalore → Kolkata → Delhi → Singapore → Malaysia
+ * → Philippines → Bali. Film grain overlays everything.
+ */
+
+.site-footer {
+    border-top: 1px solid var(--border-color);
+    padding: var(--space-3xl) 20px var(--space-2xl);
+    text-align: center;
+    overflow: hidden;
+}
+
+.footer-inner {
+    max-width: 960px;
+    margin: 0 auto;
+}
+
+/* "Places I've called" — small italic annotation above the word */
+.footer-label {
+    font-family: var(--font-display);
+    font-style: italic;
+    font-size: 15px;
+    color: var(--text-muted);
+    letter-spacing: 0.025em;
+    margin: 0 0 2px;
+    opacity: 0.8;
+    line-height: 1.4;
+}
+
+/* Wrapper holds the word and the grain overlay */
+.footer-home-wrap {
+    position: relative;
+    display: inline-block;
+    margin: 0 auto;
+    line-height: 1;
+    /* Touch: tell browser we handle touchmove */
+    touch-action: pan-y;
+}
+
+/* Film grain — tiles the grain.png over the text area */
+.footer-home-wrap::after {
+    content: '';
+    position: absolute;
+    inset: -8px -12px;
+    background-image: url('/assets/optimized/places/grain.png');
+    background-size: 160px 160px;
+    background-repeat: repeat;
+    opacity: 0.14;
+    pointer-events: none;
+    mix-blend-mode: multiply;
+    border-radius: 4px;
+}
+
+[data-theme="dark"] .footer-home-wrap::after {
+    mix-blend-mode: screen;
+    opacity: 0.06;
+}
+
+/* The word itself — panorama is clipped to the letterform shapes */
+.footer-home {
+    display: block;
+    font-family: var(--font-display);
+    font-style: italic;
+    font-size: clamp(96px, 19vw, 216px);
+    line-height: 0.86;
+    letter-spacing: -0.02em;
+
+    /* Panorama background — set by JS on IntersectionObserver (lazy load) */
+    background-image: none;
+    background-size: auto 118%;
+    background-position: 0% 50%;
+    background-repeat: no-repeat;
+
+    /* Clip background to the letterform strokes */
+    -webkit-background-clip: text;
+    background-clip: text;
+    -webkit-text-fill-color: transparent;
+    color: transparent;
+
+    cursor: crosshair;
+    user-select: none;
+    will-change: filter, transform;
+
+    /* Pre-develop state — overexposed, desaturated, slightly scaled down */
+    opacity: 0;
+    filter: brightness(5) saturate(0) blur(1px);
+    transform: scale(0.95) translateY(4px);
+    transition:
+        filter 3.6s cubic-bezier(0.18, 0.02, 0.06, 1),
+        transform 3.0s cubic-bezier(0.18, 0.02, 0.06, 1),
+        opacity 0.08s linear;
+}
+
+/* JS adds this class when panorama is loaded and in view */
+.footer-home.is-entering {
+    opacity: 1;
+    filter: brightness(1) saturate(1) blur(0px);
+    transform: scale(1) translateY(0px);
+}
+
+/* Caption — monospace, tracks current city */
+.footer-caption {
+    font-family: var(--font-code);
+    font-size: 11px;
+    letter-spacing: 0.1em;
+    color: var(--text-muted);
+    margin: 10px 0 0;
+    opacity: 0;
+    transition: opacity 1s ease 3.2s;
+    min-height: 20px;
+    line-height: 20px;
+}
+
+.footer-caption.is-visible {
+    opacity: 0.75;
+}
+
+.caption-sep {
+    opacity: 0.45;
+}
+
+/* Caption city name fades when changing */
+.caption-place {
+    transition: opacity 0.22s ease;
+}
+
+.caption-place.is-changing {
+    opacity: 0;
+}
+
+/* Meta row — copyright and photo credits */
+.footer-meta {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 20px;
+    flex-wrap: wrap;
+    margin-top: var(--space-xl);
+    padding-top: var(--space-md);
+    border-top: 1px solid var(--border-color);
+}
+
+.footer-copy {
+    font-size: 11px;
+    color: var(--text-muted);
+    letter-spacing: 0.06em;
+    opacity: 0.65;
+}
+
+/* Photo credits — collapsed by default, unobtrusive */
+.photo-credits {
+    font-size: 11px;
+    color: var(--text-muted);
+    text-align: left;
+}
+
+.photo-credits summary {
+    cursor: pointer;
+    letter-spacing: 0.06em;
+    opacity: 0.65;
+    list-style: none;
+    user-select: none;
+    transition: opacity 0.2s ease;
+}
+
+.photo-credits summary:hover {
+    opacity: 1;
+}
+
+.photo-credits summary::-webkit-details-marker { display: none; }
+
+.photo-credits summary::before {
+    content: '\2197\00a0';
+    opacity: 0.6;
+    font-size: 10px;
+}
+
+.photo-credits[open] summary::before {
+    content: '\2198\00a0';
+}
+
+.photo-credits ul {
+    list-style: none;
+    padding: 0;
+    margin: 10px 0 0;
+    line-height: 2.1;
+    max-width: 580px;
+}
+
+.photo-credits li {
+    padding: 0 0 0 2px;
+    border-left: 1px solid var(--border-color);
+    padding-left: 10px;
+    margin-bottom: 4px;
+}
+
+.photo-credits a {
+    color: var(--link-color);
+    text-decoration: none;
+}
+
+.photo-credits a:hover {
+    text-decoration: underline;
+}
+
+/* ---- Reduced motion ---- */
+@media (prefers-reduced-motion: reduce) {
+    .footer-home {
+        filter: none;
+        transform: none;
+        transition: opacity 0.3s ease;
+    }
+    .footer-home.is-entering {
+        filter: none;
+        transform: none;
+    }
+    .footer-caption {
+        transition: opacity 0.4s ease;
+    }
+    .caption-place {
+        transition: none;
+    }
+}
+
+/* ---- Mobile ---- */
+@media (max-width: 480px) {
+    .footer-home-wrap {
+        touch-action: none;
+    }
+    .footer-meta {
+        gap: 12px;
+        flex-direction: column;
+        align-items: center;
+    }
+    .photo-credits ul {
+        max-width: 100%;
+    }
+}
+
+/* ---- Print ---- */
+@media print {
+    .site-footer {
+        display: none;
+    }
+}
+
 /* ===== PRINT STYLES ===== */
 @media print {
     .container {

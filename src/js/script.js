@@ -70,53 +70,33 @@ function revealEmail() {
 }
 
 // ===== DARK MODE FUNCTIONALITY =====
+// Only an explicit choice (localStorage 'theme') is ever applied or stored.
+// On a first visit nothing is written, so the system preference keeps winning.
+// The masthead toggle itself lives in /js/site.js; this only keeps the legacy
+// stylesheet (which keys off [data-theme]) in step with the system on old pages.
 function initializeDarkMode() {
-    console.log('Initializing dark mode...');
-    const themeToggle = document.getElementById('theme-toggle');
-    const themeIcon = document.querySelector('.theme-toggle-icon');
-
-    console.log('Theme toggle element:', themeToggle);
-    console.log('Theme icon element:', themeIcon);
-
-    // Check for saved theme preference or default to light mode
-    const savedTheme = localStorage.getItem('theme') || 'light';
-
-    // Apply the saved theme
-    setTheme(savedTheme);
-
-    // Add click event listener to toggle button
-    if (themeToggle) {
-        themeToggle.addEventListener('click', function () {
-            const currentTheme = document.documentElement.getAttribute('data-theme');
-            const newTheme = currentTheme === 'dark' ? 'light' : 'dark';
-            setTheme(newTheme);
-        });
+    var saved = null;
+    try { saved = localStorage.getItem('theme'); } catch (e) {}
+    if (saved === 'light' || saved === 'dark') {
+        document.documentElement.setAttribute('data-theme', saved);
+        return;
     }
+    var mq = window.matchMedia ? window.matchMedia('(prefers-color-scheme: dark)') : null;
+    var follow = function () {
+        var stored = null;
+        try { stored = localStorage.getItem('theme'); } catch (e) {}
+        if (stored) return;
+        if (document.body.classList.contains('legacy')) {
+            document.documentElement.setAttribute('data-theme', mq && mq.matches ? 'dark' : 'light');
+        }
+    };
+    follow();
+    if (mq && mq.addEventListener) mq.addEventListener('change', follow);
 }
 
 function setTheme(theme) {
-    // Apply theme to document
     document.documentElement.setAttribute('data-theme', theme);
-
-    // Save preference to localStorage
-    localStorage.setItem('theme', theme);
-}
-
-// Check system preference on page load
-function checkSystemPreference() {
-    if (!localStorage.getItem('theme')) {
-        const prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
-        setTheme(prefersDark ? 'dark' : 'light');
-    }
-}
-
-// Listen for system theme changes
-if (window.matchMedia) {
-    window.matchMedia('(prefers-color-scheme: dark)').addEventListener('change', function (e) {
-        if (!localStorage.getItem('theme')) {
-            setTheme(e.matches ? 'dark' : 'light');
-        }
-    });
+    try { localStorage.setItem('theme', theme); } catch (e) {}
 }
 
 // ===== MACOS-STYLE CODE BLOCK CONTROLS =====

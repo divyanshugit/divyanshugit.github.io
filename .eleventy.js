@@ -5,6 +5,9 @@ const htmlmin = require("html-minifier");
 const { minify: terserMinify } = require("terser");
 const CleanCSS = require("clean-css");
 const crypto = require("crypto");
+const markdownItFootnote = require("markdown-it-footnote");
+const placesImages = require("./scripts/places-images.js");
+const fs = require("fs");
 
 async function imageShortcode(src, alt, sizes = "100vw") {
     let metadata = await Image(src, {
@@ -50,7 +53,15 @@ module.exports = function (eleventyConfig) {
     eleventyConfig.addPassthroughCopy("src/fonts");
     eleventyConfig.addPassthroughCopy("src/assets/optimized");
     eleventyConfig.addPassthroughCopy("src/assets/logo.svg");
+    // favicons and the manifest (the mark, DESIGN.md "Mark")
+    eleventyConfig.addPassthroughCopy("src/assets/favicon.ico");
+    eleventyConfig.addPassthroughCopy("src/favicon.ico");   // crawlers ask for /favicon.ico at the root
+    eleventyConfig.addPassthroughCopy("src/assets/apple-touch-icon.png");
+    eleventyConfig.addPassthroughCopy("src/assets/icon-192.png");
+    eleventyConfig.addPassthroughCopy("src/assets/icon-512.png");
+    eleventyConfig.addPassthroughCopy("src/site.webmanifest");
     eleventyConfig.addPassthroughCopy("src/blog/assets");
+    eleventyConfig.addPassthroughCopy("src/assets/og");
     eleventyConfig.addPassthroughCopy("src/data");
     eleventyConfig.addPassthroughCopy("src/.nojekyll");
     eleventyConfig.addPassthroughCopy("src/_headers");
@@ -150,24 +161,75 @@ module.exports = function (eleventyConfig) {
         });
     });
 
+    // ===== FOOTNOTES AS SIDENOTES =====
+    // [^n] footnotes render as margin notes: a marker button in the text and an
+    // <aside class="note"> placed right after the paragraph that cites it.
+    // site.js lifts the aside into the margin on wide screens; on narrow
+    // screens it unfolds inline under its paragraph. Markup contract: DESIGN.md.
+    md.use(markdownItFootnote);
+    const fnName = (tokens, idx, options, env, slf) => slf.rules.footnote_anchor_name(tokens, idx, options, env, slf);
+    md.renderer.rules.footnote_ref = (tokens, idx, options, env, slf) => {
+        const id = fnName(tokens, idx, options, env, slf);
+        const n = tokens[idx].meta.id + 1;
+        const sub = tokens[idx].meta.subId > 0 ? `-${tokens[idx].meta.subId}` : "";
+        return `<button type="button" class="m" id="snref-${id}${sub}" aria-controls="sn-${id}" aria-expanded="false" aria-label="Note ${n}">${n}</button>`;
+    };
+    md.renderer.rules.footnote_block_open = () => '<ol class="sn-src" hidden>\n';
+    md.renderer.rules.footnote_block_close = () => '</ol>\n';
+    md.renderer.rules.footnote_open = (tokens, idx, options, env, slf) => `<li data-sn="${fnName(tokens, idx, options, env, slf)}">`;
+    md.renderer.rules.footnote_close = () => '</li>\n';
+    md.renderer.rules.footnote_anchor = () => '';
+
+    function toSidenotes(html) {
+        const block = html.match(/<ol class="sn-src" hidden>([\s\S]*?)<\/ol>\s*$/);
+        if (!block) return html;
+        html = html.slice(0, block.index);
+        const items = [...block[1].matchAll(/<li data-sn="([^"]+)">([\s\S]*?)<\/li>/g)];
+        items.forEach((m, i) => {
+            const id = m[1];
+            let body = m[2].trim();
+            const single = body.match(/^<p>([\s\S]*)<\/p>$/);
+            if (single && !single[1].includes("<p>")) body = single[1];
+            // optional label:  [^1]: see | text   ->  <span class="lab">see</span>text
+            body = body.replace(/^([a-z][a-z ]{1,22}?)\s*\|\s*/i, '<span class="lab">$1</span>');
+            const aside = `<aside class="note" id="sn-${id}" data-anchor="snref-${id}" role="note"><div class="note__in"><span class="n">${i + 1}</span>${body}</div></aside>`;
+            const ref = html.indexOf(`id="snref-${id}"`);
+            if (ref < 0) { html += aside; return; }
+            const ends = ["</p>", "</li>", "</blockquote>"].map(t => { const k = html.indexOf(t, ref); return k < 0 ? Infinity : k + t.length; });
+            let at = Math.min(...ends);
+            if (!isFinite(at)) { html += aside; return; }
+            // keep notes of the same paragraph in order
+            while (html.startsWith('<aside class="note"', at) || html.startsWith('\n<aside class="note"', at)) {
+                at = html.indexOf("</aside>", at) + "</aside>".length;
+            }
+            html = html.slice(0, at) + aside + html.slice(at);
+        });
+        return html;
+    }
+    const baseRender = md.render.bind(md);
+    // fresh env per render so footnote state never leaks between templates
+    md.render = (src, env) => toSidenotes(baseRender(src, Object.assign({}, env, { footnotes: undefined })));
+
     eleventyConfig.setLibrary("md", md);
+
+    // A plain renderer (no footnotes) for markdown held in data files.
+    const mdPlain = markdownIt(markdownItOptions);
+    eleventyConfig.addFilter("md", (str) => str ? mdPlain.render(String(str)) : "");
+    eleventyConfig.addFilter("mdInline", (str) => str ? mdPlain.renderInline(String(str)) : "");
 
     // ===== COLLECTIONS =====
     // Create collection for blog posts
-    eleventyConfig.addCollection("blog", function (collectionApi) {
-        return collectionApi.getFilteredByGlob("src/blog/*.md")
-            .sort((a, b) => {
-                // Sort by date, newest first
-                return new Date(b.data.date) - new Date(a.data.date);
-            });
-    });
+    // Robust to hand-written front matter: drafts (`draft: true`) and posts
+    // without a permalink are left out; a missing/invalid date sorts last;
+    // tags are always an array (see src/blog/blog.11tydata.js).
+    const postTime = (p) => { const t = new Date(p.date || p.data.date).getTime(); return isNaN(t) ? 0 : t; };
+    const publishedPosts = (collectionApi) => collectionApi.getFilteredByGlob("src/blog/*.md")
+        .filter(post => post && post.data && !post.data.draft && post.url)
+        .sort((a, b) => postTime(b) - postTime(a)); // newest first
+    eleventyConfig.addCollection("blog", (collectionApi) => publishedPosts(collectionApi));
 
     // Collection for featured blog posts
-    eleventyConfig.addCollection("featuredBlog", function (collectionApi) {
-        return collectionApi.getFilteredByGlob("src/blog/*.md")
-            .filter(post => post.data.featured === true)
-            .sort((a, b) => new Date(b.data.date) - new Date(a.data.date));
-    });
+    eleventyConfig.addCollection("featuredBlog", (collectionApi) => publishedPosts(collectionApi).filter(post => post.data.featured === true));
 
     // ===== FILTERS =====
     // Date formatting filter
@@ -245,6 +307,110 @@ module.exports = function (eleventyConfig) {
         return html;
     });
 
+    // ===== DESIGN-SYSTEM FILTERS (see DESIGN.md) =====
+    const MONTHS = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"];
+    eleventyConfig.addFilter("splitOn", (str, sep) => String(str || "").split(sep));
+    eleventyConfig.addFilter("limit", (arr, n) => (arr || []).slice(0, n));
+    eleventyConfig.addFilter("where", (arr, key, val) => (arr || []).filter(x => (val === undefined ? !!x[key] : x[key] === val)));
+    // places with the author's own photographs -> "Plates I–II, VI–IX" (consecutive plates as a range)
+    eleventyConfig.addFilter("plateRanges", (places) => {
+      const idx = (places || []).map((p, i) => (p.own ? i : -1)).filter(i => i >= 0);
+      if (!idx.length) return "";
+      const runs = [];
+      idx.forEach(i => { const r = runs[runs.length - 1]; if (r && i === r[1] + 1) r[1] = i; else runs.push([i, i]); });
+      const pl = (i) => places[i].plate;
+      const txt = runs.map(([a, b]) => (a === b ? pl(a) : `${pl(a)}${b === a + 1 ? ", " : "–"}${pl(b)}`)).join(", ");
+      return `${idx.length > 1 ? "Plates" : "Plate"} ${txt}`;
+    });
+    eleventyConfig.addFilter("monthName", (m) => MONTHS[(m || 1) - 1] || "");
+    eleventyConfig.addFilter("shortMonth", (m) => (MONTHS[(m || 1) - 1] || "").slice(0, 3));
+    eleventyConfig.addFilter("isoDate", (d) => d ? new Date(d).toISOString().slice(0, 10) : "");
+    eleventyConfig.addFilter("longDate", (d) => d ? new Date(d).toLocaleDateString("en-GB", { day: "numeric", month: "long", year: "numeric", timeZone: "UTC" }) : "");
+    // a build-time moment (e.g. site.revised) in the owner's own time zone
+    eleventyConfig.addFilter("localDate", (d, tz = "Asia/Kolkata") => d ? new Date(d).toLocaleDateString("en-GB", { day: "numeric", month: "long", year: "numeric", timeZone: tz }) : "");
+    eleventyConfig.addFilter("monthYear", (d) => d ? new Date(d).toLocaleDateString("en-GB", { month: "short", year: "numeric", timeZone: "UTC" }) : "");
+    // "Divyanshu Kumar*" -> "<b>D. Kumar</b>*"; others -> initials + surname
+    eleventyConfig.addFilter("authorList", (authors, self = "Divyanshu Kumar") => (authors || []).map(a => {
+        const star = /\*$/.test(a); const name = a.replace(/\*$/, "").trim();
+        const parts = name.split(/\s+/); const last = parts.pop();
+        let out = parts.map(p => p[0] + ".").join(" ") + " " + last;
+        if (name === self) out = `<b>${out}</b>`;
+        return out + (star ? "*" : "");
+    }).join(", "));
+    // Post titles/descriptions: drop leading emoji and trailing [bracketed] editor notes
+    eleventyConfig.addFilter("cleanTitle", (t) => String(t || "")
+        .replace(/^[\p{Extended_Pictographic}\uFE0F\s]+/u, "")
+        .replace(/\s*\[[^\]]*\]\s*$/, "").trim());
+    // Wrap the first mention of each place name (in text, not tags) with
+    // <span class="place" data-place="id"> so prose and plates light together.
+    eleventyConfig.addFilter("placeSpans", (html, places) => {
+        let out = String(html || "");
+        (places || []).forEach(p => {
+            const names = [p.name, p.name.replace(/^The /, "the ")];
+            for (const nm of names) {
+                const re = new RegExp(`(>[^<]*?)\\b(${nm.replace(/[.*+?^${}()|[\]\\]/g, "\\$&")})\\b`);
+                if (re.test(out)) { out = out.replace(re, `$1<span class="place" data-place="${p.id}">$2</span>`); break; }
+            }
+        });
+        return out;
+    });
+    // One line for index rows: the first sentence, capped at ~120 characters on a word boundary.
+    eleventyConfig.addFilter("oneLine", (t, max = 120) => {
+        let s = String(t || "").replace(/<[^>]*>/g, "").replace(/^tl;dr\s*[-—:]*\s*/i, "").trim();
+        const first = s.match(/^.*?[.!?](?=\s|$)/);
+        if (first) s = first[0];
+        if (s.length > max) s = s.slice(0, s.lastIndexOf(" ", max)).replace(/[,;:]$/, "") + "…";
+        return s;
+    });
+    eleventyConfig.addFilter("stripHtml", (s) => String(s || "").replace(/<[^>]*>/g, ""));
+    eleventyConfig.addFilter("json", (v) => JSON.stringify(v));
+
+    // ===== PLACE PHOTOS: strip metadata, grade, make responsive variants =====
+    // `directories.output` honours --output; the deprecated `dir` is only the config's default (_site)
+    eleventyConfig.on("eleventy.before", async ({ directories, dir }) => { await placesImages({ output: (directories && directories.output) || (dir && dir.output) }); });
+    eleventyConfig.addWatchTarget("src/assets/places/originals/");
+
+    // ===== BANNER PLATES (src/_includes/banners/, DESIGN.md § 11) =====
+    // Front matter `banner: <slug>` → an inline SVG figure above the first paragraph.
+    // Social previews are pre-generated PNGs in src/assets/og/ (npm run og).
+    const BANNERS = "./src/_includes/banners/index.js";
+    eleventyConfig.addWatchTarget("src/_includes/banners/");
+    eleventyConfig.addShortcode("banner", function (slug) {
+        if (!slug) return "";
+        delete require.cache[require.resolve(BANNERS)];
+        const { banners, render } = require(BANNERS);
+        const mod = banners[slug];
+        if (!mod) { console.warn(`[banners] no banner "${slug}" (${this.page && this.page.inputPath})`); return ""; }
+        return `<figure class="bn" id="plate" data-banner="${slug}">`
+            + `<div class="bn__plate">${render(mod)}</div>`
+            + `<figcaption><span class="pl">Frontispiece</span>${mod.caption}</figcaption>`
+            + `</figure>`;
+    });
+    // ===== THE MARK (src/js/dmark.js, DESIGN.md "Mark") =====
+    // Prints the exact D (ε = ∞) into an <svg data-dmark>, so it shows before and
+    // without JS; dmark.js then mounts it on the global ε.
+    const DMARK = "./src/js/dmark.js";
+    eleventyConfig.addShortcode("dmark", function (size, cls) {
+        delete require.cache[require.resolve(DMARK)];
+        const S = +size || 26;
+        return `<svg class="${cls || "mark"}" data-dmark data-s="${S}" data-variant="b" width="${S}" height="${S}" viewBox="0 0 ${S} ${S}"`
+            + ` shape-rendering="crispEdges" aria-hidden="true" focusable="false">${require(DMARK).render({ S, variant: "b", eps: Infinity })}</svg>`;
+    });
+    // The social preview for a page: its banner's PNG if one has been generated, else the site card.
+    eleventyConfig.addFilter("ogImage", function (slug) {
+        if (slug && fs.existsSync(path.join(__dirname, "src/assets/og", `${slug}.png`))) return `/assets/og/${slug}.png`;
+        return "/assets/og/site.png";
+    });
+    eleventyConfig.on("eleventy.before", () => {
+        // a quiet reminder, never a failure: posts whose banner has no social preview yet
+        try {
+            const dir = path.join(__dirname, "src/blog");
+            const missing = fs.readdirSync(dir).filter(f => f.endsWith(".md")).map(f => (fs.readFileSync(path.join(dir, f), "utf8").match(/^banner:\s*([\w-]+)/m) || [])[1])
+                .filter(slug => slug && !fs.existsSync(path.join(__dirname, "src/assets/og", `${slug}.png`)));
+            if (missing.length) console.warn(`[og] no social preview for: ${missing.join(", ")} — run \`npm run og\``);
+        } catch (e) { /* never block a build on this */ }
+    });
+
     // ===== SHORTCODES =====
     // Image optimization shortcode
     eleventyConfig.addNunjucksAsyncShortcode("image", imageShortcode);
@@ -275,7 +441,7 @@ module.exports = function (eleventyConfig) {
             includes: "_includes",
             data: "_data"
         },
-        templateFormats: ["md", "njk", "html"],
+        templateFormats: ["md", "njk", "html", "11ty.js"],
         markdownTemplateEngine: "njk",
         htmlTemplateEngine: "njk",
         dataTemplateEngine: "njk"

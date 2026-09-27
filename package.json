@@ -3,16 +3,24 @@
     "version": "1.0.0",
     "description": "Personal Website for Divyanshu Kumar",
     "scripts": {
-        "build": "npm run build:eleventy",
+        "build": "npm run build:eleventy && npm run build:kb",
         "build:eleventy": "eleventy",
         "serve": "eleventy --serve",
+        "og": "node scripts/og-images.js",
         "start": "eleventy --serve",
         "build:old": "node build-blog.js",
         "build:post": "node build-blog.js",
-        "build:ai-safety": "node build-blog.js blog/sources/ai-safety-benchmarks-survey.md"
+        "build:ai-safety": "node build-blog.js blog/sources/ai-safety-benchmarks-survey.md",
+        "build:kb": "node scripts/build-embeddings.js",
+        "dev:api": "node scripts/dev-api.js",
+        "eval": "node eval/run.js",
+        "eval:ci": "node eval/run.js --fresh --min-recall=0.95 --max-frr=0.03",
+        "model:fetch": "node scripts/fetch-model.js",
+        "test:guardrail": "node eval/selftest.js"
     },
     "dependencies": {
         "gray-matter": "^4.0.3",
+        "markdown-it-footnote": "^4.0.0",
         "markdown-it-mathjax3": "^5.2.0",
         "markdown-it-texmath": "^1.0.0",
         "marked": "^11.1.1"
@@ -23,9 +31,13 @@
         "clean-css-cli": "^5.6.3",
         "google-fonts-complete": "^2.2.3",
         "html-minifier": "^4.0.0",
+        "opentype.js": "^1.3.4",
         "sharp": "^0.34.5",
         "terser": "^5.44.1"
     },
     "author": "Divyanshu Kumar",
-    "license": "MIT"
+    "license": "MIT",
+    "engines": {
+        "node": ">=20"
+    }
 }

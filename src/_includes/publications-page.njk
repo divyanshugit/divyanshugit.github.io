@@ -1,100 +1,97 @@
 ---
 layout: base.njk
+pageCss: publications.css
+bodyClass: page-pubs
+pageJs:
+  - /js/publications.js
 ---
+{#- Publications: works cited, in full.
+    Data: pubList / pubYears / subjects / collation from src/publications.11tydata.js
+    (itself built on src/_data/pubs.js). Every item carries id="<data id>" so the
+    home probe's /publications.html#<id> redirects land exactly (site.js flashes it). -#}
+{%- set c = collation -%}
 
-<div class="container">
-    <div class="page-layout">
-        <div class="page-header">
-            <h1>{{ pageTitle }}</h1>
-            <p class="page-subtitle">{{ subtitle }}</p>
-        </div>
+<section class="sheet page-head pubs-title" id="top" aria-labelledby="h-pubs">
+  <div class="gut"></div>
+  <div class="body">
+    <p class="over lab noindent">{{ overline }}</p>
+    <h1 id="h-pubs">{{ pageTitle }}</h1>
 
-        <!-- Filter Options -->
-        <div class="filter-section">
-            <div class="filter-buttons">
-                <button class="filter-btn active" data-filter="all">All Publications</button>
-                <button class="filter-btn" data-filter="featured">Featured</button>
-                <button class="filter-btn" data-filter="under-review">Under Review</button>
-                <button class="filter-btn" data-filter="published">Published</button>
-            </div>
-            <div class="sort-options">
-                <label for="sort-select">Sort by:</label>
-                <select id="sort-select">
-                    <option value="year-desc">Year (Newest First)</option>
-                    <option value="year-asc">Year (Oldest First)</option>
-                    <option value="title">Title</option>
-                </select>
-            </div>
-        </div>
+    <aside class="note" id="n-coll" data-anchor="h-pubs" data-top="14" aria-label="How to read this list"><div class="note__in">
+      <span class="lab">key</span><span class="key-star">*</span>&nbsp;equal contribution; {{ c.coFirst }} papers share first authorship.
+      <p><span class="sel-mark" aria-hidden="true"></span>marks the {{ c.featured }} I would read first.</p>
+      <p>Also on <a href="{{ (site.links | where('icon', 'scholar'))[0].url }}">Google Scholar</a>.</p>
+    </div></aside>
 
-        <!-- Publications List -->
-        <div class="publications-container" id="publicationsContainer">
-            <!-- Publications will be dynamically loaded here -->
-        </div>
+    <p class="collation noindent">
+      <b>{{ c.total }}</b> papers, {{ c.from }}–{{ c.to }}: <b>{{ c.published }}</b> published{% if c.review %}, <b>{{ c.review }}</b> under review{% endif %}, <b>{{ c.preprint }}</b> preprint{% if c.preprint != 1 %}s{% endif %}.
+      First or (co-)first author on <b>{{ c.firstish }}</b>.
+    </p>
 
-        <!-- Statistics -->
-        <div class="pub-stats">
-            <h3>Publication Statistics</h3>
-            <div class="stats-grid">
-                <div class="stat-item">
-                    <span class="stat-number" id="totalPubs">0</span>
-                    <span class="stat-label">Total Publications</span>
-                </div>
-                <div class="stat-item">
-                    <span class="stat-number" id="underReviewPubs">0</span>
-                    <span class="stat-label">Under Review</span>
-                </div>
-                <div class="stat-item">
-                    <span class="stat-number" id="publishedPubs">0</span>
-                    <span class="stat-label">Published</span>
-                </div>
-                <div class="stat-item">
-                    <span class="stat-number" id="collaborators">0</span>
-                    <span class="stat-label">Collaborators</span>
-                </div>
-            </div>
-        </div>
-
-        <!-- Tags Cloud -->
-        <div class="tags-section">
-            <h3>Research Topics</h3>
-            <div class="tags-cloud" id="tagsCloud">
-                <!-- Tags will be dynamically generated -->
-            </div>
-        </div>
-
-        <!-- Research Areas -->
-        <div class="research-areas-section">
-            <h3>Research Areas</h3>
-            <div class="research-areas-grid">
-                {% for area in researchAreas %}
-                <div class="research-area-card">
-                    <h4>{{ area.title }}</h4>
-                    <p>{{ area.description }}</p>
-                </div>
-                {% endfor %}
-            </div>
-        </div>
-
-        {{ content | safe }}
+    <div class="finder" id="finder" aria-label="Index of subjects and order">
+      <p class="finder__lab lab noindent" id="idx-lab">Index of subjects</p>
+      <p class="index noindent" role="group" aria-labelledby="idx-lab">
+        {%- for s in subjects %}<span class="index__t"><button type="button" data-subject="{{ s.id }}" aria-pressed="false">{{ s.label }}</button><span class="ct" aria-label="{{ s.n }} papers">{{ s.n }}</span></span>{% if not loop.last %}<span class="sep" aria-hidden="true">·</span>{% endif %}{% endfor -%}
+      </p>
+      <div class="controls">
+        <span class="controls__g" role="group" aria-label="Show">
+          <span class="controls__k">Show</span>
+          <button type="button" data-show="all" aria-pressed="true">all</button>
+          <button type="button" data-show="featured" aria-pressed="false">selected</button>
+          <button type="button" data-show="published" aria-pressed="false">published</button>
+          <button type="button" data-show="preprint" aria-pressed="false">preprints</button>
+        </span>
+        <span class="controls__g" role="group" aria-label="Order">
+          <span class="controls__k">Order</span>
+          <button type="button" data-sort="new" aria-pressed="true">newest first</button>
+          <button type="button" data-sort="old" aria-pressed="false">oldest first</button>
+        </span>
+      </div>
+      <p class="showing noindent" id="showing" aria-live="polite"></p>
     </div>
+  </div>
+</section>
+
+<div class="pubs" id="pubs">
+  {%- for y in pubYears %}
+  <section class="sheet yr" data-year="{{ y.year }}" aria-labelledby="y-{{ y.year }}">
+    <div class="gut"><h2 class="yr__n" id="y-{{ y.year }}">{{ y.year }}</h2></div>
+    <ol class="wide pubs__list">
+      {%- for p in y.items %}
+      <li class="pub{% if p.featured %} is-sel{% endif %}" id="{{ p.id }}" data-subjects="{{ p.subjects | join(' ') }}" data-status="{{ p.status }}"{% if p.featured %} data-featured{% endif %} data-ym="{{ p.year * 100 + (p.month or 0) }}">
+        <div class="pub__main">
+          <h3 class="pub__t">
+            {%- if p.featured %}<span class="sel-mark" role="img" aria-label="Selected"></span>{% endif -%}
+            {%- if p.href %}<a href="{{ p.href }}">{{ p.title }}</a>{% else %}{{ p.title }}{% endif -%}
+          </h3>
+          <p class="pub__by">{{ p.authors | authorList | safe }}</p>
+          <p class="pub__acts">
+            {%- if p.abstractHtml %}<button type="button" class="pub__ab" aria-expanded="false" aria-controls="ab-{{ p.id }}">abstract</button>{% endif -%}
+            {%- for u in p.extra %}<a href="{{ u.url }}">{{ u.label }}</a>{% endfor -%}
+          </p>
+          {%- if p.abstractHtml %}
+          <div class="pub__abs" id="ab-{{ p.id }}" role="region" aria-label="Abstract: {{ p.title }}"><div>
+            <p>{{ p.abstractHtml | safe }}</p>
+            {%- if p.tags and p.tags.length %}<p class="pub__tags">{{ p.tags | join(" · ") }}</p>{% endif %}
+          </div></div>
+          {%- endif %}
+        </div>
+        <div class="pub__meta">
+          <span class="pub__venue">{{ p.venueShort }}</span>
+          <span class="pub__when">{{ p.when }}{% if p.poster %} · poster{% endif %}</span>
+          {%- if p.status != "published" or p.coFirst %}
+          <span class="pub__flags">{% if p.status == "preprint" %}<span class="st">preprint</span>{% elif p.status == "under-review" %}<span class="st">under review</span>{% endif %}{% if p.coFirst %}<span class="cf">co-first</span>{% endif %}</span>
+          {%- endif %}
+        </div>
+      </li>
+      {%- endfor %}
+    </ol>
+  </section>
+  {%- endfor %}
+  <section class="sheet pubs-empty" id="pubs-empty" hidden>
+    <div class="gut"></div>
+    <div class="body"><p class="noindent">Nothing under that heading yet. <button type="button" class="linkish" data-reset>Show all papers</button></p></div>
+  </section>
 </div>
 
-<!-- Modal for Publication Details -->
-<div id="modalOverlay" class="pub-modal-overlay">
-    <div class="pub-modal" role="dialog" aria-modal="true" aria-labelledby="modalTitle">
-        <button id="modalClose" class="pub-modal__close" aria-label="Close details">&times;</button>
-        <span id="modalStatus" class="pub-modal__status"></span>
-        <h2 id="modalTitle" class="pub-modal__title"></h2>
-        <p id="modalAuthors" class="pub-modal__authors"></p>
-        <p id="modalVenue" class="pub-modal__venue"></p>
-        <h4 class="pub-modal__label">Abstract</h4>
-        <p id="modalAbstract" class="pub-modal__abstract"></p>
-        <div id="modalTags" class="pub-modal__tags"></div>
-        <div id="modalLinks" class="pub-modal__links"></div>
-    </div>
-</div>
-
-<script src="/data/publications.js"></script>
-<script src="/js/publications-page.js"></script>
-
+{{ content | safe }}
