@@ -16,7 +16,7 @@ const base = {
     kolkata:  { levels: ["Kolkata", "a city in West Bengal", "a city on the Hooghly", "East India", "South Asia"] },
     iisc:     { levels: ["IISc Bangalore", "an institute in Bangalore", "an institute in South India", "a university", "an institution"] },
     enkrypt:  { levels: ["Enkrypt AI", "an AI-security startup", "a startup", "a company"] },
-    models:   { value: 250, delta: 60, round: 10, exact: "250+", min: 10 },
+    models:   { value: 300, delta: 60, round: 10, exact: "~300", min: 10 },
     anaconda: { levels: ["Anaconda", "a Python company", "a software company", "a company"] },
     since:    { levels: ["2026", "the mid-2020s", "recently"] },
     grad:     { levels: ["2022", "the early 2020s", "a few years ago"] },

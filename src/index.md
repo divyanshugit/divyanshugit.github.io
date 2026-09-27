@@ -22,5 +22,5 @@ placesLine: "I have lived in Berai, Patna, Kolkata, Delhi and Bangalore, and wan
 <!-- The short bio on the home page: 2–3 sentences, no footnotes.
      The long version lives in about.md. -->
 
-I’m an AI Research Engineer at [Anaconda](https://www.anaconda.com/), which [acquired Enkrypt AI](https://www.anaconda.com/blog/anaconda-acquires-enkrypt-ai) this August. Before that I was Enkrypt’s founding ML research engineer, red-teaming more than 250 foundation models, and a Research Associate at IISc Bangalore. Mostly I find out how models fail once they are made smaller, faster or more private, and build the guardrails that catch it.
+I’m an AI Research Engineer at [Anaconda](https://www.anaconda.com/), which [acquired Enkrypt AI](https://www.anaconda.com/blog/anaconda-acquires-enkrypt-ai) this August. Before that I was Enkrypt’s founding ML research engineer and its lead AI safety and security researcher: I maintained an LLM safety leaderboard of about 300 models, and built an automated red-teaming system that finds issues in generative AI applications built by Fortune 500 companies. Before Enkrypt, I was a Research Associate at IISc Bangalore. Mostly I find out how models fail once they are made smaller, faster or more private, and build the guardrails that catch it.
 

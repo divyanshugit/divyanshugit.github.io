@@ -35,11 +35,11 @@ const entries = [
   },
   {
     id: "enkrypt", org: "Enkrypt AI", alias: ["enkrypt"], kind: "work",
-    role: "ML Research Engineer, founding engineer", note: "acquired by Anaconda",
+    role: "Founding ML Research Engineer; lead AI safety and security researcher", note: "acquired by Anaconda",
     remote: true, where: "India", country: "India",
     start: "2023-07", end: "2026-08", link: "https://www.enkryptai.com/",
     lines: [
-      "Led red-teaming across 250+ foundation models, the work behind Enkrypt’s public [LLM Safety Leaderboard](https://www.enkryptai.com/llm-safety-leaderboard).",
+      "Maintained Enkrypt’s public [LLM Safety Leaderboard](https://www.enkryptai.com/llm-safety-leaderboard) of about 300 models, and built an automated red-teaming system that finds issues in generative AI applications built by Fortune 500 companies.",
       "Built proofs of concept and automated red-teaming for enterprise customers in finance, consulting and cybersecurity, and agentic document tools for fund administration: an LPA extractor with hybrid vector search, and an Excel formula-tracing agent with cell-level provenance.",
       "Shipped low-latency guardrails on ONNX and Triton, a differentially private fine-tuning framework (PEFT and SFT), and SecureLLM, which uses homomorphic encryption."
     ]
