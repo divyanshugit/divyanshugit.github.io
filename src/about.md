@@ -11,7 +11,7 @@ epsHint: "Lower ε and this page releases the portrait, the plates and one line 
 workHeading: "What I work on"
 # "Where this happened". Place names are linked to their plates automatically.
 journey: |
-  I am from Berai, a village in Sarai, Bihar. Since then I have lived in Patna, Kolkata, Delhi, Bangalore, Singapore, Malaysia, the Philippines and Bali, in that order. Kolkata is where I studied electronics and communication engineering, at Narula Institute of Technology, until 2022. Bangalore is where IISc and Enkrypt happened. Singapore is where I presented our AAAI-26 workshop papers, in person.
+  I am from Berai, a village in Sarai, Bihar. Since then I have lived in Patna, Kolkata, Delhi and Bangalore, in that order. Kolkata is where I studied electronics and communication engineering, at Narula Institute of Technology, until 2022. Bangalore is where IISc and Enkrypt happened. Singapore is where I presented our AAAI-26 workshop papers, in person. Malaysia, the Philippines and Bali are where I wander around.
 ---
 <!--
   The homepage prose. Everything above "more" is the lede on the title page;
