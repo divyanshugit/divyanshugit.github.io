@@ -9,6 +9,7 @@ tags:
 emailSubject: Differential Privacy Blog Series
 featured: true
 permalink: /blog/differential-privacy-but-why.html
+banner: dp-why
 references:
   1: https://www.comp.nus.edu.sg/~tankl/cs5322/readings/dwork.pdf
   2: https://mit-serc.pubpub.org/pub/differential-privacy-2020-us-census/release/2

@@ -9,6 +9,7 @@ tags:
 emailSubject: Differential Privacy Blog Series
 featured: false
 permalink: /blog/dp-guarantee-in-action.html
+banner: dp-guarantee
 references:
   1: https://dvynsh.org/blog/2025/differential-privacy-but-why/
   2: https://github.com/divyanshugit/Inception-of-DP

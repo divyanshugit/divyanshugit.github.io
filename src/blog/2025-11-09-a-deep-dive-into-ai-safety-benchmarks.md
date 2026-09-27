@@ -11,6 +11,7 @@ tags:
 emailSubject: AI Safety Benchmarks Blog
 featured: true
 permalink: /blog/ai-safety-benchmarks-survey.html
+banner: agent-strata
 ---
 
 You ask your AI agent to "find me cheap flights to Paris." Simple enough. The agent searches travel sites, compares prices, finds a great deal and books it. With your credit card. No confirmation, no double-checking. You wanted help *searching*, but the agent thought you meant *book the cheapest option*.

@@ -10,6 +10,7 @@ tags:
 emailSubject: Differential Privacy Blog Series - DP-SGD
 featured: false
 permalink: /blog/sgd-to-dpsgd.html
+banner: dp-sgd
 ---
 
 ## 1. Introduction: Why Privacy Matters Now

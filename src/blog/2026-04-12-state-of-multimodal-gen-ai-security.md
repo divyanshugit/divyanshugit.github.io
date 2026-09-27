@@ -12,6 +12,7 @@ tags:
 emailSubject: "Multimodal AI Security: Beyond Text"
 featured: true
 permalink: /blog/state-of-multimodal-ai-security.html
+banner: multimodal
 ---
 
 A model refuses every harmful text prompt you throw at it. Zero percent attack success rate. You'd call that safe, right?

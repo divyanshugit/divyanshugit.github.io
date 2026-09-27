@@ -9,6 +9,7 @@ tags:
 emailSubject: Differential Privacy Blog Series
 featured: false
 permalink: /blog/art-of-controlled-noise.html
+banner: controlled-noise
 references:
   1: https://dvynsh.org/blog/differential-privacy-but-why/
   2: https://dvynsh.org/blog/dp-guarantee-in-action/

@@ -10,6 +10,7 @@ tags:
 emailSubject: InterrogateLLM Blog
 featured: false
 permalink: /blog/interrogate-llm.html
+banner: interrogate
 references:
   1: https://arxiv.org/abs/2403.02889
   2: https://itzikmalkiel.github.io/

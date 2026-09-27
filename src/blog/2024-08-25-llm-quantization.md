@@ -10,6 +10,7 @@ tags:
 emailSubject: LLM Quantization Blog
 featured: false
 permalink: /blog/llm-quantization.html
+banner: quantization
 references:
   1: https://github.com/ggerganov/llama.cpp
   2: https://github.com/abetlen/llama-cpp-python
