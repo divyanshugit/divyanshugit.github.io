@@ -76,11 +76,15 @@ class SearchIndex {
       });
     });
 
-    // ---- Places: all of them in one sentence, then each plate
+    // ---- Places: where he has lived in one sentence, where he has travelled in another, then each plate
     // only the first place (where he is from) carries its region: "Berai (Sarai, Bihar), Patna, Kolkata, …"
-    const pl = (data.places || []).map((p, i) => p.name.replace(/^The /, "the ") + (i === 0 && p.region ? ` (${p.region})` : ""));
+    const pname = (p, i) => p.name.replace(/^The /, "the ") + (i === 0 && p.region ? ` (${p.region})` : "");
+    const and = (xs) => xs.length > 1 ? `${xs.slice(0, -1).join(", ")} and ${xs[xs.length - 1]}` : xs.join("");
+    const pl = (data.places || []).map((p, i) => ({ n: pname(p, i), visited: !!p.visited }));
+    const lived = pl.filter(p => !p.visited).map(p => p.n), visited = pl.filter(p => p.visited).map(p => p.n);
     const NUM = ["no", "one", "two", "three", "four", "five", "six", "seven", "eight", "nine", "ten"];
-    if (pl.length) add({ t: `I have lived in ${NUM[pl.length] || pl.length} places, in this order: ${pl.slice(0, -1).join(", ")} and ${pl[pl.length - 1]}.`, k: "lived live places cities journey moved", u: "/about.html#places", s: "About · Where this happened", g: "places" });
+    if (lived.length) add({ t: `I have lived in ${NUM[lived.length] || lived.length} places, in this order: ${and(lived)}.`, k: "lived live places cities journey moved home", u: "/about.html#places", s: "About · Where this happened", g: "places" });
+    if (visited.length) add({ t: `I have also travelled to ${and(visited)}.`, k: "travelled traveled travel visited trips wander places countries", u: "/about.html#places", s: "About · Where this happened", g: "places" });
     // role/caption always; the story when written
     (data.places || []).forEach(p => {
       const bits = [p.name + (p.role ? `: ${p.role}.` : "."), p.caption].filter(Boolean).join(" ");

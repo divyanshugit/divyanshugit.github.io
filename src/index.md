@@ -17,7 +17,7 @@ papers:
   graphreasoning: { gist: "Does an LLM’s answer about a graph change when only the way the graph is written down changes?", venue: "GCLR @ AAAI ’26 · GFM @ ICML ’26", note: "co-first" }
   multimodalredteaming: { gist: "Text-safe models break when the same request arrives as a simply transformed image or audio clip.", venue: "NeurIPS ’25 workshop", note: "co-first" }
   kumar2024sagert: { gist: "Synthetic alignment and red-teaming data, generated at scale, for evaluating model safety.", venue: "NeurIPS ’24 workshop", note: "co-first" }
-placesLine: "I have lived in nine places so far: Berai, Patna, Kolkata, Delhi, Bangalore, Singapore, Malaysia, the Philippines and Bali."
+placesLine: "I have lived in Berai, Patna, Kolkata, Delhi and Bangalore, and wandered around Singapore, Malaysia, the Philippines and Bali."
 ---
 <!-- The short bio on the home page: 2–3 sentences, no footnotes.
      The long version lives in about.md. -->

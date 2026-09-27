@@ -92,7 +92,7 @@ const places = [
     levels: ["Bangalore", "a city in Karnataka", "a city on the Deccan plateau", "South India", "South Asia"]
   },
   {
-    id: "singapore", name: "Singapore", local: "新加坡", order: 6,
+    id: "singapore", visited: true, name: "Singapore", local: "新加坡", order: 6,
     role: "AAAI-26", years: "Jan 2026",
     caption: "The Civic District.",
     story: "",
@@ -105,7 +105,7 @@ const places = [
     levels: ["Singapore", "a city-state on a strait", "an island off the Malay peninsula", "Southeast Asia", "Asia"]
   },
   {
-    id: "malaysia", name: "Malaysia", local: "ماليزيا", order: 7,
+    id: "malaysia", visited: true, name: "Malaysia", local: "ماليزيا", order: 7,
     caption: "Johor.",
     story: "",
     photos: [
@@ -117,7 +117,7 @@ const places = [
     levels: ["Malaysia", "a country on the Malay peninsula", "a country on the Strait of Malacca", "Southeast Asia", "Asia"]
   },
   {
-    id: "philippines", name: "The Philippines", local: "Pilipinas", order: 8,
+    id: "philippines", visited: true, name: "The Philippines", local: "Pilipinas", order: 8,
     caption: "Cebu.",
     story: "",
     photos: [
@@ -127,7 +127,7 @@ const places = [
     levels: ["The Philippines", "an archipelago on the Pacific", "7,641 islands", "Southeast Asia", "Asia"]
   },
   {
-    id: "bali", name: "Bali", local: "ᬩᬮᬶ", order: 9,
+    id: "bali", visited: true, name: "Bali", local: "ᬩᬮᬶ", order: 9,
     caption: "Kelingking Beach, Nusa Penida.",
     story: "",
     photos: [
