@@ -114,11 +114,7 @@ Check the Actions tab for error messages. Common issues:
 
 #### Custom Domain
 
-To use a custom domain:
-
-1. Add your domain in Settings → Pages → Custom domain
-2. Update DNS records at your domain registrar
-3. Keep the `CNAME` file in your repository
+`dvynsh.org` is served by Vercel. GitHub Pages has **no** custom domain set, so it serves a full mirror at `divyanshugit.github.io`. Canonical tags point at `dvynsh.org`.
 
 ## ✍️ Adding Content
 
