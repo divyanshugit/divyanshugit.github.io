@@ -32,7 +32,7 @@ Before that I was a Research Associate at IISc Bangalore with Prof. Prathosh A.P
 
 Two questions are on my desk now. With Fabrizio Frasca at Technion: does an LLM’s answer about a graph change when you only change how the graph is written down?[^graph] And in diffusion language models, which write by denoising rather than left to right: is there a step at which the output turns harmful, and can the model take it back?[^diff]
 
-My first research was text summarization at Helppr AI, in 2020. Outside work I read more code than I write, tinker with Go and ssh at weekends,[^px0] and this June I finished BlueDot Impact’s Technical AI Safety course. If any of this is your problem too, <a href="/about.html#contact" data-email="kumardivy1999 [at] gmail [dot] com">write to me</a>.
+My first research was text summarization at Helppr AI, in 2020. Outside work I read more code than I write, tinker with Go and ssh at weekends, and this June I finished BlueDot Impact’s Technical AI Safety course. If any of this is your problem too, <a href="/about.html#contact" data-email="kumardivy1999 [at] gmail [dot] com">write to me</a>.
 
 [^acq]: source | [Anaconda acquires Enkrypt AI](https://www.anaconda.com/blog/anaconda-acquires-enkrypt-ai) <span class="venue">Announcement, August 2026</span>
 
@@ -48,4 +48,3 @@ My first research was text summarization at Helppr AI, in 2020. Outside work I r
 
 [^diff]: in progress | [Temporal dynamics of safety in diffusion LMs](/projects.html). Working terms: <i>first harmful step</i>, <i>irreversibility index</i>.
 
-[^px0]: see | [<cite>Adding Remote Mode to px0</cite>](/blog/px0-on-a-vm.html) <span class="venue">September 2026</span> <span class="dry">The bug was in the shell, not the Go.</span>
