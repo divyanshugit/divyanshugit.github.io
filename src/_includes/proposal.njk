@@ -1,0 +1,56 @@
+---
+layout: base.njk
+pageCss: post.css
+hasMath: true
+hasCode: true
+bodyClass: page-post page-proposal
+---
+{#- A research proposal (/proposal/*), set like a post: title page, then the text in
+    one column, with the same reading type, code, maths and tables (css/pages/post.css).
+    Proposal-only pieces (contents, TL;DR, callouts, phase cards, milestones) are in
+    css/proposal.css. Each section joins the side rail's "On this page" (see below). -#}
+{%- set isIndex = page.url == "/proposal/" -%}
+<article class="post proposal-page" aria-labelledby="post-title" data-prismjs-copy="copy" data-prismjs-copy-success="copied" data-prismjs-copy-error="press ⌘C to copy" data-prismjs-copy-timeout="1600">
+  <header class="sheet page-head page-head--post post-head" id="top">
+    <div class="gut"></div>
+    <div class="body">
+      <p class="over lab noindent">{% if isIndex %}Research agenda{% else %}<a href="/proposal/">Research agenda</a><span class="sep">·</span>Proposal{% endif %}</p>
+      <h1 id="post-title">{{ pageTitle or title }}</h1>
+      {%- if subtitle %}<p class="dek noindent">{{ subtitle }}</p>{% endif %}
+    </div>
+  </header>
+
+  <div class="sheet post-text">
+    <div class="gut"></div>
+    <div class="body" id="text">
+      {#- the frontispiece (front matter `banner: <slug>`, DESIGN.md § 11) -#}
+      {%- if banner %}
+      {% banner banner %}
+      {%- endif %}
+      {{ content | safe }}
+      {%- if not isIndex %}
+      <p class="proposal-back noindent"><a class="more" href="/proposal/">The research agenda <span>→</span></a></p>
+      {%- endif %}
+    </div>
+  </div>
+</article>
+
+{#- "On this page": each top-level section gets [data-toc] for site.js, labelled from
+    the page's own contents list when it has one, else from its section label or heading. -#}
+<script>
+(function () {
+  var secs = document.querySelectorAll('.proposal-body > section');
+  Array.prototype.forEach.call(secs, function (s, i) {
+    if (!s.id) s.id = 's' + (i + 1);
+    var a = document.querySelector('.proposal-toc a[href="#' + s.id + '"]');
+    var no = a && a.querySelector('.toc-num');
+    var label = a ? a.textContent.replace(no ? no.textContent : '', '') : '';
+    if (!label) {
+      var k = s.querySelector('.section-num'), h = s.querySelector('h2');
+      label = k ? k.textContent.replace(/^\d+\s*\/\s*/, '').toLowerCase().replace(/^./, function (c) { return c.toUpperCase(); }) : (h ? h.textContent : '');
+    }
+    s.setAttribute('data-toc', label.trim());
+    s.setAttribute('data-toc-no', no ? no.textContent : '§' + (i + 1));
+  });
+})();
+</script>
