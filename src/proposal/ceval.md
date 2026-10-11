@@ -1,9 +1,10 @@
 ---
-layout: page.njk
+layout: proposal.njk
 title: "Research Proposal: Causal Evaluation of Language Models"
 pageTitle: "Causal Evaluation of Language Models"
 subtitle: "Eval suites that measure mechanisms, not correlations. A three-phase research program."
 permalink: /proposal/ceval.html
+banner: causal-score
 hasMath: true
 hasCode: true
 extraCss:
@@ -41,7 +42,7 @@ sitemap:
 </ol>
 </aside>
 
-<main class="proposal-body">
+<div class="proposal-body">
 
 <section id="tldr" class="proposal-hero">
 <h2>TL;DR</h2>
@@ -393,6 +394,6 @@ alternative_hypotheses:
 <p class="proposal-footer">This page is a working document. It will move as the experiments teach us what's real.</p>
 </section>
 
-</main>
+</div>
 </div>
 </div>

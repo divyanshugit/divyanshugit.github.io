@@ -1,9 +1,10 @@
 ---
-layout: page.njk
+layout: proposal.njk
 title: "Research Proposal: Temporal Dynamics of Safety in Diffusion LMs"
 pageTitle: "Temporal Safety in Diffusion LMs"
 subtitle: "Diffusion language models generate by denoising, not left-to-right. Safety is a property of the trajectory, so measure it, and intervene, step by step."
 permalink: /proposal/diffusion.html
+banner: harm-trajectory
 hasMath: true
 hasCode: true
 extraCss:
@@ -37,7 +38,7 @@ sitemap:
 </ol>
 </aside>
 
-<main class="proposal-body">
+<div class="proposal-body">
 
 <section id="tldr" class="proposal-hero">
 <h2>TL;DR</h2>
@@ -217,6 +218,6 @@ FHS answers <em>when to act</em>, Irreversibility answers <em>whether acting lat
 <p class="proposal-footer">This page is a working document. It will move as the experiments teach us what's real.</p>
 </section>
 
-</main>
+</div>
 </div>
 </div>

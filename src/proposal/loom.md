@@ -1,9 +1,10 @@
 ---
-layout: page.njk
+layout: proposal.njk
 title: "Project Proposal, Loom: Inference-Time Search over Reasoning Paths"
 pageTitle: "Loom"
 subtitle: "Turn a small open model into a reasoning model at inference time, with structured search and deterministic verification, no training."
 permalink: /proposal/loom.html
+banner: beam-tree
 hasMath: true
 hasCode: true
 extraCss:
@@ -42,7 +43,7 @@ sitemap:
 </ol>
 </aside>
 
-<main class="proposal-body">
+<div class="proposal-body">
 
 <section id="tldr" class="proposal-hero">
 <h2>TL;DR</h2>
@@ -360,6 +361,6 @@ Step-level beam search (v1) is the baseline that proves the thesis end-to-end. E
 <p class="proposal-footer">This page is a working document. It will move as the experiments teach us what's real.</p>
 </section>
 
-</main>
+</div>
 </div>
 </div>

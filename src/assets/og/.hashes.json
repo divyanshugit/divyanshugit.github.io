@@ -9,5 +9,14 @@
   "multimodal": "a2521c0f1278",
   "px0-remote": "7890164eee0d",
   "site": "4708bed776fe",
-  "vibe": "109070fbab5a"
+  "vibe": "109070fbab5a",
+  "vibe-screens": "5845734966bd",
+  "eval-gap": "4a0248fa4455",
+  "causal-score": "a18ef20c1dbf",
+  "repo-matrix": "106e58931e73",
+  "harm-trajectory": "04c51fe040f9",
+  "intent-floor": "e4f9e468ebea",
+  "invariance": "cc857779abcf",
+  "beam-tree": "f7c5e78371a7",
+  "three-gaps": "399da42304f2"
 }

@@ -9,6 +9,7 @@
     {#- Social previews. A post with `banner: <slug>` uses its pre-generated card
         (src/assets/og/<slug>.png, `npm run og`); every other page uses the site card. -#}
     {%- set isPost = page.inputPath and ("/blog/" in page.inputPath) and banner %}
+    {%- set hasCard = banner and page.inputPath and (("/blog/" in page.inputPath) or ("/proposal/" in page.inputPath)) %}
     {%- set ogTitle = (title | cleanTitle) if (title and title != "Home") else site.name %}
     {%- set ogDesc = (description | cleanTitle | replace(r/^tl;dr\s*[-—:]*\s*/i, "")) if description else (site.name + " · " + site.role + ". Research on AI safety, privacy and evaluation.") %}
     <meta property="og:site_name" content="{{ site.name }}">
@@ -17,16 +18,16 @@
     <meta property="og:description" content="{{ ogDesc }}">
     <link rel="canonical" href="{{ site.url }}{{ page.url }}">
     <meta property="og:url" content="{{ site.url }}{{ page.url }}">
-    <meta property="og:image" content="{{ site.url }}{{ (banner if isPost else '') | ogImage }}">
+    <meta property="og:image" content="{{ site.url }}{{ (banner if hasCard else '') | ogImage }}">
     <meta property="og:image:width" content="1200">
     <meta property="og:image:height" content="630">
-    <meta property="og:image:alt" content="{{ ogTitle }}{% if isPost %}, with a figure drawn from the post{% endif %}">
+    <meta property="og:image:alt" content="{{ ogTitle }}{% if hasCard %}, with a figure drawn from the {{ 'post' if isPost else 'proposal' }}{% endif %}">
     {%- if isPost %}<meta property="article:published_time" content="{{ page.date | isoDate }}">{% endif %}
     <meta name="twitter:card" content="summary_large_image">
     <meta name="twitter:creator" content="@divyanshutwt">
     <meta name="twitter:title" content="{{ ogTitle }}">
     <meta name="twitter:description" content="{{ ogDesc }}">
-    <meta name="twitter:image" content="{{ site.url }}{{ (banner if isPost else '') | ogImage }}">
+    <meta name="twitter:image" content="{{ site.url }}{{ (banner if hasCard else '') | ogImage }}">
     {#- The mark (DESIGN.md "Mark"): SVG first, ICO for browsers without SVG icons. -#}
     <link rel="icon" href="/assets/favicon.ico" sizes="32x32">
     <link rel="icon" type="image/svg+xml" href="/assets/logo.svg">

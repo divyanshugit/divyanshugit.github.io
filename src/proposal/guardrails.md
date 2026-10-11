@@ -1,9 +1,10 @@
 ---
-layout: page.njk
+layout: proposal.njk
 title: "Research Proposal: Guardrails as Intent Classifiers"
 pageTitle: "Guardrails as Intent Classifiers"
 subtitle: "Across 22 guardrail systems, you can't tune your way out of the safety–usability tradeoff. So I attack the assumption underneath it: the representation."
 permalink: /proposal/guardrails.html
+banner: intent-floor
 hasMath: true
 hasCode: true
 extraCss:
@@ -40,7 +41,7 @@ sitemap:
 </ol>
 </aside>
 
-<main class="proposal-body">
+<div class="proposal-body">
 
 <section id="tldr" class="proposal-hero">
 <h2>TL;DR</h2>
@@ -298,6 +299,6 @@ The NFL latency floor says a guardrail must read $\ge m$ informative tokens, at 
 <p class="proposal-footer">This page is a working document. It will move as the experiments teach us what's real.</p>
 </section>
 
-</main>
+</div>
 </div>
 </div>

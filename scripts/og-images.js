@@ -164,7 +164,7 @@ function postCard(post, mod) {
     y += 6;
     d.lines.forEach((l) => { text += outline("italic", l, M, y, d.size, P.text2); y += Math.round(d.size * 1.28); });
   }
-  const eyebrow = post.series ? "blog · " + post.series : "blog · " + ((post.tags || [])[0] || "writing");
+  const eyebrow = post.eyebrow || (post.series ? "blog · " + post.series : "blog · " + ((post.tags || [])[0] || "writing"));
   // the plate: 2.2 : 1, right of the text, between hairlines, with its label
   const BX = 574, BW = W - M + 16 - BX, BH = BW / 2.2, BY = Math.round((H - BH) / 2) + 26;
   const inner = bannerSvg(mod).replace(/^<svg class="bn__svg" viewBox="0 0 1100 500"/, `<svg class="bn__svg" x="${BX}" y="${BY}" width="${BW}" height="${BH}" viewBox="0 0 1100 500"`);
@@ -211,6 +211,14 @@ async function run({ force = false } = {}) {
     if (!mod) { console.warn(`[og] ${f}: no banner "${data.banner}"`); continue; }
     const series = /Inception of Differential Privacy/i.test(data.description || "") ? "Inception of Differential Privacy" : "";
     const svg = postCard({ title: data.title, tags: data.tags, series }, mod);
+    if (await write(data.banner, svg, force)) { made++; console.log(`[og] ${path.relative(ROOT, path.join(OUT, data.banner + ".png"))}`); }
+  }
+  // the research proposals: the short title, under "research agenda"
+  const pdir = path.join(ROOT, "src/proposal");
+  for (const f of fs.readdirSync(pdir).filter((x) => x.endsWith(".md"))) {
+    const { data } = matter(fs.readFileSync(path.join(pdir, f), "utf8"));
+    if (!data.banner || !banners[data.banner]) continue;
+    const svg = postCard({ title: data.pageTitle || data.title, eyebrow: f === "index.md" ? "research agenda" : "research agenda · proposal" }, banners[data.banner]);
     if (await write(data.banner, svg, force)) { made++; console.log(`[og] ${path.relative(ROOT, path.join(OUT, data.banner + ".png"))}`); }
   }
   if (await write("site", siteCard(), force)) { made++; console.log(`[og] ${path.relative(ROOT, path.join(OUT, "site.png"))}`); }

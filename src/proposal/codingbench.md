@@ -1,9 +1,10 @@
 ---
-layout: page.njk
+layout: proposal.njk
 title: "Research Proposal: CodingAgentBench"
 pageTitle: "CodingAgentBench"
 subtitle: "A multi-language, multi-repo benchmark for evaluating real-world AI coding agents."
 permalink: /proposal/codingbench.html
+banner: repo-matrix
 hasCode: true
 extraCss:
   - proposal.css
@@ -37,7 +38,7 @@ sitemap:
 </ol>
 </aside>
 
-<main class="proposal-body">
+<div class="proposal-body">
 
 <section id="tldr" class="proposal-hero">
 <h2>TL;DR</h2>
@@ -320,6 +321,6 @@ sitemap:
 <p class="proposal-footer">This page is a working document. It will move as the experiments teach us what's real.</p>
 </section>
 
-</main>
+</div>
 </div>
 </div>

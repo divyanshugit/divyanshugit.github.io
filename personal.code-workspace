@@ -171,6 +171,12 @@
         },
         {
             "path": "../glyph"
+        },
+        {
+            "path": "../px0"
+        },
+        {
+            "path": "../neurips2026workshop"
         }
     ]
 }

@@ -35,7 +35,7 @@ This file is the contract for anyone building pages on the system.
 | Blog banner plates + social cards | `src/_includes/banners/`, `scripts/og-images.js` → `src/assets/og/` (§ 11) |
 | The ink portrait (Fig. 1 on Home and About) | `src/_includes/partials/portrait-ink.njk` (inline SVG) + `.ink` in `site.css` + `js/ink.js` (draw-in) + `js/eps.js` (noise) (§ 6b) |
 
-**Legacy stylesheet.** Every page is on the new system except `/proposal/*`, which uses `page.njk` with `legacyCss: true` and `extraCss: [proposal.css]`. **Leave `legacyCss` on page.njk** so the proposals keep rendering exactly as before. (A new layout never sets `legacyCss`; it sets `pageCss`.)
+**Proposals.** `/proposal/*` use `proposal.njk`: set like a post (title page, one text column, `pageCss: post.css` for the reading type, code, maths and tables), with `extraCss: [proposal.css]` for the proposal-only pieces (working-draft line, contents, TL;DR, section labels, callouts, phase cards, milestones). Each `<section>` of `.proposal-body` joins the side rail's "On this page"; the in-text contents list shows only below 1240px. Phase cards and tables run into the empty rail at ≥1081px. **Legacy stylesheet.** No page uses it any more; `page.njk` still sets `legacyCss: true` for anything that opts into it. (A new layout never sets `legacyCss`; it sets `pageCss`.)
 
 **Prism.** Code highlighting loads `prism-autoloader` with `data-autoloader-path="/js/vendor/components/"`; the grammars actually used are vendored there (bash, clike, go, json, python, yaml). Add a file there when a post uses a new language.
 
@@ -63,9 +63,9 @@ Day proof (light) and night proof (dark) are designed separately. Dark is set un
 - Instrument Serif (`--serif`) for display, headings (h1–h3, all roman), italic accents (`cite`, `em` in notes, plate names, maths) and the About drop cap.
 - Source Sans 3 (`--text-font`) for running text; the same face as `--sans` for margin notes, captions and UI, and as `--sc` (class `.lab`) for labels, which are set uppercase and tracked (`letter-spacing: .1em`, weight 500), not in small caps.
 - IBM Plex Mono (`--mono`) for code, the probe quote and the ε readout only.
-- EB Garamond and Alegreya are no longer used by the site (the proposal pages keep their own fonts via `css/legacy-fonts.css`).
+- EB Garamond and Alegreya are no longer used by the site.
 
-Loaded in `css/fonts.css`. The proposal pages also get `css/legacy-fonts.css`.
+Loaded in `css/fonts.css`.
 
 **Type scale.**
 - Body `--fs-body` 19px / `--lh-body` 1.72, lining figures. Blog posts use 19px/1.75.
@@ -342,7 +342,7 @@ Every post opens with a **frontispiece**: a small scientific figure drawn from t
 6. In the post's front matter add `banner: <slug>`. **That line is the only edit to the post.** A dead lead image under `/assets/img/` before the first heading folds away (`js/post.js`); later dead images still show their "image not available" line.
 7. Run `npm run og`, then check the card in `src/assets/og/<slug>.png` and commit it.
 
-**Social previews.** `base.njk` writes `og:*` and `twitter:card = summary_large_image` on every page. A post with a banner uses `/assets/og/<slug>.png`; every other page, and any post whose card has not been generated yet, uses `/assets/og/site.png` (the `ogImage` filter checks the file exists). Each card is 1200 × 630: the site name and a madder rule, the mark in the bottom-right corner (§ 6c), the post title in Instrument Serif, labels in Source Sans 3 (a "Title: subtitle" is split into title and italic dek, as on the page), and the banner in the Day proof palette between hairlines, at its phone label sizes with the `x` labels dropped.
+**Social previews.** `base.njk` writes `og:*` and `twitter:card = summary_large_image` on every page. A post or proposal (`/proposal/*`) with a banner uses `/assets/og/<slug>.png` (proposals: the short `pageTitle`, eyebrow "Research agenda · proposal"); every other page, and any post whose card has not been generated yet, uses `/assets/og/site.png` (the `ogImage` filter checks the file exists). Each card is 1200 × 630: the site name and a madder rule, the mark in the bottom-right corner (§ 6c), the post title in Instrument Serif, labels in Source Sans 3 (a "Title: subtitle" is split into title and italic dek, as on the page), and the banner in the Day proof palette between hairlines, at its phone label sizes with the `x` labels dropped.
 - Cards are **pre-generated and committed**, not built on every eleventy run: CI needs no fonts or font tooling, the build stays fast, and `--serve` never loops on files written into `src/`. `npm run og` rewrites only the cards whose SVG changed (hashes in `src/assets/og/.hashes.json`); `npm run og -- --force` rewrites all. The build prints `[og] no social preview for: …` if a banner has no card yet.
 - **Fonts.** sharp's librsvg ignores `@font-face` and, on macOS, fontconfig too, so it would silently fall back to Helvetica. The script therefore **outlines every piece of text to paths** with `opentype.js`, from the TTFs in `scripts/og/fonts/`. Combining accents (q̂, ŵ, g̃) are placed by hand, because opentype.js doesn't position marks.
 

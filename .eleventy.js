@@ -404,8 +404,8 @@ module.exports = function (eleventyConfig) {
     eleventyConfig.on("eleventy.before", () => {
         // a quiet reminder, never a failure: posts whose banner has no social preview yet
         try {
-            const dir = path.join(__dirname, "src/blog");
-            const missing = fs.readdirSync(dir).filter(f => f.endsWith(".md")).map(f => (fs.readFileSync(path.join(dir, f), "utf8").match(/^banner:\s*([\w-]+)/m) || [])[1])
+            const missing = ["src/blog", "src/proposal"].flatMap(d => fs.readdirSync(path.join(__dirname, d)).filter(f => f.endsWith(".md")).map(f => path.join(__dirname, d, f)))
+                .map(f => (fs.readFileSync(f, "utf8").match(/^banner:\s*([\w-]+)/m) || [])[1])
                 .filter(slug => slug && !fs.existsSync(path.join(__dirname, "src/assets/og", `${slug}.png`)));
             if (missing.length) console.warn(`[og] no social preview for: ${missing.join(", ")} — run \`npm run og\``);
         } catch (e) { /* never block a build on this */ }

@@ -1,9 +1,10 @@
 ---
-layout: page.njk
+layout: proposal.njk
 title: "Research Agenda"
 pageTitle: "Research Agenda"
 subtitle: "Provable invariance: building AI that behaves the same however you ask it. The shared root of safety x reliability."
 permalink: /proposal/
+banner: invariance
 extraCss:
   - proposal.css
 hasMath: true
@@ -16,9 +17,9 @@ sitemap:
 
 <p class="proposal-meta">Divyanshu Kumar &middot; Working draft, last updated 2026-06-18 &middot; <a href="https://github.com/divyanshugit">github.com/divyanshugit</a></p>
 
-<main class="proposal-body" style="max-width: 80ch; margin: 2rem auto 0 auto;">
+<div class="proposal-body">
 
-<section class="proposal-hero" style="margin-top: 0;">
+<section class="proposal-hero">
 <h2>The thesis, in plain words</h2>
 <p class="lead">I want AI that behaves the same way no matter <em>how</em> you ask. Rephrase the question, change the file format, swap a sentence for a picture of that sentence, and the answer shouldn't flip. When it does, two things break:</p>
 <ul>
@@ -38,7 +39,7 @@ sitemap:
 <h2>The failures are measured, not hypothesized</h2>
 <p>Two early results (peer-reviewed workshop findings, with fuller versions in progress) are the empirical foundation the thesis generalizes from. Same brittleness, two unrelated domains: one shows up as a <strong>reliability</strong> failure (same graph, different format, different answer), the other as a <strong>safety</strong> failure (same harm, different modality, filter bypassed).</p>
 
-<div class="phase-grid" style="grid-template-columns: 1fr 1fr;">
+<div class="phase-grid">
 <div class="phase-card">
 <span class="phase-tag">Early result · serialization shift</span>
 <h5><a href="https://openreview.net/forum?id=SnzUcNsaXY">Lost in Serialization</a> <span class="subtle">(GFM @ ICML 2026, Poster)</span></h5>
@@ -129,7 +130,7 @@ sitemap:
 <p>The empirical foundation is out as early, peer-reviewed workshop results (graph serialization, GFM @ ICML 2026; multimodal safety, NeurIPS 2025): first findings, with fuller versions in progress. The invariance proposals are in early, gated execution. Each has a cheap Milestone 0 that could falsify it before the expensive work starts (see the individual pages). The theory directions (invariant architectures, privacy-aware robustness) are the longer-horizon program these results motivate.</p>
 <p>Contact: <a href="mailto:kumardivy1999@gmail.com">kumardivy1999 [at] gmail.com</a></p>
 <p class="proposal-footer">If you'd like to collaborate, or have feedback on the framing, get in touch.</p>
-<p class="proposal-footer" style="margin-top: 1.75rem; font-style: italic; opacity: 0.92;"><strong>PS.</strong> The honest version: the plan was to work on these problems during a PhD, and the Fall 2026 cycle didn't go my way. It hasn't changed what I want to build. I'm going to step back from a few things soon and just start: build x publish, milestone by milestone, and let the work speak for itself. With or without a formal program, I'm going to find a way to work on these ideas.</p>
+<p class="proposal-footer proposal-ps"><strong>PS.</strong> The honest version: the plan was to work on these problems during a PhD, and the Fall 2026 cycle didn't go my way. It hasn't changed what I want to build. I'm going to step back from a few things soon and just start: build x publish, milestone by milestone, and let the work speak for itself. With or without a formal program, I'm going to find a way to work on these ideas.</p>
 </section>
 
 <section>
@@ -153,5 +154,5 @@ sitemap:
 </ul>
 </section>
 
-</main>
+</div>
 </div>
