@@ -16,11 +16,6 @@ references:
   3: https://www.comp.nus.edu.sg/~tankl/cs5322/readings/dwork.pdf
 ---
 
-<div class="row">
-    <div class="col-sm mt-3 mt-md-0">
-        <img src="/assets/img/dp_blog/3.png" alt="Differential Privacy Mechanisms" class="img-fluid rounded z-depth-1" loading="eager" />
-    </div>
-</div>
 
 In previous blogs[1,2], we established the necessity of ***differential privacy (DP)*** and provided a rigorous mathematical foundation for how it works. Now, let's focus on the **mechanisms** that implement DP effectively the **Laplace Mechanism** and the **Exponential Mechanism**[3]. These methods allow us to inject **noise in a mathematically principled way**, ensuring privacy while preserving as much utility as possible.
 
