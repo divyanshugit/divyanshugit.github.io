@@ -1,27 +1,38 @@
 /* ==========================================================================
    SIMPLE: the plain, content-first system (Nov 2026).
    Raleway for reading, Instrument Serif for headings and the hello.
-   One accent (terracotta) for links. Light by default, follows the system.
+   Palette "pencil": bone paper and graphite ink; links in slate blue, like a
+   blue pencil (from the Bali dusk photo); a yellow highlighter marks hover and
+   the current page. Light by default, follows the system.
    ========================================================================== */
 :root{
-  --bg:#FFFFFF; --text:#1C1A17; --text-2:#55504A; --text-3:#8A847C;
-  --link:#A2462F; --rule:#E7E3DC; --wash:rgba(162,70,47,.06); --rim:transparent;
+  --bg:#EEEBE4; --text:#2A2A28; --text-2:#5E5A54; --text-3:#7F7A72;
+  --link:#2F5C88; --rule:#D6D1C6; --wash:rgba(47,92,136,.06); --rim:transparent;
+  --mark:#FFE45C; --btn:#2A2A28; --btn-fg:#EEEBE4; --btn-hover:#45433F;
   --serif:"Instrument Serif",Georgia,serif;
   --sans:"Raleway",system-ui,-apple-system,sans-serif;
   color-scheme:light;
 }
 @media (prefers-color-scheme: dark){
-  :root:not([data-theme="light"]){ --bg:#161412; --text:#ECE6DA; --text-2:#B8AFA1; --text-3:#857C70; --link:#E0987F; --rule:#2C2823; --wash:rgba(224,152,127,.08); --rim:rgba(236,230,218,.5); color-scheme:dark; }
+  :root:not([data-theme="light"]){ --bg:#1C1B19; --text:#E6E1D6; --text-2:#ABA598; --text-3:#86806F; --link:#8DB6DC; --rule:#33312D; --wash:rgba(141,182,220,.07); --rim:rgba(230,225,214,.5); --mark:rgba(255,222,70,.32); --btn:#E6E1D6; --btn-fg:#1C1B19; --btn-hover:#FFFFFF; color-scheme:dark; }
 }
-:root[data-theme="dark"]{ --bg:#161412; --text:#ECE6DA; --text-2:#B8AFA1; --text-3:#857C70; --link:#E0987F; --rule:#2C2823; --wash:rgba(224,152,127,.08); --rim:rgba(236,230,218,.5); color-scheme:dark; }
+:root[data-theme="dark"]{ --bg:#1C1B19; --text:#E6E1D6; --text-2:#ABA598; --text-3:#86806F; --link:#8DB6DC; --rule:#33312D; --wash:rgba(141,182,220,.07); --rim:rgba(230,225,214,.5); --mark:rgba(255,222,70,.32); --btn:#E6E1D6; --btn-fg:#1C1B19; --btn-hover:#FFFFFF; color-scheme:dark; }
 
 *{box-sizing:border-box}
 html{font-variant-numeric:oldstyle-nums;-webkit-text-size-adjust:100%}
 body{margin:0;background:var(--bg);color:var(--text);font:400 16.5px/1.65 var(--sans)}
 a{color:var(--link);text-decoration:none}
-a:hover{text-decoration:underline;text-underline-offset:3px}
+/* links in running text are underlined (never colour alone); a highlighter on hover */
+:is(p,li,.lead,.g-cap,.mailrow) a:not(.btn){text-decoration:underline;text-decoration-thickness:1px;text-underline-offset:3px;text-decoration-color:color-mix(in srgb,var(--link) 40%,transparent)}
+li a:not(.btn){text-decoration-color:color-mix(in srgb,var(--link) 22%,transparent)}
+a:not(.btn):hover{background:linear-gradient(transparent 52%,var(--mark) 52%);text-decoration-color:transparent;color:var(--text)}
 a:focus-visible,button:focus-visible{outline:2px solid var(--link);outline-offset:2px;border-radius:2px}
 b,strong{font-weight:700}
+/* action button: solid ink, one per page at most */
+.btn{display:inline-flex;align-items:center;gap:6px;font:700 14px/1 var(--sans);letter-spacing:.01em;color:var(--btn-fg);background:var(--btn);border:0;border-radius:999px;padding:9px 16px;cursor:pointer;text-decoration:none;transition:background-color .15s}
+.btn:hover{background:var(--btn-hover);text-decoration:none}
+.btn:active{transform:translateY(1px)}
+.btn:focus-visible{outline:2px solid var(--text);outline-offset:3px;border-radius:999px}
 .skip{position:absolute;left:-9999px}
 .skip:focus{left:16px;top:12px;background:var(--bg);padding:4px 8px;z-index:10}
 .visually-hidden{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0)}
@@ -34,7 +45,7 @@ b,strong{font-weight:700}
 .bar .nm:hover{text-decoration:none}
 .nav{display:flex;flex-wrap:wrap;align-items:baseline;row-gap:6px;min-width:0}
 .nav .sep{margin:0 6px;color:var(--text-3)}
-.nav a[aria-current="page"]{color:var(--text);font-weight:700}
+.nav a[aria-current="page"]{color:var(--text);font-weight:700;background:linear-gradient(transparent 52%,var(--mark) 52%)}
 .theme{font:inherit;font-size:13px;color:var(--text-3);background:none;border:1px solid var(--rule);border-radius:999px;padding:2px 10px;cursor:pointer;white-space:nowrap}
 .theme:hover{color:var(--text)}
 .home .bar{justify-content:flex-end}
@@ -89,6 +100,7 @@ a.g-sub{color:var(--link)}
 .g-post + .endnote{margin-top:0;border-top:0}
 /* about: a thumbs-up beside the copy button, on its own short rule */
 .mailrow{display:flex;align-items:flex-end;flex-wrap:wrap;gap:0 4px;margin:0 0 14px}
+.mailrow .btn{margin:0 0 2px 10px}
 .mailrow .guide{margin:0 0 0 10px;padding-top:0;border:0;flex:1 1 200px;min-width:200px}
 .mailrow .guide::after{content:"";position:absolute;left:-6px;bottom:0;width:calc(var(--w) + 12px);border-bottom:1px solid var(--rule)}
 .mailrow .g-cap{bottom:calc(var(--w) * .35)}
@@ -165,7 +177,7 @@ aside.note .lab::after{content:":"}
 .credit{font-size:12.5px;color:var(--text-3)}
 .places{display:grid;grid-template-columns:repeat(auto-fill,minmax(170px,1fr));gap:18px;list-style:none;padding:0;margin:8px 0 0}
 .places a{display:block;color:var(--text)}
-.places a:hover{text-decoration:none}
+.places a,.places a:hover{text-decoration:none;background:none}
 .places a:hover .pn{color:var(--link)}
 .places .th{aspect-ratio:4/3;overflow:hidden;border-radius:3px;background:color-mix(in srgb,var(--text) 8%,var(--bg))}
 .places .th img{width:100%;height:100%;object-fit:cover;display:block;transition:transform .5s}
@@ -253,3 +265,4 @@ aside.note .lab::after{content:":"}
 .endnote{margin-top:36px;padding-top:14px;border-top:1px solid var(--rule);color:var(--text-2);font-size:15px}
 /* proposals reuse proposal.css; its selectors expect .post-text .body */
 .proposal-page .phase-grid,.proposal-page .post-text .body table{width:auto}
+

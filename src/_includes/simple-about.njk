@@ -61,7 +61,7 @@ mascot: true
 
 <h2 id="contact">contact</h2>
 <p>If any of this is your problem too, write to me:</p>
-<div class="mailrow"><a href="#" data-email="{{ site.emailObf }}" id="mail">{{ site.emailObf }}</a><button class="copy" type="button" id="copymail" hidden>copy</button>{% guide { empty: true, pose: "thumbs", w: 64, wp: 64, poses: ["thumbs"], data: { when: "event:copied", appear: "", leave: "2400", steps: [["thumbs", "Copied!", 0]] } } %}</div>
+<div class="mailrow"><a href="#" data-email="{{ site.emailObf }}" id="mail">{{ site.emailObf }}</a><button class="copy btn" type="button" id="copymail" hidden>copy email</button>{% guide { empty: true, pose: "thumbs", w: 64, wp: 64, poses: ["thumbs"], data: { when: "event:copied", appear: "", leave: "2400", steps: [["thumbs", "Copied!", 0]] } } %}</div>
 <p>I’m also on {% for l in site.links %}{% if l.url and l.icon != "cv" %}<a href="{{ l.url }}">{{ l.text }}</a>{% if not loop.last %}, {% endif %}{% endif %}{% endfor %} and there’s a <a href="/assets/cv.pdf">CV</a>.</p>
 <script>
   (function () { var a = document.getElementById('mail'); var e = 'kumardivy1999' + '@' + 'gmail.com';
@@ -74,7 +74,7 @@ mascot: true
       navigator.clipboard.writeText(e).then(function () {
         c.textContent = 'copied';
         document.dispatchEvent(new CustomEvent('guide:copied'));
-        clearTimeout(t); t = setTimeout(function () { c.textContent = 'copy'; }, 3400);
+        clearTimeout(t); t = setTimeout(function () { c.textContent = 'copy email'; }, 3400);
       });
     }); })();
 </script>
