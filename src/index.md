@@ -26,7 +26,7 @@ I’m an AI Research Engineer at [Anaconda](https://www.anaconda.com/), which [a
 
 I work on making AI systems <span class="w">efficient</span>, <span class="w">secure</span> and <span class="w">private</span>, and on what breaks when they are made so: how quantization and fine-tuning weaken a model’s safety, red-teaming models across text, image and audio, and guardrails, differentially private fine-tuning and encrypted inference.
 
-I maintained a public [LLM safety leaderboard](https://www.enkryptai.com/llm-safety-leaderboard) of about 300 models. My papers have appeared at NeurIPS, AAAI and ICML workshops.
+I maintain a public [LLM safety leaderboard](https://www.enkryptai.com/llm-safety-leaderboard) of about 300 models and an [agent incident registry](https://air.enkryptai.com/). My research has appeared at NeurIPS, AAAI and ICML workshops.
 
 <h2 id="papers">selected papers</h2>
 
