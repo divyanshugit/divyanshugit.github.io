@@ -1,5 +1,5 @@
 ---
-layout: blog-post.njk
+layout: simple-post.njk
 title: "How Much Can You Vibe? Building an iOS App Without Knowing Swift"
 description: "I didn't know anything about Swift. In two days, I developed an iOS app that reads my gym's whiteboard."
 date: 2026-09-27

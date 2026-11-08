@@ -10,7 +10,7 @@ const SERIES = {
 };
 
 module.exports = {
-  layout: "blog-post.njk",
+  layout: "simple-post.njk",
   eleventyComputed: {
     permalink: (data) => (data.draft ? false : data.permalink),
     series: (data) => {

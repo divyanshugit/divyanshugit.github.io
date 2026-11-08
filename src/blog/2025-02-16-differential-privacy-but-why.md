@@ -1,5 +1,5 @@
 ---
-layout: blog-post.njk
+layout: simple-post.njk
 title: "Differential Privacy!! But Why?"
 description: "Blog #1 in the series of Inception of Differential Privacy"
 date: 2025-02-16

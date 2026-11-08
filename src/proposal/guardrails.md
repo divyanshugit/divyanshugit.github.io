@@ -1,5 +1,5 @@
 ---
-layout: proposal.njk
+layout: simple-proposal.njk
 title: "Research Proposal: Guardrails as Intent Classifiers"
 pageTitle: "Guardrails as Intent Classifiers"
 subtitle: "Across 22 guardrail systems, you can't tune your way out of the safety–usability tradeoff. So I attack the assumption underneath it: the representation."

@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{% if title and title != "Home" %}{{ title }} · {% endif %}{{ site.name }}</title>
+    {% if description %}<meta name="description" content="{{ description }}">{% endif %}
+    {%- set ogTitle = (title | cleanTitle) if (title and title != "Home") else site.name %}
+    {%- set ogDesc = description or (site.name + " · " + site.role) %}
+    <meta property="og:site_name" content="{{ site.name }}">
+    <meta property="og:type" content="website">
+    <meta property="og:title" content="{{ ogTitle }}">
+    <meta property="og:description" content="{{ ogDesc }}">
+    <link rel="canonical" href="{{ site.url }}{{ page.url }}">
+    <meta property="og:url" content="{{ site.url }}{{ page.url }}">
+    <meta property="og:image" content="{{ site.url }}{{ (banner if banner else '') | ogImage }}">
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:creator" content="@divyanshutwt">
+    <link rel="icon" href="/assets/favicon.ico" sizes="32x32">
+    <link rel="icon" type="image/svg+xml" href="/assets/logo.svg">
+    <link rel="apple-touch-icon" href="/assets/apple-touch-icon.png">
+    <link rel="manifest" href="/site.webmanifest">
+    <meta name="theme-color" content="#FFFFFF" media="(prefers-color-scheme: light)">
+    <meta name="theme-color" content="#161412" media="(prefers-color-scheme: dark)">
+    <script>
+        (function () {
+            var d = document.documentElement; d.classList.add('js');
+            try { var t = localStorage.getItem('theme'); if (t === 'light' || t === 'dark') d.setAttribute('data-theme', t); } catch (e) {}
+        })();
+    </script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=Raleway:ital,wght@0,400;0,500;0,700;1,400&display=swap">
+    <link rel="stylesheet" href="{{ '/css/simple.css' | cacheBust }}">
+    {% if extraCss %}{% for css in extraCss %}<link rel="stylesheet" href="{{ ('/css/' + css) | cacheBust }}">{% endfor %}{% endif %}
+    {% if hasCode %}<link rel="stylesheet" href="{{ '/css/prism-tomorrow.min.css' | cacheBust }}"><link rel="stylesheet" href="{{ '/css/prism-toolbar.min.css' | cacheBust }}">{% endif %}
+    {% if hasMath %}<script>window.MathJax = { tex: { inlineMath: [['$', '$'], ['\\(', '\\)']], displayMath: [['$$', '$$'], ['\\[', '\\]']], processEscapes: true, processEnvironments: true }, options: { skipHtmlTags: ['script', 'noscript', 'style', 'textarea', 'pre'] } };</script>
+    <script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>{% endif %}
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-D9VESR00K0"></script>
+    <script>
+        window.dataLayer = window.dataLayer || [];
+        function gtag(){dataLayer.push(arguments);}
+        gtag('js', new Date());
+        gtag('config', 'G-D9VESR00K0');
+    </script>
+</head>
+{%- set isHome = page.url == "/" or page.url == "/index.html" %}
+<body class="{{ 'home' if isHome }}">
+<a class="skip" href="#main">Skip to text</a>
+<div class="wrap">
+  <header class="bar">
+    {%- if not isHome %}<a class="nm" href="/index.html">{{ site.name }}</a>{% endif %}
+    <nav class="nav" aria-label="Pages">
+      {%- for item in site.nav %}{% if item.match != "/" %}
+      {%- set active = page.url and page.url.startsWith(item.match) %}
+      {%- if not loop.first and loop.index0 > 1 %}<span class="sep">//</span>{% endif %}<a href="{{ item.url }}"{% if active %} aria-current="page"{% endif %}>{{ item.text | lower }}</a>
+      {%- endif %}{% endfor %}
+    </nav>
+    <button class="theme" id="theme" type="button">light / dark</button>
+  </header>
+
+  <main id="main">
+  {{ content | safe }}
+  </main>
+
+  <footer class="foot">
+    <a href="/about.html#contact">Email</a><span class="sep">|</span>
+    {%- for l in site.links %}{% if l.url %}<a href="{{ l.url }}">{{ l.text }}</a><span class="sep">|</span>{% endif %}{% endfor %}
+    <a href="/about.html">About</a>
+  </footer>
+</div>
+<script>
+  (function () {
+    var b = document.getElementById('theme'), d = document.documentElement;
+    b.addEventListener('click', function () {
+      var dark = d.dataset.theme ? d.dataset.theme === 'dark' : matchMedia('(prefers-color-scheme: dark)').matches;
+      d.dataset.theme = dark ? 'light' : 'dark';
+      try { localStorage.setItem('theme', d.dataset.theme); } catch (e) {}
+    });
+  })();
+</script>
+{% if mascot %}<script src="{{ '/js/guide.js' | cacheBust }}"></script>{% endif %}
+{% if hasCode %}<script defer src="{{ '/js/vendor/prism-core.min.js' | cacheBust }}"></script>
+<script defer src="{{ '/js/vendor/prism-autoloader.min.js' | cacheBust }}" data-autoloader-path="/js/vendor/components/"></script>
+<script defer src="{{ '/js/vendor/prism-toolbar.min.js' | cacheBust }}"></script>
+<script defer src="{{ '/js/vendor/prism-copy-to-clipboard.min.js' | cacheBust }}"></script>{% endif %}
+{% if eps %}<script>window.EPS_FACTS = {{ particulars.facts | json | safe }};</script>
+<script src="{{ '/js/eps.js' | cacheBust }}"></script>{% endif %}
+</body>
+</html>

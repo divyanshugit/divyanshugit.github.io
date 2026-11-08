@@ -176,6 +176,19 @@ function postCard(post, mod) {
   return frame(masthead(eyebrow) + text + plate + foot);
 }
 
+// the mascot as a sticker (src/assets/straw-hat-logo.svg), still, mid-"Yo!".
+// librsvg runs no CSS animations, so it renders the file's base styles: bubble
+// shown, mouth open. Its "Yo!" is outlined like every other word on the card.
+function sticker(x, y, w) {
+  const VB = [30, 34, 362, 346];
+  let src = fs.readFileSync(path.join(ROOT, "src/assets/straw-hat-logo.svg"), "utf8").replace(/<!--[\s\S]*?-->/g, "");
+  src = src.replace(/<text id="speech-text"[^>]*>[^<]*<\/text>/, outline("serif", "Yo!", 87.5, 114, 32, "#211c16", { anchor: "middle" }));
+  src = src.replace(/<title[\s\S]*?<\/desc>/, "");
+  const inner = src.replace(/^[\s\S]*?<svg[^>]*>/, "").replace(/<\/svg>\s*$/, "");
+  const h = w * VB[3] / VB[2];
+  return `<svg class="straw-hat-logo" x="${x}" y="${y}" width="${w}" height="${h.toFixed(1)}" viewBox="${VB.join(" ")}">${inner}</svg>`;
+}
+
 function siteCard() {
   let s = masthead("");
   s += outline("serif", site.name, M, 300, 116, P.text);
@@ -184,6 +197,7 @@ function siteCard() {
   s += outline("sans", site.domain, M, H - M + 8, 22, P.text3);
   // the mark in the corner, where the ε used to be
   s += mark(56, W - M, H - M + 8);
+  s += sticker(836, 128, 300);
   return frame(s);
 }
 

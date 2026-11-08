@@ -1,5 +1,5 @@
 ---
-layout: blog-post.njk
+layout: simple-post.njk
 title: "DP Guarantee in Action"
 description: "Blog #2 in the series of Inception of Differential Privacy"
 date: 2025-03-02

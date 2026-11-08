@@ -1,0 +1,38 @@
+---
+layout: simple.njk
+pagination:
+  data: pubItems
+  size: 1
+  alias: p
+permalink: "/publications/{{ p.id }}.html"
+eleventyComputed:
+  title: "{{ p.title }}"
+  description: "{{ p.title }}. {{ p.venueShort }}, {{ p.year }}."
+---
+<a class="back" href="/publications.html">← all publications</a>
+
+<h1 class="title">{{ p.title }}</h1>
+<p class="meta">{{ p.authors | authorList | safe }}</p>
+<p class="meta">{{ p.venueShort }} · {{ p.when }}{% if p.poster %} · poster{% endif %}{% if p.firstish %}<span class="tag">{{ "co-first author" if p.coFirst else "first author" }}</span>{% endif %}</p>
+
+{%- if p.urls.length %}
+<p class="links">{% for u in p.urls %}<a href="{{ u.url }}">{{ u.label }} ↗</a>{% endfor %}</p>
+{%- endif %}
+
+{%- if p.abstractHtml %}
+<h2>abstract</h2>
+<p class="abstract">{{ p.abstractHtml | safe }}</p>
+{%- endif %}
+
+{%- if p.tags and p.tags.length %}
+<p class="small muted">{% for t in p.tags %}<span class="tag" style="margin:0 6px 0 0">{{ t }}</span>{% endfor %}</p>
+{%- endif %}
+
+<h2>cite</h2>
+{%- set key = (p.authors[0] | replace("*", "") | splitOn(" ") | last | lower) + p.year + (p.title | splitOn(" ") | first | lower | replace(":", "")) %}
+<pre class="bib">@{{ "misc" if p.status == "preprint" else "inproceedings" }}{ {{- key }},
+  title     = { {{- p.title }}},
+  author    = { {{- p.authors | join(" and ") | replace("*", "") }}},
+  {{ "howpublished" if p.status == "preprint" else "booktitle" }} = { {{- p.venueShort }}},
+  year      = { {{- p.year }}}
+}</pre>

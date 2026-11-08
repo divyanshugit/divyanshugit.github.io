@@ -1,5 +1,5 @@
 ---
-layout: blog-post.njk
+layout: simple-post.njk
 title: "The Art of Controlled Noise: Laplace and Exponential Mechanisms in Differential Privacy"
 description: "Blog #3 in the series of Inception of Differential Privacy"
 date: 2025-03-09

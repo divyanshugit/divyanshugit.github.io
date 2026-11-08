@@ -1,0 +1,24 @@
+---
+layout: simple.njk
+pagination:
+  data: projs
+  size: 1
+  alias: p
+permalink: "/project/{{ p.id }}.html"
+eleventyComputed:
+  title: "{{ p.title }}"
+  description: "{{ p.description }}"
+---
+{%- set SECTIONS = [["researchQuestions", "questions"], ["methodology", "how"], ["expectedOutcomes", "what will come out of it"], ["achievements", "what it does"], ["contributions", "what I built"], ["currentWork", "now"]] %}
+<a class="back" href="/projects.html">← all projects</a>
+<h1 class="title">{{ p.title }}</h1>
+<p class="facts"><span>{{ "in progress" if p.status == "active" else "finished" }}</span>{% if p.technologies %}<span>{{ p.technologies | join(", ") }}</span>{% endif %}</p>
+<p>{{ p.fullDescription or p.description }}</p>
+{%- for s in SECTIONS %}{% set items = p[s[0]] %}{% if items and items.length %}
+<h2>{{ s[1] }}</h2>
+<ul class="ul">{% for it in items %}{% set kv = it | splitOn(": ") %}<li>{% if kv.length > 1 and kv[0].length < 40 %}<b>{{ kv[0] }}</b>: {{ kv.slice(1).join(": ") }}{% else %}{{ it }}{% endif %}</li>{% endfor %}</ul>
+{%- endif %}{% endfor %}
+{%- if p.collaboration %}<p class="muted">{{ p.collaboration }}</p>{% endif %}
+{%- if p.links %}
+<p class="links">{% for k, v in p.links %}{% if k != "demo" %}<a href="{{ v }}" rel="noopener">{{ k }} ↗</a>{% endif %}{% endfor %}</p>
+{%- endif %}

@@ -1,5 +1,5 @@
 ---
-layout: proposal.njk
+layout: simple-proposal.njk
 title: "Research Proposal: CodingAgentBench"
 pageTitle: "CodingAgentBench"
 subtitle: "A multi-language, multi-repo benchmark for evaluating real-world AI coding agents."

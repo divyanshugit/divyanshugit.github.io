@@ -1,5 +1,5 @@
 ---
-layout: blog-post.njk
+layout: simple-post.njk
 title: "Exploring Llama.cpp with Llama Models"
 description: Quantizing models for fun.
 date: 2024-08-25

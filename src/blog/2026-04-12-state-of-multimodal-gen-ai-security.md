@@ -1,5 +1,5 @@
 ---
-layout: blog-post.njk
+layout: simple-post.njk
 title: "How Vulnerable Are Multimodal AI Models to Simple Jailbreak Attacks?"
 description: "Our red-teaming of 9 frontier models with 320 unique adversarial prompts across multiple attack methods shows text-safe models suffer >75% attack success when harmful content shifts to images or audio."
 date: 2026-04-12

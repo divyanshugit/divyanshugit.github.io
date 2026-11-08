@@ -1,0 +1,177 @@
+{
+ "viewBox": [
+  0,
+  0,
+  570,
+  391
+ ],
+ "ledgeY": 383.3,
+ "headX": 246.0,
+ "headY": 125.0,
+ "restBox": [
+  117.9,
+  28.7,
+  374.4,
+  386.3
+ ],
+ "upright": [
+  "wave",
+  "waveCa",
+  "waveR",
+  "waveO",
+  "raise",
+  "present",
+  "pointUp",
+  "lift2",
+  "hat",
+  "shrug"
+ ],
+ "extent": {
+  "hat": [
+   71.7,
+   5.0,
+   362.8,
+   383.3
+  ],
+  "lift": [
+   80.5,
+   10.5,
+   360.4,
+   383.3
+  ],
+  "lift2": [
+   74.4,
+   10.9,
+   363.8,
+   383.3
+  ],
+  "look": [
+   114.8,
+   19.1,
+   377.6,
+   383.3
+  ],
+  "nod": [
+   118.3,
+   30.8,
+   374.7,
+   382.2
+  ],
+  "pointUp": [
+   7.0,
+   24.1,
+   374.4,
+   383.3
+  ],
+  "present": [
+   119.3,
+   18.7,
+   562.8,
+   383.3
+  ],
+  "raise": [
+   79.7,
+   29.1,
+   381.4,
+   383.3
+  ],
+  "reach": [
+   66.0,
+   25.9,
+   370.0,
+   383.3
+  ],
+  "rest": [
+   117.9,
+   28.7,
+   374.4,
+   381.8
+  ],
+  "shrug": [
+   42.2,
+   31.1,
+   427.0,
+   383.3
+  ],
+  "talk": [
+   118.7,
+   28.5,
+   375.1,
+   383.3
+  ],
+  "thumbs": [
+   90.1,
+   31.4,
+   374.5,
+   383.0
+  ],
+  "wave": [
+   69.5,
+   25.9,
+   378.0,
+   383.2
+  ],
+  "waveCa": [
+   81.2,
+   25.9,
+   378.0,
+   383.2
+  ],
+  "waveO": [
+   20.5,
+   25.9,
+   378.0,
+   383.2
+  ],
+  "waveR": [
+   81.2,
+   25.9,
+   378.0,
+   383.2
+  ]
+ },
+ "small_sizes": {
+  "rest": 34269,
+  "talk": 33217,
+  "nod": 35148,
+  "look": 29239,
+  "wave": 37258,
+  "waveCa": 36791,
+  "waveR": 35436,
+  "waveO": 37796,
+  "raise": 37953,
+  "present": 34743,
+  "pointUp": 36139,
+  "reach": 37988,
+  "lift": 38465,
+  "lift2": 38937,
+  "hat": 33948,
+  "thumbs": 35484,
+  "shrug": 38597
+ },
+ "singles": [
+  "look",
+  "nod",
+  "present",
+  "pointUp",
+  "shrug",
+  "thumbs",
+  "talk"
+ ],
+ "bundles": {
+  "wave": [
+   "wave",
+   "raise",
+   "waveO",
+   "waveCa",
+   "waveR"
+  ],
+  "hat": [
+   "reach",
+   "lift",
+   "lift2",
+   "hat"
+  ]
+ },
+ "note": "Sources for the guide (js/guide.js). Only small/ (the light-hat set) is used: every size on the site is 140px or less. Nothing here is copied as is: src/assets/mascot/mascot.11ty.js writes optimized copies to /assets/mascot/small/, the 'singles' one file each (rest is never fetched: it's always inlined by {% guide %}) and each 'bundles' sequence as one file (seq-<name>.svg)."
+}

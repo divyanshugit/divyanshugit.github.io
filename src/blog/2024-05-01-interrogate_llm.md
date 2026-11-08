@@ -1,5 +1,5 @@
 ---
-layout: blog-post.njk
+layout: simple-post.njk
 title: "🔍 InterrogateLLM: In Search of Truth"
 description: Explore how InterrogateLLM addresses AI hallucination in a straightforward manner.
 date: 2024-04-28

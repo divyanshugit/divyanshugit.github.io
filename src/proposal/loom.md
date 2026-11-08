@@ -1,5 +1,5 @@
 ---
-layout: proposal.njk
+layout: simple-proposal.njk
 title: "Project Proposal, Loom: Inference-Time Search over Reasoning Paths"
 pageTitle: "Loom"
 subtitle: "Turn a small open model into a reasoning model at inference time, with structured search and deterministic verification, no training."

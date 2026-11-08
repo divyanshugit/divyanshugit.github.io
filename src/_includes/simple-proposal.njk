@@ -1,0 +1,27 @@
+---
+layout: simple.njk
+hasMath: true
+hasCode: true
+mascot: true
+---
+{#- A research proposal (/proposal/*) in the simple system. The body markup
+    (contents, TL;DR, callouts, phase cards, milestones) is styled by
+    css/proposal.css, whose tokens simple.css maps onto this palette. -#}
+{%- set isIndex = page.url == "/proposal/" -%}
+<article class="post proposal-page">
+  {%- if not isIndex %}<a class="back" href="/proposal/">← the research agenda</a>{% endif %}
+  {%- if isIndex %}
+  <div class="g-head">{% guide { pose: "look", w: 72, wp: 64, cls: "g-h1", data: { when: "load", steps: [["talk", "What I want to build next", 2600]] } } %}<h1 class="title">{{ pageTitle or title }}</h1></div>
+  {%- else %}
+  <h1 class="title">{{ pageTitle or title }}</h1>
+  {%- endif %}
+  {%- if subtitle %}<p class="dek">{{ subtitle }}</p>{% endif %}
+  {%- if banner %}{% banner banner %}{% endif %}
+  <div class="post-text"><div class="body prose">
+  {{ content | safe }}
+  </div></div>
+  {%- if not isIndex %}
+  {%- set others = [] %}{% for x in proposalList %}{% if x.u != page.url %}{% set others = (others.push(x), others) %}{% endif %}{% endfor %}
+  {% guide { w: 132, cls: "g-post", poses: ["nod", "present"], data: { when: "view", appear: "", suggest: others, steps: [["nod", "Thanks for reading", 1500], ["present", { t: "Another idea:", suggest: true, req: true }, 3500]] } } %}
+  {%- endif %}
+</article>

@@ -1,0 +1,324 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="416" height="416" viewBox="0 0 416 416" class="straw-hat-logo" role="img" aria-labelledby="logo-title logo-description">
+  <title id="logo-title">Straw Hat Yo! Greeting</title>
+  <desc id="logo-description">An editable, animated straw-hatted character wearing a blue 05 shirt rests his hand on the ledge, raises it and gently waves, and says Yo! on a white sticker border; the speech bubble is its own sticker and appears only while he speaks. His resting expression has a straight, neutral mouth. The canvas outside the sticker is transparent. Reduced-motion preferences (and renderers without CSS animation) show a still greeting, hand raised.</desc>
+
+  <!-- Edit the palette here; the illustration below is organized into named groups. -->
+  <style>
+    .straw-hat-logo { color: #211c16; --greeting-duration: 4.8s; --greeting-count: infinite; --greeting-state: running; }
+    .straw-hat-logo .outline,
+    .straw-hat-logo .detail {
+      stroke: currentColor;
+      stroke-width: 1.35;
+      stroke-linecap: round;
+      stroke-linejoin: round;
+    }
+    .straw-hat-logo .detail { fill: none; stroke-width: 1.2; }
+    .straw-hat-logo .paper { fill: #fff; }
+    .straw-hat-logo .ink { fill: currentColor; }
+    .straw-hat-logo .hair { fill: #171812; }
+    .straw-hat-logo .hair-highlight { stroke: #423525; }
+    .straw-hat-logo .skin { fill: #f3c78f; }
+    .straw-hat-logo .skin-shadow { fill: #d99a60; }
+    .straw-hat-logo .skin-light { fill: #f9d7a7; }
+    .straw-hat-logo .bandage { fill: #f3e5c9; }
+    .straw-hat-logo .bandage-pad { fill: #dcc79e; }
+    .straw-hat-logo .bandage-mark { fill: #9c8057; }
+    .straw-hat-logo .hat { fill: #f7bf19; }
+    .straw-hat-logo .hat-light { fill: #ffce35; }
+    .straw-hat-logo .hat-shadow { fill: #dfa51b; }
+    .straw-hat-logo .hat-band { fill: #b53228; }
+    .straw-hat-logo .hat-brim { fill: #edbd32; }
+    .straw-hat-logo .hat-under { fill: #a88727; }
+    .straw-hat-logo .straw-detail { fill: none; stroke: #664919; stroke-width: 1.25; stroke-linecap: round; }
+    .straw-hat-logo .shirt { fill: #103143; }
+    .straw-hat-logo .shirt-shadow { fill: #092532; }
+    .straw-hat-logo .shirt-light { fill: #1a4050; }
+    .straw-hat-logo .lettering { fill: #719bb1; }
+    .straw-hat-logo .shorts { fill: #428d9b; }
+    .straw-hat-logo .shorts-light { fill: #49a2b1; }
+    .straw-hat-logo .shorts-shadow { fill: #286775; }
+    .straw-hat-logo .mouth { fill: #b85e50; }
+    .straw-hat-logo .mouth-shadow { fill: #693b31; }
+    .straw-hat-logo .tongue { fill: #ed9a86; }
+
+    /* One shared cycle keeps the head, wrist, expression, and greeting in sync. */
+    .straw-hat-logo .head-motion {
+      transform-box: view-box;
+      transform-origin: 217px 277px;
+      animation: head-greeting var(--greeting-duration) ease-in-out var(--greeting-count) both var(--greeting-state);
+    }
+    /* at rest his hand lies on the ledge; he lifts it to greet, then lowers it */
+    .straw-hat-logo .arm-raise {
+      transform-box: view-box;
+      transform-origin: 182px 276px;
+      animation: arm-greeting var(--greeting-duration) ease-in-out var(--greeting-count) both var(--greeting-state);
+    }
+    .straw-hat-logo #waving-hand {
+      transform-box: view-box;
+      transform-origin: 132px 220px;
+      animation: hand-greeting var(--greeting-duration) ease-in-out var(--greeting-count) both var(--greeting-state);
+    }
+    /* the whole bubble pops from its tail, so it is never left empty */
+    .straw-hat-logo #speech-bubble {
+      transform-box: view-box;
+      transform-origin: 104px 156px;
+      animation: word-greeting var(--greeting-duration) ease-out var(--greeting-count) both var(--greeting-state);
+    }
+    .straw-hat-logo #mouth-open {
+      animation: mouth-greeting var(--greeting-duration) step-end var(--greeting-count) both var(--greeting-state);
+    }
+    .straw-hat-logo #mouth-closed {
+      opacity: 0;
+      animation: mouth-rest var(--greeting-duration) step-end var(--greeting-count) both var(--greeting-state);
+    }
+    .straw-hat-logo #brow-left {
+      transform-box: view-box;
+      transform-origin: 193px 221px;
+      animation: brow-left-greeting var(--greeting-duration) ease-in-out var(--greeting-count) both var(--greeting-state);
+    }
+    .straw-hat-logo #brow-right {
+      transform-box: view-box;
+      transform-origin: 235px 219px;
+      animation: brow-right-greeting var(--greeting-duration) ease-in-out var(--greeting-count) both var(--greeting-state);
+    }
+    .straw-hat-logo #eyes {
+      transform-box: view-box;
+      transform-origin: 217px 234px;
+      animation: eye-blink var(--greeting-duration) linear var(--greeting-count) both var(--greeting-state);
+    }
+
+    @keyframes head-greeting {
+      0%, 12%, 82%, 100% { transform: translateY(3px) rotate(1.5deg); }
+      22%, 60% { transform: translateY(-1px) rotate(-1deg); }
+      70% { transform: translateY(1px) rotate(0deg); }
+    }
+    @keyframes arm-greeting {
+      0%, 3%, 74%, 100% { transform: rotate(-118deg); }
+      14% { transform: rotate(5deg); }
+      18%, 60% { transform: rotate(0deg); }
+    }
+    @keyframes hand-greeting {
+      0%, 19%, 57%, 100% { transform: rotate(0deg); }
+      24% { transform: rotate(6deg); }
+      30% { transform: rotate(-6deg); }
+      36% { transform: rotate(5deg); }
+      42% { transform: rotate(-4deg); }
+      48% { transform: rotate(3deg); }
+      54% { transform: rotate(-2deg); }
+    }
+    @keyframes word-greeting {
+      0%, 16% { opacity: 0; transform: translateY(3px) scale(0.72); }
+      21% { opacity: 1; transform: translateY(0) scale(1.12); }
+      26%, 59% { opacity: 1; transform: translateY(0) scale(1); }
+      64%, 100% { opacity: 0; transform: translateY(-2px) scale(0.92); }
+    }
+    @keyframes mouth-greeting {
+      0%, 16%, 64%, 100% { opacity: 0; }
+      19%, 61% { opacity: 1; }
+    }
+    @keyframes mouth-rest {
+      0%, 16%, 64%, 100% { opacity: 1; }
+      19%, 61% { opacity: 0; }
+    }
+    @keyframes brow-left-greeting {
+      0%, 12%, 80%, 100% { transform: translateY(0); }
+      22%, 62% { transform: translateY(-1px); }
+    }
+    @keyframes brow-right-greeting {
+      0%, 12%, 80%, 100% { transform: translateY(0); }
+      22%, 62% { transform: translateY(-1px); }
+    }
+    @keyframes eye-blink {
+      0%, 9%, 13%, 73%, 77%, 100% { transform: scaleY(1); }
+      11%, 75% { transform: scaleY(0.08); }
+    }
+    @media (prefers-reduced-motion: reduce) {
+      .straw-hat-logo .head-motion,
+      .straw-hat-logo .arm-raise,
+      .straw-hat-logo #waving-hand,
+      .straw-hat-logo #speech-bubble,
+      .straw-hat-logo #mouth-open,
+      .straw-hat-logo #mouth-closed,
+      .straw-hat-logo #brow-left,
+      .straw-hat-logo #brow-right,
+      .straw-hat-logo #eyes { animation: none; transform: none; }
+    }
+  </style>
+
+  <defs>
+    <filter id="sticker-shadow" x="-12%" y="-12%" width="124%" height="124%" color-interpolation-filters="sRGB">
+      <feDropShadow dx="0" dy="1" stdDeviation="2" flood-color="#211c16" flood-opacity="0.17"/>
+    </filter>
+    <clipPath id="above-ledge"><rect x="0" y="0" width="416" height="350.5"/></clipPath>
+  </defs>
+
+  <g id="sticker-border">
+    <path class="paper" stroke="#d0ceca" stroke-width="1.15" filter="url(#sticker-shadow)" d="M148 154 C158 133 176 119 199 115 C225 110 250 120 264 138 C275 151 279 165 281 177 C300 190 312 204 315 220 C321 239 311 254 285 262 L279 265 C289 283 295 306 296 327 C296 336 299 340 307 340 L360 342 C370 342 375 346 375 353 C376 362 370 367 359 367 L79 367 C69 367 64 363 65 353 C65 345 70 342 79 341 L150 340 C155 340 157 336 158 332 L170 316 L170 294 C158 289 142 286 129 282 C117 279 112 273 110 262 C107 248 107 236 107 224 C101 219 101 210 102 202 L100 185 C98 166 108 149 126 146 C136 145 143 148 148 154 Z"/>
+  </g>
+
+  <g id="speech-bubble">
+    <!-- its own sticker backing, so it leaves nothing behind when it hides -->
+    <path id="bubble-backing" class="paper" stroke="#d0ceca" stroke-width="1.15" filter="url(#sticker-shadow)" d="M87 48 C116 47 137 72 138 104 C139 119 136 133 129 145 L121 156 C118 168 114 178 106 178 C100 178 96 174 94 168 C73 169 53 160 43 142 C35 128 34 111 37 94 C41 68 58 49 87 48 Z"/>
+    <path id="bubble" class="paper outline" stroke-width="1.15" d="M86 60 C108 59 125 80 126 105 C127 125 118 143 105 150 L106 154 C107 158 103 157 99 153 C78 161 59 149 51 128 C43 106 50 81 65 68 C71 63 78 60 86 60 Z"/>
+    <circle class="paper outline" cx="105.2" cy="163" r="2.2" stroke-width="1"/>
+    <circle class="paper outline" cx="107.6" cy="170" r="1.45" stroke-width="1"/>
+    <text id="speech-text" class="ink" x="87.5" y="116" text-anchor="middle" font-family="'Instrument Serif', Georgia, serif" font-size="30">Yo!</text>
+  </g>
+
+  <g id="character" class="outline">
+    <g id="hat-back" class="head-motion">
+      <g id="hat-crown">
+        <path class="hat" d="M154 184 C154 166 160 148 174 137 C187 127 202 124 217 126 C236 125 253 133 262 148 C268 159 270 172 270 184 L255 197 L171 199 Z"/>
+        <g stroke="none">
+          <path class="hat-light" d="M160 173 C163 150 177 136 197 131 C184 141 179 153 177 169 Z"/>
+          <path class="hat-shadow" d="M231 128 C248 134 259 146 264 161 L269 179 L255 177 C254 156 246 139 231 128 Z"/>
+        </g>
+        <path class="hat-band" d="M155 174 C177 162 196 158 215 159 C237 158 255 165 268 175 L270 187 C251 174 231 169 211 171 C188 172 169 180 153 191 Z"/>
+        <path class="detail" d="M160 174 C189 160 221 160 246 169"/>
+      </g>
+
+      <g id="hat-brim-back">
+        <path class="hat-brim" d="M155 181 C177 170 202 166 226 170 C249 172 275 183 291 198 C300 207 305 218 303 228 C301 241 289 248 273 252 C253 261 227 264 204 262 C184 261 166 255 153 247 C142 240 138 231 141 219 C143 204 147 190 155 181 Z"/>
+        <path class="hat-under" d="M145 217 C160 197 185 184 212 180 C237 178 264 187 283 202 C294 211 297 223 288 234 C276 248 253 255 227 257 C198 259 176 254 160 245 C146 238 140 228 145 217 Z"/>
+        <path class="hat-shadow" stroke="none" d="M254 189 C274 197 286 211 285 223 C284 236 269 244 248 248 C269 247 288 239 293 227 C298 215 282 196 254 189 Z"/>
+      </g>
+
+      <g id="straw-texture-back" class="straw-detail">
+        <path d="M174 149 L172 157 M181 148 L179 155 M188 146 L187 153 M234 144 L237 150 M242 144 L245 151 M249 154 L252 161 M236 155 L239 161 M182 165 L185 163 M204 158 L209 157 M259 167 L262 172"/>
+        <path d="M275 194 L279 199 M284 201 L287 208 M292 208 L295 215 M297 218 L297 225 M288 218 L289 225 M284 229 L282 235 M276 236 L273 243 M268 243 L265 248 M148 220 L147 226 M152 235 L156 240 M163 242 L160 245"/>
+      </g>
+    </g>
+
+    <!-- the raised arm swings at the shoulder; below the ledge it is clipped away -->
+    <g clip-path="url(#above-ledge)"><g class="arm-raise">
+    <g id="waving-arm">
+      <path class="skin" d="M122 208 C121 224 122 246 124 261 C124 267 130 269 138 272 L175 285 C183 283 188 277 188 269 L175 255 L161 258 L141 250 L139 211 Z"/>
+      <path class="skin-shadow" stroke="none" d="M137 217 L142 248 L159 254 L174 255 L184 268 L177 280 L161 271 L145 266 C137 262 133 249 132 236 L131 218 Z"/>
+      <path class="detail" d="M140 237 L141 251 L160 259 M164 268 C169 268 172 271 174 276"/>
+    </g>
+    </g></g>
+
+    <g id="resting-arm">
+      <path class="skin" d="M251 257 C258 252 265 258 269 269 L279 291 C284 303 285 323 288 341 L291 348 C294 346 297 347 298 351 C301 348 304 350 305 353 L273 354 C269 343 271 327 266 313 L258 293 L249 277 Z"/>
+      <path class="skin-shadow" stroke="none" d="M251 259 C258 256 261 265 262 274 L267 294 L275 309 L278 331 L278 352 L272 352 L268 328 L265 310 L255 285 Z"/>
+      <path class="detail" d="M272 304 C276 316 275 333 278 344 M283 348 L285 352 M291 348 L293 353 M298 351 L300 353"/>
+    </g>
+
+    <g id="shorts">
+      <path class="shorts" d="M181 308 C203 315 231 319 250 310 L259 326 L263 339 L264 352 L221 353 L216 346 L210 353 L171 353 L166 344 L170 336 L173 334 L175 324 Z"/>
+      <g stroke="none">
+        <path class="shorts-light" d="M180 319 L194 327 L208 346 L207 351 L173 351 L173 338 L183 335 L177 329 Z"/>
+        <path class="shorts-shadow" d="M216 326 L249 317 L257 338 L250 349 L221 351 L216 340 Z"/>
+        <path class="shirt-shadow" d="M180 309 C199 320 229 324 250 311 L251 319 C229 331 202 327 178 317 Z"/>
+      </g>
+      <g class="detail">
+        <path d="M182 322 L195 335 L187 337 M178 337 L181 350 M250 330 L239 340 L246 342 M258 340 L251 350 M204 327 L213 339 L210 351 M218 340 L221 352"/>
+        <path id="drawstring" d="M216 335 C209 326 201 325 204 331 C206 335 212 336 216 335 C222 327 230 325 231 330 C232 334 223 337 216 335 M214 336 L210 345 M217 336 L222 344"/>
+      </g>
+    </g>
+
+    <g id="shirt">
+      <path class="shirt" d="M189 267 L204 269 L229 268 L246 271 C251 281 251 293 253 302 L255 308 L251 315 C230 330 198 328 178 313 L183 301 C180 291 181 280 189 267 Z"/>
+      <g stroke="none">
+        <path class="shirt-shadow" d="M188 273 L190 292 L203 311 L198 322 L179 313 L185 304 L182 292 Z"/>
+        <path class="shirt-light" d="M244 282 L250 295 L251 307 L235 316 L241 307 Z"/>
+      </g>
+      <path class="detail" d="M185 302 C194 313 214 321 232 320 M250 281 L247 295"/>
+      <path class="skin" d="M205 270 L205 278 C212 286 221 286 230 278 L231 269 Z"/>
+      <text id="shirt-number" class="lettering" x="219" y="316" text-anchor="middle" font-family="Arial, Helvetica, sans-serif" font-size="32" font-weight="900" font-style="italic" stroke="none" transform="rotate(7 219 304)">05</text>
+    </g>
+
+    <g id="head-front" class="head-motion">
+    <g id="hair-back">
+      <path class="hair" d="M185 189 L176 201 L167 212 L173 207 L163 220 L167 218 L159 228 L153 231 L164 230 L157 238 L169 236 L164 244 L177 241 L180 248 L190 245 L201 240 L240 243 L253 248 L263 240 L261 230 L269 220 L264 207 L253 192 L237 185 L210 181 Z"/>
+      <path class="hat-under" stroke="none" d="M166 217 L171 212 L169 222 L162 226 Z M166 236 L176 231 L174 238 Z"/>
+    </g>
+
+    <g id="face">
+      <g id="ears">
+        <path class="skin" d="M178 236 C173 230 169 230 166 235 C162 241 168 249 175 252 L182 248 Z"/>
+        <path class="skin" d="M251 237 C255 230 262 229 264 234 C267 240 262 248 255 251 L249 247 Z"/>
+        <path class="detail" d="M173 244 C168 238 170 235 175 239 M255 244 C261 235 263 237 260 241"/>
+      </g>
+
+      <path id="face-shape" class="skin" d="M185 201 C193 190 205 186 217 187 C233 187 245 197 250 212 C254 222 254 233 253 244 C252 257 245 269 234 277 C229 281 223 284 217 284 C210 284 203 281 196 277 C183 269 178 257 176 244 C173 229 176 212 185 201 Z"/>
+      <g stroke="none">
+        <path class="skin-shadow" d="M184 204 C179 215 179 232 183 245 C186 257 190 266 198 277 C188 272 181 260 177 246 C174 230 176 214 184 204 Z"/>
+      </g>
+
+      <g id="forehead-bandage" transform="rotate(-18 201.5 210.5)" stroke="#9c8057" stroke-width="0.8">
+        <rect class="bandage" x="193" y="207" width="17" height="7" rx="1.2"/>
+        <rect class="bandage-pad" x="198" y="208" width="7" height="5" rx="0.6" stroke="none"/>
+        <g class="bandage-mark" stroke="none">
+          <circle cx="195.5" cy="209" r="0.45"/>
+          <circle cx="195.5" cy="212" r="0.45"/>
+          <circle cx="207.5" cy="209" r="0.45"/>
+          <circle cx="207.5" cy="212" r="0.45"/>
+        </g>
+      </g>
+
+      <g id="eyebrows" class="detail">
+        <path id="brow-left" stroke-width="1.1" d="M185 222 C189 219 197 219 201 222"/>
+        <path id="brow-right" stroke-width="1.1" d="M227 219 C231 216 237 216 242 219"/>
+      </g>
+
+      <g id="eyes">
+        <path class="paper" stroke-width="1" d="M182.5 233 C183.5 227.5 189 225 194.5 225.5 C200.5 225.5 204.5 229.5 205 234.5 C205 240 200 244.5 194.5 245 C188.5 245.5 183.5 241.5 182.5 237 C182.2 235.5 182.2 234.5 182.5 233 Z"/>
+        <path class="paper" stroke-width="1" d="M225.5 231 C226.5 225.5 231.5 222.5 237 223 C242.5 222.8 247.5 226.5 248 231.5 C248.5 237 244.5 241.5 238.5 242.5 C233 243.5 227.5 240.5 225.8 236 C225.2 234.5 225.2 232.5 225.5 231 Z"/>
+        <g id="pupils" stroke="none">
+          <circle class="ink" cx="194" cy="235.5" r="3"/>
+          <circle class="ink" cx="236.5" cy="232.5" r="3"/>
+        </g>
+      </g>
+
+      <g id="face-details" class="detail">
+        <path id="nose" stroke-width="1" d="M213.5 241 C215 243.5 215.5 245 215 246 L213 246.5"/>
+        <path id="under-eye-scar" stroke-width="1.5" d="M230 247.5 C234.5 249 239.5 249 244 246.5 M233.5 245.5 L235 251 M239.5 245 L240.5 250.5"/>
+        <path stroke-width="1" d="M185.5 246 L187 247.5 M249.5 244 L249 246"/>
+      </g>
+
+      <g id="mouth">
+        <path id="mouth-closed" fill="none" stroke-width="1.4" d="M203 266.5 L230 266.5"/>
+        <g id="mouth-open">
+        <path class="mouth" stroke-width="1.5" d="M216.5 258 C221 257.5 223 262 222.5 268 C222 273.5 220 277 217 277.5 C212.5 277.5 210 273 210 267.5 C210 262 212.5 258.5 216.5 258 Z"/>
+        <g stroke="none">
+          <path class="mouth-shadow" d="M216.5 260 C220 259.5 221.5 263 221 268 C218.5 266.5 214 267 212 270 C211.5 265 212.5 260.5 216.5 260 Z"/>
+          <path class="tongue" d="M212.5 271 C214.5 269 218.5 269 220.5 271.5 C220 274.5 218.5 276 216.5 275.5 C214.5 275.5 213 273.5 212.5 271 Z"/>
+        </g>
+        </g>
+      </g>
+    </g>
+
+    <g id="hair-fringe">
+      <path class="hair" d="M175 223 C177 209 182 197 190 190 C201 181 217 179 231 185 C245 191 253 204 256 219 L253 226 L250 229 C249 220 245 211 238 202 C241 209 242 214 241 218 C233 212 228 200 226 190 C227 199 224 207 221 211 C217 204 215 194 214 187 L210 188 C207 196 205 201 202 207 L202 196 C196 202 193 210 191 216 L191 209 C187 215 185 223 183 229 L178 225 C178 217 182 205 186 201 Z"/>
+      <path class="detail hair-highlight" stroke-width="0.9" d="M186 201 C182 208 180 216 180 221 M202 191 C198 197 195 203 193 208 M230 194 C232 201 235 207 238 212 M247 208 C250 214 251 220 251 223"/>
+    </g>
+
+    <g id="hat-front-rim">
+      <path class="hat-brim" d="M144 211 C154 190 176 176 199 173 C220 169 244 172 266 180 C280 185 290 192 297 203 C278 189 253 183 229 183 C207 181 190 185 174 194 C161 201 151 208 144 217 Z"/>
+      <path class="hat-light" stroke="none" d="M157 193 C177 178 200 174 223 174 C245 175 266 181 280 189 C258 182 237 178 215 178 C195 178 174 183 157 193 Z"/>
+      <g class="straw-detail">
+        <path d="M155 200 L158 195 M164 189 L168 186 M176 184 L180 182 M192 178 L196 177 M215 175 L219 175 M237 178 L241 179 M257 183 L261 185 M273 191 L276 195 M287 198 L289 202"/>
+      </g>
+    </g>
+    </g>
+
+    <g clip-path="url(#above-ledge)"><g class="arm-raise">
+    <g id="waving-hand">
+      <g id="hand-open">
+        <path class="skin" d="M124 226 L122 216 C118 212 115 206 115 200 L114 188 C112 180 112 175 115 174 C118 173 120 179 122 187 L120 170 C119 165 121 162 124 165 C126 168 128 177 130 186 L126 165 C125 160 127 157 130 158 C134 158 135 162 136 168 L140 185 L137 167 C136 162 138 160 141 162 C145 163 146 170 147 177 L149 186 C149 194 148 204 144 211 C143 214 141 215 140 216 L138 225"/>
+        <path class="skin-light" stroke="none" d="M129 161 C131 160 133 165 134 170 L138 186 L135 188 L131 173 Z M122 191 C123 196 121 202 124 209 L126 216 C121 212 118 206 118 199 L117 188 Z"/>
+        <g id="thumb-open">
+          <path class="skin" stroke="none" d="M140 207 C144 203 149 198 153 193 L158 187 C160 184 164 186 165 189 C166 192 163 196 160 200 L153 211 C150 215 144 217 138 215 Z"/>
+          <path class="detail" d="M148 196 L158 187 C160 184 164 186 165 189 C166 192 163 196 160 200 L153 211 C150 215 145 216 140 216 M157 190 C159 188 162 189 162 191 L160 194"/>
+        </g>
+        <path class="detail" d="M122 184 L125 191 M130 184 L132 188 M140 183 L142 187 M133 192 C138 189 142 188 147 189 M136 194 C139 201 136 205 131 205 L133 211 M120 197 C123 197 125 199 127 201"/>
+      </g>
+    </g>
+    </g></g>
+  </g>
+
+  <g id="ground-line">
+    <path class="ink" d="M80 351 C105 350 132 351 157 350 L201 350 L223 349 L250 351 L280 350 L296 350 L306 351 L329 351 L341 352 L360 353 L367 354 C352 356 325 355 302 355 L261 355 L223 356 L180 355 L139 356 L101 355 L81 356 C75 356 73 354 80 351 Z"/>
+  </g>
+</svg>

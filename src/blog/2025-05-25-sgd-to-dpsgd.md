@@ -1,5 +1,5 @@
 ---
-layout: blog-post.njk
+layout: simple-post.njk
 title: "From SGD to DP-SGD: Reproducing the Foundations of Private Deep Learning"
 description: "Blog #4 in the series of Inception of Differential Privacy"
 date: 2025-05-24
