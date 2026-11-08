@@ -23,8 +23,8 @@ const TOKENS = {
   serif: "var(--serif)", sans: "var(--sans)", sc: "var(--sc)", mono: "var(--mono)"
 };
 const DAY = {
-  paper: "#F5F1E8", paper2: "#EEE8DB", text: "#211D18", text2: "#574E44", text3: "#6E6558",
-  rule: "rgba(33,29,24,.14)", rule2: "rgba(33,29,24,.32)", ink: "#8F3E2F", wash: "rgba(143,62,47,.09)",
+  paper: "#EEEBE4", paper2: "#E5E1D8", text: "#2A2A28", text2: "#5E5A54", text3: "#6B675F",
+  rule: "rgba(42,42,40,.14)", rule2: "rgba(42,42,40,.32)", ink: "#2F5C88", wash: "rgba(47,92,136,.09)",
   serif: "Instrument Serif", sans: "Source Sans 3", sc: "Source Sans 3", mono: "IBM Plex Mono"
 };
 

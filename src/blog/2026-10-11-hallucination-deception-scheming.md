@@ -1,5 +1,5 @@
 ---
-layout: blog-post.njk
+layout: simple-post.njk
 title: "Wrong, Lying or Scheming? Hallucination, Deception and Scheming in LLMs"
 description: "Three words we use loosely for a model saying something false. They are different failures, located in different places, and each needs a different measurement."
 date: 2026-10-11

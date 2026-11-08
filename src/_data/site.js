@@ -26,6 +26,7 @@ module.exports = {
     { text: "Projects", url: "/projects.html", match: "/projects" },
     { text: "Blog", url: "/blog.html", match: "/blog" },
     { text: "Timeline", url: "/timeline.html", match: "/timeline" },
+    { text: "Places", url: "/places.html", match: "/places" },
     { text: "About", url: "/about.html", match: "/about" }
   ],
 

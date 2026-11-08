@@ -1,26 +1,47 @@
 ---
-layout: home.njk
+layout: simple.njk
 title: Home
 permalink: /index.html
-description: "Divyanshu Kumar, AI Research Engineer at Anaconda. I make AI systems efficient, secure and private: quantization, inference, guardrails, red-teaming and differential privacy."
-display: "I’m Divyanshu. I make AI systems efficient, secure and private."
-figCaption: "The author, illustrated."
-pageJs:
-  - /js/probe-core.js
-  - /js/probe.js
-epsHint: "Lower ε and this page releases the portrait, the plates and the particulars under calibrated Laplace noise. The prose stays as written."
-# Section headings and the one-liners that are not in src/data/*.js
-now:
-  gist: "Whether a diffusion language model turns harmful at a particular denoising step, and whether it can take that step back."
-  margin: "In progress · with Dream-7B"
-papers:
-  graphreasoning: { gist: "Does an LLM’s answer about a graph change when only the way the graph is written down changes?", venue: "GCLR @ AAAI ’26 · GFM @ ICML ’26", note: "co-first" }
-  multimodalredteaming: { gist: "Text-safe models break when the same request arrives as a simply transformed image or audio clip.", venue: "NeurIPS ’25 workshop", note: "co-first" }
-  kumar2024sagert: { gist: "Synthetic alignment and red-teaming data, generated at scale, for evaluating model safety.", venue: "NeurIPS ’24 workshop", note: "co-first" }
-placesLine: "I have lived in Berai, Patna, Kolkata, Delhi and Bangalore, and wandered around Singapore, Malaysia, the Philippines and Bali."
+mascot: true
+description: "Divyanshu Kumar, AI Research Engineer at Anaconda. I make AI systems efficient, secure and private: quantization, inference, red-teaming, guardrails and differential privacy."
+hello: "Divyanshu here."
+lead: "I make AI systems efficient, secure and private, and find out what breaks when they are."
+# Papers shown on the home page, in this order (ids from src/data/publications.js)
+selected: [graphreasoning, agentredteaming, multimodalredteaming, cbrnllm, kumar2025nfl, kumar2024sagert, kumar2024vulnerabilities]
+newsCount: 5
 ---
-<!-- The short bio on the home page: 2–3 sentences, no footnotes.
-     The long version lives in about.md. -->
+<section class="hero" id="hero">
+  <div>
+    <div class="g-head">{% guide { w: 104, wp: 76, cls: "g-h1 g-hello", data: { when: "load", steps: [["wave", "Yo!", 2700]], again: [["nod", null, 1200]], hover: { sel: ".nav a", map: { "/publications.html": ["look", "my papers"], "/projects.html": ["look", "things I built"], "/blog.html": ["look", "what I write"], "/timeline.html": ["look", "my years so far"], "/places.html": ["look", "where I’ve been"], "/about.html": ["look", "about me"] } } } } %}<h1 class="hello">{{ hello }}</h1></div>
+    <p class="lead">{{ lead }}</p>
+  </div>
+</section>
 
-I’m an AI Research Engineer at [Anaconda](https://www.anaconda.com/), which [acquired Enkrypt AI](https://www.anaconda.com/blog/anaconda-acquires-enkrypt-ai) this August. Before that I was Enkrypt’s founding ML research engineer and its lead AI safety and security researcher: I maintained an LLM safety leaderboard of about 300 models, and built an automated red-teaming system that finds issues in generative AI applications built by Fortune 500 companies. Before Enkrypt, I was a Research Associate at IISc Bangalore. Mostly I find out how models fail once they are made smaller, faster or more private, and build the guardrails that catch it.
 
+<h2 id="about">about</h2>
+
+I’m an AI Research Engineer at [Anaconda](https://www.anaconda.com/), which [acquired Enkrypt AI](https://www.anaconda.com/blog/anaconda-acquires-enkrypt-ai) in August 2026. At Enkrypt I was the founding ML research engineer and its lead AI safety and security researcher. Before that I was a Research Associate at [IISc Bangalore](https://iisc.ac.in/), and I’ve been doing research since 2020. [More about me →](/about.html)
+
+<h2 id="research">research</h2>
+
+I work on making AI systems <span class="w">efficient</span>, <span class="w">secure</span> and <span class="w">private</span>, and on what breaks when they are made so: how quantization and fine-tuning weaken a model’s safety, red-teaming models across text, image and audio, and guardrails, differentially private fine-tuning and encrypted inference.
+
+I maintained a public [LLM safety leaderboard](https://www.enkryptai.com/llm-safety-leaderboard) of about 300 models. My papers have appeared at NeurIPS, AAAI and ICML workshops.
+
+<h2 id="papers">selected papers</h2>
+
+<ul class="list">
+{%- for id in selected %}{% set p = pubItems | where("id", id) | first %}{% if p %}
+  <li><a href="/publications/{{ p.id }}.html">{{ p.title }}</a> <span class="venue">({{ p.venueShort }}{% if not (p.year | string) in p.venueShort %}, {{ p.year }}{% endif %})</span></li>
+{%- endif %}{% endfor %}
+</ul>
+<p class="small"><a href="/publications.html">All {{ pubItems.length }} papers →</a></p>
+
+<h2 id="news">news</h2>
+
+<ul class="list">
+{%- for n in news | limit(newsCount) %}
+  <li><span class="d">[{{ n.date }}]</span> {{ n.content | safe }}</li>
+{%- endfor %}
+</ul>
+<p class="small"><a href="/timeline.html">Everything, by date →</a></p>

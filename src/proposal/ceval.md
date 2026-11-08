@@ -1,5 +1,5 @@
 ---
-layout: proposal.njk
+layout: simple-proposal.njk
 title: "Research Proposal: Causal Evaluation of Language Models"
 pageTitle: "Causal Evaluation of Language Models"
 subtitle: "Eval suites that measure mechanisms, not correlations. A three-phase research program."

@@ -1,0 +1,51 @@
+---
+layout: simple.njk
+hasMath: true
+hasCode: true
+mascot: true
+---
+{#- A blog post in the simple system: title, dek, one meta line, the banner,
+    the text, then the series, the references and a line to write to me. -#}
+{%- set postTags = tags if (tags and tags.length) else [] -%}
+{%- set ttl = title | cleanTitle -%}
+{%- set tsplit = ttl | splitOn(": ") -%}
+{%- set h1 = tsplit[0] if tsplit.length == 2 else ttl -%}
+{%- set dek = tsplit[1] if tsplit.length == 2 else ("" if series else (description | cleanTitle | replace(r/^tl;dr\s*[-—:]*\s*/i, ""))) -%}
+{%- set mins = content | readingTime -%}
+
+{%- set parts = [] -%}
+{%- if series -%}{%- for p in collections.blog | reverse -%}{%- if p.data.series and p.data.series.id == series.id %}{% set _ = parts.push(p) %}{% endif -%}{%- endfor -%}{%- endif -%}
+{%- set pos = [] -%}{%- for p in parts %}{% if p.url == page.url %}{% set _ = pos.push(loop.index0) %}{% endif %}{% endfor -%}
+{%- set at = pos[0] if pos.length else -1 -%}
+{%- set prevP = parts[at - 1] if at > 0 else null -%}
+{%- set nextP = parts[at + 1] if (at > -1 and at + 1 < parts.length) else null -%}
+
+<article class="post">
+  <a class="back" href="/blog.html">← all posts</a>
+  <h1 class="title">{{ h1 }}</h1>
+  {%- if dek %}<p class="dek">{{ dek }}</p>{% endif %}
+  <p class="post-meta"><span><time datetime="{{ page.date | isoDate }}">{{ page.date | longDate }}</time></span><span>{{ mins }}</span>{% if series %}<span>{{ series.name }}, part {{ at + 1 }} of {{ parts.length }}</span>{% elif postTags.length %}<span>{{ postTags | join(", ") }}</span>{% endif %}</p>
+
+  {%- if banner %}{% banner banner %}{% endif %}
+
+  <div class="prose" data-prismjs-copy="copy" data-prismjs-copy-success="copied" data-prismjs-copy-error="press ⌘C to copy" data-prismjs-copy-timeout="1600">
+  {{ content | safe }}
+  </div>
+
+  {%- if parts.length > 1 %}
+  <nav class="series" aria-label="{{ series.name }}">
+    <b>{{ series.name }}</b>
+    <ol>{% for p in parts %}<li{% if p.url == page.url %} aria-current="page"{% endif %}>{% if p.url == page.url %}{{ p.data.title | cleanTitle }}{% else %}<a href="{{ p.url }}">{{ p.data.title | cleanTitle }}</a>{% endif %}</li>{% endfor %}</ol>
+  </nav>
+  <div class="pn-nav">{% if prevP %}<a href="{{ prevP.url }}">← {{ prevP.data.title | cleanTitle | splitOn(":") | first }}</a>{% else %}<span></span>{% endif %}{% if nextP %}<a href="{{ nextP.url }}">{{ nextP.data.title | cleanTitle | splitOn(":") | first }} →</a>{% endif %}</div>
+  {%- endif %}
+
+  {%- if references %}
+  <h2>references</h2>
+  <div class="prose small">{{ references | generateReferences | safe }}</div>
+  {%- endif %}
+
+  {%- set suggest = collections.blog | guideSuggest(page.url, postTags, series) %}
+  {% guide { w: 132, cls: "g-post", poses: ["nod", "present"], data: { when: "view", appear: "", suggest: suggest, steps: [["nod", "Thanks for reading", 1500], ["present", { t: "If you’re curious:", suggest: true, req: true }, 3500]] } } %}
+  <p class="endnote">If this was useful, or wrong somewhere, I’d like to hear it: <a href="/about.html#contact">write to me</a>.</p>
+</article>

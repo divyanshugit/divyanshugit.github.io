@@ -1,0 +1,20 @@
+---
+layout: simple.njk
+pagination:
+  data: workItems
+  size: 1
+  alias: e
+permalink: "/work/{{ e.id }}.html"
+eleventyComputed:
+  title: "{{ e.org }}"
+  description: "{{ e.role }} at {{ e.org }}, {{ e.dates }}."
+---
+<a class="back" href="/about.html#worked">← where I’ve worked</a>
+<h1 class="title">{{ e.org }}</h1>
+<p class="facts"><span>{{ e.role }}</span><span>{{ e.dates }}</span>{% if e.place %}<span>{{ e.place }}</span>{% endif %}{% if e.note %}<span>{{ e.note }}</span>{% endif %}</p>
+{%- for l in e.lines %}
+<p>{{ l | mdInline | safe }}</p>
+{%- endfor %}
+{%- set pl = (places | where("id", e.placeId))[0] if e.placeId else null %}
+{%- if pl %}<p class="small">This happened in <a href="/places/{{ pl.id }}.html">{{ pl.name }}</a>.</p>{% endif %}
+{%- if e.link %}<p class="links"><a href="{{ e.link }}" rel="noopener">{{ e.org }} ↗</a></p>{% endif %}

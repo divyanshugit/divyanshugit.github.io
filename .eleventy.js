@@ -396,6 +396,54 @@ module.exports = function (eleventyConfig) {
         return `<svg class="${cls || "mark"}" data-dmark data-s="${S}" data-variant="b" width="${S}" height="${S}" viewBox="0 0 ${S} ${S}"`
             + ` shape-rendering="crispEdges" aria-hidden="true" focusable="false">${require(DMARK).render({ S, variant: "b", eps: Infinity })}</svg>`;
     });
+    // ===== THE GUIDE (the straw-hat mascot, src/assets/mascot/, driven by js/guide.js) =====
+    // {% guide { pose: "rest", w: 132, poses: [...], hover: [...], data: {...} } %}
+    // One per page. Prints the box sized for every pose it will use (so nothing
+    // shifts), the standing pose inlined (what no-JS visitors see), and the
+    // page's behaviour as data-* attributes. Other poses are fetched by guide.js.
+    // The box's bottom edge is the page rule he sits on; the drawn ledge is hidden.
+    const MASCOT_DIR = path.join(__dirname, "src/assets/mascot");
+    // drawings are written by src/assets/mascot/mascot.11ty.js (optimized, sequences bundled), not copied
+    eleventyConfig.addWatchTarget("src/assets/mascot/");
+    const MASCOT_SVG = path.join(__dirname, "scripts/mascot-svg.js");
+    const SEQ = { hat: ["reach", "lift", "lift2"], wave: ["raise", "waveO", "waveCa", "waveR"] };
+    const attr = (v) => String(typeof v === "string" ? v : JSON.stringify(v)).replace(/&/g, "&amp;").replace(/'/g, "&#39;");
+    eleventyConfig.addShortcode("guide", function (o = {}) {
+        const meta = JSON.parse(fs.readFileSync(path.join(MASCOT_DIR, "meta.json"), "utf8"));
+        const [x0, , x1] = meta.restBox, rw = x1 - x0;
+        const pose = o.pose || "rest", d = o.data || {};
+        const stepPoses = [...(d.steps || []), ...(d.again || [])].map(x => x[0]);
+        const hoverPoses = [...new Set([...(o.hover || []), ...Object.values((d.hover && d.hover.map) || {}).map(x => x[0])])];
+        const poses = [...new Set([...(o.poses || []), ...stepPoses])].filter(p => o.empty || p !== pose);
+        const used = [pose, ...poses, ...hoverPoses].filter(Boolean);
+        used.slice().forEach(p => (SEQ[p] || []).forEach(q => used.push(q)));
+        const ext = used.map(p => meta.extent[p]).filter(Boolean);
+        const ovl = Math.max(0, ...ext.map(e => x0 - e[0])) / rw;          // reach past his left side
+        const reach = Math.max(0, ...ext.map(e => e[2] - x1)) / rw;        // reach past his right side
+        delete require.cache[require.resolve(MASCOT_SVG)];
+        const svg = o.empty ? "" : require(MASCOT_SVG).read(pose);
+        const data = Object.entries(o.data || {}).map(([k, v]) => ` data-${k}='${attr(v)}'`).join("");
+        const style = `--w:${o.w || 132}px;--wp:${o.wp || 110}px;--ovl:${(Math.ceil(ovl * 1000) / 1000 + .002).toFixed(3)};--reach:${(Math.ceil(reach * 1000) / 1000).toFixed(3)}`;
+        return `<div class="guide${o.cls ? " " + o.cls : ""}" data-guide data-pose="${o.empty ? "" : pose}"`
+            + ` data-poses="${(o.poses || []).filter(p => o.empty || p !== pose).join(" ")}" data-hover-poses="${hoverPoses.join(" ")}"${data} style="${style}">`
+            + `<div class="g-fig" aria-hidden="true"><div class="g-stage">${svg ? `<div class="g-layer" data-pose="${pose}">${svg}</div>` : ""}</div></div>`
+            + `<p class="g-cap" aria-live="polite"></p></div>`;
+    });
+    // Posts to suggest at the end of a post, best first: related ones (shared
+    // tags, the same series), then the newer ones, nearest first. guide.js
+    // offers the first one not opened this session.
+    eleventyConfig.addFilter("guideSuggest", function (posts, url, tags, series) {
+        const all = (posts || []).filter(p => p.url && p.url !== url);
+        const me = (posts || []).find(p => p.url === url);
+        const t0 = me ? postTime(me) : Date.now();
+        const mine = new Set((tags || []).map(String));
+        const title = (p) => String(p.data.title || "").replace(/^[\p{Extended_Pictographic}️\s]+/u, "").replace(/\s*\[[^\]]*\]\s*$/, "").split(":")[0].trim();
+        const related = all.map(p => ({ p, s: (p.data.tags || []).filter(t => mine.has(String(t))).length + (series && p.data.series && p.data.series.id === series.id ? 2 : 0) }))
+            .filter(x => x.s > 0).sort((a, b) => b.s - a.s || Math.abs(postTime(a.p) - t0) - Math.abs(postTime(b.p) - t0)).map(x => x.p);
+        const newer = all.filter(p => postTime(p) > t0).sort((a, b) => postTime(a) - postTime(b));
+        const seen = new Set();
+        return [...related.map(p => ({ u: p.url, t: title(p), r: 1 })), ...newer.map(p => ({ u: p.url, t: title(p), r: 0 }))].filter(x => !seen.has(x.u) && seen.add(x.u));
+    });
     // The social preview for a page: its banner's PNG if one has been generated, else the site card.
     eleventyConfig.addFilter("ogImage", function (slug) {
         if (slug && fs.existsSync(path.join(__dirname, "src/assets/og", `${slug}.png`))) return `/assets/og/${slug}.png`;

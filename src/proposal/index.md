@@ -1,5 +1,5 @@
 ---
-layout: proposal.njk
+layout: simple-proposal.njk
 title: "Research Agenda"
 pageTitle: "Research Agenda"
 subtitle: "Provable invariance: building AI that behaves the same however you ask it. The shared root of safety x reliability."

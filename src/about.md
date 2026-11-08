@@ -1,5 +1,5 @@
 ---
-layout: about.njk
+layout: simple-about.njk
 title: About
 permalink: /about.html
 description: "About Divyanshu Kumar, AI Research Engineer at Anaconda. I work on making AI systems efficient, secure and private: quantization, inference, guardrails, red-teaming and differential privacy."

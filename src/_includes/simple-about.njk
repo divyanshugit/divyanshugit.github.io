@@ -1,0 +1,80 @@
+---
+layout: simple.njk
+eps: true
+mascot: true
+---
+{#- About: the full story. about.md is split at <!-- more -->: the lede, then the
+    long version. Work, places and contact come from src/_data. Each role and
+    each place has its own page (/work/<id>.html, /places/<id>.html). -#}
+{%- set parts = content | splitOn("<!-- more -->") -%}
+<div class="phead">
+  <div>
+    <h1 class="title">About</h1>
+    <p class="dek">{{ subtitle }}</p>
+  </div>
+  <figure class="portrait" data-eps-img data-eps-mode="anon" data-eps-w="300">
+    <div class="ph">
+      <picture>
+        <source type="image/avif" srcset="/assets/optimized/pic-200w.avif 200w, /assets/optimized/pic-400w.avif 400w" sizes="150px">
+        <img src="/assets/optimized/pic-400w.webp" srcset="/assets/optimized/pic-200w.webp 200w, /assets/optimized/pic-400w.webp 400w" sizes="150px" width="400" height="600" alt="An illustrated portrait of Divyanshu, arms folded, in a black t-shirt." decoding="async" fetchpriority="high">
+      </picture>
+    </div>
+    <figcaption>{{ figCaption }}</figcaption>
+  </figure>
+</div>
+
+{{ parts[0] | safe }}
+
+<p class="particulars" id="particulars" aria-label="Particulars (releasable under the privacy budget)">
+  {%- for part in particulars.line -%}
+    {%- if part.f %}<span class="f" data-f="{{ part.f }}">{{ particulars.facts[part.f].exact or particulars.facts[part.f].levels[0] }}</span>{% else %}{{ part }}{% endif -%}
+  {%- endfor -%}
+</p>
+<div class="eps-box"><div data-eps-instrument data-eps-docks="title" data-hint="{{ epsHint }}"></div></div>
+
+<h2 id="work-on">what I work on</h2>
+{{ parts[1] | safe }}
+
+<h2 id="worked">where I’ve worked</h2>
+{%- for g in work.groups %}
+<h3>{{ g.label }}</h3>
+<ul class="list">
+  {%- for e in g.items %}
+  <li><a href="/work/{{ e.id }}.html">{{ e.org }}</a> <span class="venue">· {{ e.role }} · {{ e.dates }}</span></li>
+  {%- endfor %}
+</ul>
+{%- endfor %}
+<h3>{{ work.service.org }}</h3>
+<ul class="list">{% for l in work.service.lines %}<li class="venue">{{ l }}</li>{% endfor %}</ul>
+
+<h2 id="places">where this happened</h2>
+{{ journey | md | safe }}
+<ul class="places">
+  {%- for p in places %}{% set ph = p.shown[0] %}
+  <li><a href="/places/{{ p.id }}.html">
+    <div class="th">{% if ph.blank %}<div class="th blank-th">{{ p.name }}</div>{% else %}<img src="{{ ph.src }}" alt="" loading="lazy" style="object-position:{{ ph.focus }}">{% endif %}</div>
+    <span class="pn">{{ p.name }}</span><span class="pl">{{ "visited" if p.visited else "lived" }}</span>
+  </a></li>
+  {%- endfor %}
+</ul>
+<p class="small"><a href="/places.html">All the places →</a></p>
+
+<h2 id="contact">contact</h2>
+<p>If any of this is your problem too, write to me:</p>
+<div class="mailrow"><a href="#" data-email="{{ site.emailObf }}" id="mail">{{ site.emailObf }}</a><button class="copy btn" type="button" id="copymail" hidden>copy email</button>{% guide { empty: true, pose: "thumbs", w: 64, wp: 64, poses: ["thumbs"], data: { when: "event:copied", appear: "", leave: "2400", steps: [["thumbs", "Copied!", 0]] } } %}</div>
+<p>I’m also on {% for l in site.links %}{% if l.url and l.icon != "cv" %}<a href="{{ l.url }}">{{ l.text }}</a>{% if not loop.last %}, {% endif %}{% endif %}{% endfor %} and there’s a <a href="/assets/cv.pdf">CV</a>.</p>
+<script>
+  (function () { var a = document.getElementById('mail'); var e = 'kumardivy1999' + '@' + 'gmail.com';
+    a.href = 'mailto:' + e; a.textContent = e;
+    // copy: a thumbs-up from the guide beside the button (js/guide.js, data-when="event:copied")
+    var c = document.getElementById('copymail'); if (!navigator.clipboard) return;
+    c.hidden = false;
+    var t = 0;
+    c.addEventListener('click', function () {
+      navigator.clipboard.writeText(e).then(function () {
+        c.textContent = 'copied';
+        document.dispatchEvent(new CustomEvent('guide:copied'));
+        clearTimeout(t); t = setTimeout(function () { c.textContent = 'copy email'; }, 3400);
+      });
+    }); })();
+</script>

@@ -1,5 +1,5 @@
 ---
-layout: blog-post.njk
+layout: simple-post.njk
 title: "DP Guarantee in Action"
 description: "Blog #2 in the series of Inception of Differential Privacy"
 date: 2025-03-02
@@ -15,11 +15,6 @@ references:
   2: https://github.com/divyanshugit/Inception-of-DP
 ---
 
-<div class="row">
-    <div class="col-sm mt-3 mt-md-0">
-        <img src="/assets/img/dp_blog/2.png" alt="DP Guarantee Proof" class="img-fluid rounded z-depth-1" loading="eager" />
-    </div>
-</div>
 
 In the previous blog[1], we discussed why traditional encryption and anonymization methods often fall short when balancing **privacy and utility**. We also introduced **Differential Privacy** as a promising solution to this challenge. Now, let's take a deeper dive into understanding how its privacy guarantees actually work:
 

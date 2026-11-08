@@ -1,5 +1,5 @@
 ---
-layout: blog-post.njk
+layout: simple-post.njk
 title: "Differential Privacy!! But Why?"
 description: "Blog #1 in the series of Inception of Differential Privacy"
 date: 2025-02-16
@@ -19,11 +19,6 @@ references:
   6: https://github.com/divyanshugit/Inception-of-DP
 ---
 
-<div class="row">
-    <div class="col-sm mt-3 mt-md-0">
-        <img src="/assets/img/dp_blog/1.png" alt="Differential Privacy Introduction" class="img-fluid rounded z-depth-1" loading="eager" />
-    </div>
-</div>
 
 There is no denying that data powering everything from AI models to decision making, the challenge is clear: how do we extract meaningful insights without compromising individual privacy? Whether it's healthcare records, census data, or user behavior logs, the struggle remains the same balancing the value of data with the need to protect it. 
 

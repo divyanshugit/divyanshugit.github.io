@@ -1,5 +1,5 @@
 ---
-layout: proposal.njk
+layout: simple-proposal.njk
 title: "Research Proposal: Temporal Dynamics of Safety in Diffusion LMs"
 pageTitle: "Temporal Safety in Diffusion LMs"
 subtitle: "Diffusion language models generate by denoising, not left-to-right. Safety is a property of the trajectory, so measure it, and intervene, step by step."
